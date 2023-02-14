@@ -131,7 +131,7 @@ const menu: MenuOption[] = [
 
 <template>
   <n-layout-sider bordered collapse-mode="width" :width="240" :collapsed-width="64" show-trigger v-bind="{ collapsed }" @collapse="collapsed = true" @expand="collapsed = false">
-    <img src="favicon.ico" class="p-4">
+    <img src="/favicon.ico" class="p-4">
     <n-menu
       accordion
       :options="menu"
