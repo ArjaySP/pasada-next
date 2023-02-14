@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-import { useRequest } from 'vue-request'
-
 const props = defineProps({
   query: String,
   value: Number,

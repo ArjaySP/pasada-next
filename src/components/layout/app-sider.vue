@@ -21,6 +21,7 @@ import Reports from '~icons/ion/FileTrayFullOutline'
 import Complaints from '~icons/ion/ReaderOutline'
 import Violations from '~icons/ion/WarningOutline'
 import Accidents from '~icons/ion/FlameOutline'
+import authState from '@/utils/authState'
 
 const collapsed = useLocalStorage('siderCollapsed', false)
 
@@ -123,15 +124,28 @@ const menu: MenuOption[] = [
     ],
   },
   {
+    key: 'divider',
+    type: 'divider',
+  },
+  {
     label: renderLabel('Login', '/login'),
     key: 'login',
+  },
+  {
+    label: () => h('div', {
+      onClick: () => {
+        authState.value!.access_level = authState.value?.access_level === 1 ? 3 : 1
+        window.location.reload()
+      },
+    }, `Change access level (${authState.value?.access_level})`),
+    key: 'access-level',
   },
 ]
 </script>
 
 <template>
   <n-layout-sider bordered collapse-mode="width" :width="240" :collapsed-width="64" show-trigger v-bind="{ collapsed }" @collapse="collapsed = true" @expand="collapsed = false">
-    <img src="/favicon.ico" class="p-4">
+    <img src="/favicon.ico" class="p-4" alt="PASADA icon">
     <n-menu
       accordion
       :options="menu"

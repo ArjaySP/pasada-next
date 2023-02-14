@@ -1,5 +1,4 @@
 <script setup lang="tsx">
-import { useRequest } from 'vue-request'
 import type { DataTableColumns, FormInst, FormRules } from 'naive-ui'
 import { NButton, NPopconfirm } from 'naive-ui'
 import type { FormValidateMessages } from 'naive-ui/es/form/src/interface'
@@ -7,12 +6,14 @@ import formState from '@/utils/formState'
 import BaseTable from '@/components/tables/base-table.vue'
 import authState from '@/utils/authState'
 import userState, { isAdmin } from '@/utils/userState'
+import { type FormFields } from '@/types/fields'
 
 const props = defineProps<{
   // JSX for actions. Remember to set lang="tsx" in <script setup>
   actions?: JSX.Element
   columns: DataTableColumns
   rules: FormRules
+  fields: FormFields
   query: string
   queryOrg?: string
   name: string
@@ -28,7 +29,8 @@ const modal = reactive({
 // GET method
 const { data, error, loading, run: refresh } = useRequest(
   async () => {
-    const results = await axios.get(`/${props.query}`)
+    const query = (!isAdmin() && props.queryOrg) ? props.queryOrg : props.query
+    const results = await axios.get(`/${query}`)
     return results.data.results
   }, { initialData: [] },
 )
@@ -61,11 +63,12 @@ const { loading: postLoading, run: postRun } = useRequest(
   },
 )
 function handlePost() {
-  formRef.value?.validate().then((x) => {
+  formRef.value?.validate().then(() => {
     postRun()
   })
 }
 
+// DELETE method
 const { run: deleteRun } = useRequest(
   (id) => {
     return axios.delete(`/${props.query}/${id}`)
@@ -86,7 +89,6 @@ const columns: DataTableColumns = [
     render(row) {
       return (
         <div class="flex gap-2">
-          {props.actions}
           <NButton type="primary" onClick={() => {
             modal.mode = 'Edit'
             modal.show = true
@@ -115,6 +117,10 @@ function handleNew() {
   modal.mode = 'Add'
   modal.show = true
   formState.value = {}
+  Object.entries(props.fields).forEach(([key, value]) => {
+    if (value.type === 'richText')
+      formState.value[key] = ''
+  })
 
   if (isAdmin())
     formState.value.organization_id = 1
@@ -132,6 +138,10 @@ const validateMessages: FormValidateMessages = {
     // regexp: 'Please enter a valid ${label}',
   },
 }
+
+const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) => {
+  return { ...acc, [key]: { ...value, trigger: ['input', 'blur'] } }
+}, {})
 </script>
 
 <template>
@@ -152,13 +162,18 @@ const validateMessages: FormValidateMessages = {
     v-model:show="modal.show" class="max-w-xl" preset="card" segmented bordered size="small" :title="`${modal.mode} ${name}`"
   >
     <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }">
-      <form-item label="Organization" path="organization_id">
-        <fetch-select
-          v-model:value="formState.organization_id" query="organization" placeholder="Search organization"
-          :format="_ => _.org_title"
-        />
-      </form-item>
-      <slot />
+      <FormFields
+        v-if="isAdmin()" :fields="
+          {
+            organization_id: {
+              type: 'select',
+              label: 'Organization',
+              query: 'organization',
+              format: org => org.org_title,
+            },
+          }"
+      />
+      <FormFields v-bind="{ fields }" />
     </n-form>
 
     <template #footer>

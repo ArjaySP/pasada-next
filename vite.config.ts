@@ -24,6 +24,7 @@ export default defineConfig({
           alias: {
             i: 'ion',
           },
+          enabledCollections: ['ion'],
         }),
         NaiveUiResolver(),
       ],
@@ -44,6 +45,9 @@ export default defineConfig({
           'axios': [
             // default imports
             ['default', 'axios'], // import { default as axios } from 'axios',
+          ],
+          'vue-request': [
+            'useRequest',
           ],
         },
       ],
