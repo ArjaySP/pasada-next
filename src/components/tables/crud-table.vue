@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import type { DataTableColumns, FormInst, FormRules } from 'naive-ui'
+import type { DataTableColumns, FormInst, FormRules, UploadFileInfo } from 'naive-ui'
 import { NButton, NPopconfirm } from 'naive-ui'
 import type { FormValidateMessages } from 'naive-ui/es/form/src/interface'
 import formState from '@/utils/formState'
@@ -9,8 +9,6 @@ import userState, { isAdmin } from '@/utils/userState'
 import { type FormFields } from '@/types/fields'
 
 const props = defineProps<{
-  // JSX for actions. Remember to set lang="tsx" in <script setup>
-  actions?: JSX.Element
   columns: DataTableColumns
   rules: FormRules
   fields: FormFields
@@ -25,6 +23,7 @@ const modal = reactive({
   show: false,
   mode: '',
 })
+const uploadFields = Object.entries(props.fields).filter(([, field]) => field.type === 'upload').map(([key]) => key)
 
 // GET method
 const { data, error, loading, run: refresh } = useRequest(
@@ -32,7 +31,7 @@ const { data, error, loading, run: refresh } = useRequest(
     const query = (!isAdmin() && props.queryOrg) ? props.queryOrg : props.query
     const results = await axios.get(`/${query}`)
     return results.data.results
-  }, { initialData: [] },
+  },
 )
 
 // POST method
@@ -46,11 +45,17 @@ const { loading: postLoading, run: postRun } = useRequest(
       data.updated_by = authState.value?.id
       delete data.id
     }
+
     const formData = new FormData()
     Object.entries(data).forEach(([key, value]) => {
       value ??= ''
-      formData.append(key, value as string)
+      if (uploadFields.includes(key)) {
+        const file = (value as UploadFileInfo[])[0].file!
+        formData.append(key, file)
+      }
+      else { formData.append(key, value as string) }
     })
+
     const url = id ? `/${props.query}/${id}` : `/${props.query}`
     return axios.post(url, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
   }, {
@@ -90,9 +95,13 @@ const columns: DataTableColumns = [
       return (
         <div class="flex gap-2">
           <NButton type="primary" onClick={() => {
+            Object.entries(row).forEach(([key, value]) => {
+              if (value == null)
+                delete row[key]
+            })
+            formState.value = row
             modal.mode = 'Edit'
             modal.show = true
-            formState.value = row
           }}>
             Edit
           </NButton>
@@ -115,12 +124,8 @@ if (isAdmin() && props.queryOrg) {
 
 function handleNew() {
   modal.mode = 'Add'
-  modal.show = true
   formState.value = {}
-  Object.entries(props.fields).forEach(([key, value]) => {
-    if (value.type === 'richText')
-      formState.value[key] = ''
-  })
+  modal.show = true
 
   if (isAdmin())
     formState.value.organization_id = 1
@@ -146,7 +151,7 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
 
 <template>
   <n-spin :show="loading">
-    <BaseTable v-bind="{ columns, data }">
+    <BaseTable v-if="data" v-bind="{ columns, data }">
       <template #actions>
         <NButton type="primary" @click="handleNew()">
           <template #icon>
@@ -156,6 +161,7 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
         </NButton>
       </template>
     </BaseTable>
+    <result-refresh v-else-if="error" @refresh="refresh" />
   </n-spin>
 
   <n-modal

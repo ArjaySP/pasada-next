@@ -21,6 +21,9 @@ const themeOverrides: GlobalThemeOverrides = {
     // thColor: colors.primary,
     // thTextColor: colors.white,
   },
+  Image: {
+
+  },
 }
 
 export default themeOverrides

@@ -5,11 +5,11 @@ import { RouterLink } from 'vue-router'
 import Dashboard from '~icons/ion/SpeedometerOutline'
 import Analytics from '~icons/ion/AnalyticsOutline'
 import Learning from '~icons/ion/SchoolOutline'
-import Modules from '~icons/ion/DocumentsOutline'
-import Lessons from '~icons/ion/DocumentOutline'
-import Quizzes from '~icons/ion/ExtensionPuzzleOutline'
+import Modules from '~icons/ion/BookOutline'
+import Lessons from '~icons/ion/DocumentTextOutline'
+import Quizzes from '~icons/ion/ListOutline'
 import DailyQuiz from '~icons/ion/TodayOutline'
-import Books from '~icons/ion/BookOutline'
+import Books from '~icons/ion/LibraryOutline'
 import Drivers from '~icons/ion/PeopleOutline'
 import Organizations from '~icons/ion/MedicalOutline'
 import Driver from '~icons/ion/PersonCircleOutline'
@@ -151,6 +151,7 @@ const menu: MenuOption[] = [
       :options="menu"
       :indent="20"
       :collapsed-width="64"
+      :value="useRoute().path.slice(1)"
     />
   </n-layout-sider>
 </template>

@@ -1,6 +1,8 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormRules } from 'naive-ui'
 import type { FormFields } from '@/types/fields'
+import ViewImage from '@/components/tables/view-image.vue'
+import ViewFile from '@/components/tables/view-file.vue'
 
 const columns: DataTableColumns = [
   {
@@ -10,6 +12,21 @@ const columns: DataTableColumns = [
   {
     title: 'Lesson title',
     key: 'title',
+  },
+  {
+    title: 'Image',
+    key: 'lesson_image',
+    render(row) {
+      return <ViewImage path={'fileLessonImage'} name={row.lesson_image}>
+      </ViewImage>
+    },
+  },
+  {
+    title: 'PDF',
+    key: 'lesson_pdf',
+    render(row) {
+      return <ViewFile path={'fileLessonPDF'} name={row.lesson_pdf}/>
+    },
   },
 ]
 
@@ -25,6 +42,16 @@ const fields: FormFields = {
     type: 'input',
     label: 'Lesson title',
     placeholder: 'e.g. "Driving in Wet Weather"',
+  },
+  image: {
+    type: 'upload',
+    accept: '.jpg, .jpeg, .gif, .png',
+    label: 'Image',
+  },
+  pdf: {
+    type: 'upload',
+    accept: '.pdf',
+    label: 'PDF',
   },
   content: {
     type: 'richText',

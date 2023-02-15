@@ -4,6 +4,7 @@ import type { FormFields } from '@/types/fields'
 import formState from '@/utils/formState'
 import FormRichText from '@/components/form/form-rich-text.vue'
 import FormSelect from '@/components/form/form-select.vue'
+import FormUpload from '@/components/form/form-upload.vue'
 
 export default defineComponent({
   props: {
@@ -23,6 +24,8 @@ export default defineComponent({
               return <FormRichText v-model:value={formState.value[key]} />
             case 'select':
               return <FormSelect v-model:value={formState.value[key]} placeholder={field.placeholder || ''} query={field.query} format={field.format} />
+            case 'upload':
+              return <FormUpload v-model:value={formState.value[key]} accept={field.accept} />
           }
         }}
       </NFormItem>
