@@ -21,13 +21,13 @@ interface FormNumber extends FormItem {
   type: 'number'
 }
 
-interface FormRichText extends FormItem {
-  type: 'richText'
+interface FormQuill extends FormItem {
+  type: 'quill'
 }
 
 interface FormRadio extends FormItem {
   type: 'radio'
-  options: { label: string; value: string }[]
+  options: { label: string; value: string | number }[]
 }
 
 interface FormSelect extends FormItem {
@@ -39,8 +39,12 @@ interface FormSelect extends FormItem {
   format: (object: Record<string, string>) => string
 }
 
+interface FormTextarea extends FormItem {
+  type: 'textarea'
+}
+
 type Path = string
-type FormFieldTypes = (FormDropdown | FormInput | FormNumber | FormSelect | FormRadio | FormRichText | FormFile)
+type FormFieldTypes = (FormDropdown | FormFile | FormInput | FormNumber | FormSelect | FormRadio | FormQuill | FormTextarea)
 
 export interface FormFields {
   [path: Path]: FormFieldTypes

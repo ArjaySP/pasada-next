@@ -38,6 +38,7 @@ declare module 'vue-router/auto/routes' {
     '/app': RouteRecordInfo<'/app', '/', Record<never, never>, Record<never, never>>,
     '/app/[...any]': RouteRecordInfo<'/app/[...any]', '/app/:any(.*)', { any: ParamValue<true> }, { any: ParamValue<false> }>,
     '/app/@template': RouteRecordInfo<'/app/@template', '/app/@template', Record<never, never>, Record<never, never>>,
+    '/app/daily-quiz': RouteRecordInfo<'/app/daily-quiz', '/app/daily-quiz', Record<never, never>, Record<never, never>>,
     '/app/lessons': RouteRecordInfo<'/app/lessons', '/app/lessons', Record<never, never>, Record<never, never>>,
     '/app/modules': RouteRecordInfo<'/app/modules', '/app/modules', Record<never, never>, Record<never, never>>,
     '/app/quizzes': RouteRecordInfo<'/app/quizzes', '/app/quizzes', Record<never, never>, Record<never, never>>,

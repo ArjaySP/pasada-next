@@ -21,9 +21,9 @@ const isFullscreen = useLocalStorage('isFullscreen', false)
         </button>
       </div>
     </template>
-    <n-scrollbar>
-      <slot />
-    </n-scrollbar>
+
+    <slot />
+
     <template #footer>
       <slot name="footer" />
     </template>

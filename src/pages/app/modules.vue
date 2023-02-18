@@ -4,24 +4,26 @@ import type { FormFields, Queries } from '@/types'
 
 const columns: DataTableColumns = [
   {
-    title: 'Module name',
+    title: 'Module title',
     key: 'module_name',
+    sorter: 'default',
   },
   {
-    title: 'Tagalog title',
+    title: 'Filipino translation',
     key: 'tagalog_title',
+    sorter: 'default',
   },
 ]
 
 const fields: FormFields = {
   module_name: {
     type: 'input',
-    label: 'Module name',
+    label: 'Module title',
     placeholder: 'e.g. "Defensive Driving"',
   },
   tagalog_title: {
     type: 'input',
-    label: 'Tagalog title',
+    label: 'Filipino translation',
     placeholder: 'e.g. "Depensibong Pagmamaneho"',
   },
 }

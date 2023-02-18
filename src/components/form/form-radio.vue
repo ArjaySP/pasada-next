@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
-  value: string
+  value: string | number
   options: { label: string; value: string }[]
 }>(), {
   value: () => '',

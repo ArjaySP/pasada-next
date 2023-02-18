@@ -8,7 +8,7 @@ const columns: DataTableColumns = [
     key: 'module_name',
   },
   {
-    title: 'Tagalog title',
+    title: 'Filipino title',
     key: 'tagalog_title',
   },
 ]
@@ -20,7 +20,7 @@ const fields: FormFields = {
   },
   tagalog_title: {
     type: 'input',
-    label: 'Tagalog title',
+    label: 'Filipino title',
   },
 }
 

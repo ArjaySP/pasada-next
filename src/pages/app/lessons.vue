@@ -16,7 +16,7 @@ const videos = reactive({
 
 const columns: DataTableColumns = [
   {
-    title: 'Module name',
+    title: 'Module',
     key: 'module_name',
     sorter: 'default',
   },
@@ -89,7 +89,7 @@ const fields: FormFields = {
     label: 'PDF',
   },
   content: {
-    type: 'richText',
+    type: 'quill',
     label: 'Content',
     placeholder: 'Select module',
   },

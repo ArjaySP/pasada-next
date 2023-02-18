@@ -16,10 +16,13 @@ const columns: DataTableColumns = [
     sorter: 'default',
   },
   {
-    title: 'Titles',
+    title: 'Title',
     key: 'quiz_title',
     render(row) {
-      return <NSpace vertical size="small"><NText>{row.quiz_title}</NText><NText depth="3">Filipino: {row.tagalog_title}</NText></NSpace>
+      return <NSpace vertical size="small">
+        <NText>{row.quiz_title}</NText>
+        <NText depth="3">Filipino: {row.tagalog_title}</NText>
+      </NSpace>
     },
     sorter: 'default',
   },
@@ -39,10 +42,14 @@ const columns: DataTableColumns = [
     title: 'Scoring',
     key: 'total_points',
     render(row) {
-      return <NSpace vertical size="small"><NText>Total: {row.total_points}</NText><NText>Passing: {row.passing_grade}</NText></NSpace>
+      return <NSpace vertical size="small">
+        <NText>Total: {row.total_points}</NText>
+        <NText>Passing: {row.passing_grade}</NText>
+      </NSpace>
     },
     sorter(rowA, rowB) {
-      return ((rowA.total_points as number) + (rowA.passing_grade as number)) - ((rowB.total_points as number) + (rowB.passing_grade as number))
+      return ((rowA.total_points as number) + (rowA.passing_grade as number))
+          - ((rowB.total_points as number) + (rowB.passing_grade as number))
     },
   },
   {
@@ -102,7 +109,8 @@ const fields: FormFields = {
       { value: '00:45:00', label: '45 minutes' },
       { value: '01:00:00', label: '1 hour' },
       { value: '01:30:00', label: '1 hour 30 minutes' },
-      { value: '02:00:00', label: '2 hours' }],
+      { value: '02:00:00', label: '2 hours' },
+    ],
   },
   total_points: {
     type: 'number',
@@ -159,4 +167,8 @@ const queries: Queries = {
 
 <template>
   <table-crud v-bind="{ columns, fields, rules, queries }" name="quiz" />
+
+  <app-modal v-model:show="questions.show" title="Questions">
+    <quizzes-questions :foreign-key-value="questions.foreignKeyValue" />
+  </app-modal>
 </template>

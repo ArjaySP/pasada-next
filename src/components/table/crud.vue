@@ -25,7 +25,7 @@ const modal = reactive({
   show: false,
   mode: '',
 })
-const uploadFields = Object.entries(props.fields).filter(([, field]) => field.type === 'upload').map(([key]) => key)
+const uploadFields = Object.entries(props.fields).filter(([, field]) => field.type === 'file').map(([key]) => key)
 
 // GET method
 const { data, error, loading, run: refresh } = useRequest(
@@ -161,14 +161,14 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
       </NButton>
     </template>
   </table-base>
-  <app-error v-else @refresh="refresh" />
+  <app-error v-else v-bind="{ loading }" @refresh="refresh" />
 
   <app-modal
     v-model:show="modal.show" :title="`${modal.mode} ${name}`"
   >
     <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }">
       <form-master
-        v-if="isAdmin()" :fields="
+        v-if="isAdmin() && queries.organization" :fields="
           {
             organization_id: {
               type: 'select',
