@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormRules } from 'naive-ui'
-import type { FormFields } from '@/types/fields'
+import type { FormFields, Queries } from '@/types'
 
 const columns: DataTableColumns = [
   {
@@ -29,8 +29,13 @@ const rules: FormRules = {
     required: true,
   },
 }
+
+const queries: Queries = {
+  all: 'modules',
+  organization: 'modulesOrganization',
+}
 </script>
 
 <template>
-  <crud-table v-bind="{ columns, fields, rules }" query="modules" query-org="modulesOrganization" name="module" />
+  <table-crud v-bind="{ columns, fields, rules, queries }" name="module" />
 </template>

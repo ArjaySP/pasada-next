@@ -1,8 +1,18 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormRules } from 'naive-ui'
-import type { FormFields } from '@/types/fields'
-import ViewImage from '@/components/tables/view-image.vue'
-import ViewFile from '@/components/tables/view-file.vue'
+import { NButton } from 'naive-ui'
+import type { FormFields, Queries } from '@/types'
+import ViewImage from '@/components/button/view-image.vue'
+import ViewFile from '@/components/button/view-file.vue'
+
+const translations = reactive({
+  show: false,
+  foreignKeyValue: 0,
+})
+const videos = reactive({
+  show: false,
+  foreignKeyValue: 0,
+})
 
 const columns: DataTableColumns = [
   {
@@ -28,6 +38,26 @@ const columns: DataTableColumns = [
       return <ViewFile path={'fileLessonPDF'} name={row.lesson_pdf}/>
     },
   },
+  {
+    title: 'Translations',
+    key: 'translations',
+    render(row) {
+      return <NButton onClick={() => {
+        translations.show = true
+        translations.foreignKeyValue = row.id as number
+      }}>Open</NButton>
+    },
+  },
+  {
+    title: 'Videos',
+    key: 'videos',
+    render(row) {
+      return <NButton onClick={() => {
+        videos.show = true
+        videos.foreignKeyValue = row.id as number
+      }}>Open</NButton>
+    },
+  },
 ]
 
 const fields: FormFields = {
@@ -35,7 +65,10 @@ const fields: FormFields = {
     type: 'select',
     label: 'Module',
     placeholder: 'Search module name...',
-    query: 'modules',
+    queries: {
+      all: 'modules',
+      organization: 'modulesOrganization',
+    },
     format: module => module.module_name,
   },
   title: {
@@ -44,12 +77,12 @@ const fields: FormFields = {
     placeholder: 'e.g. "Driving in Wet Weather"',
   },
   image: {
-    type: 'upload',
+    type: 'file',
     accept: '.jpg, .jpeg, .gif, .png',
     label: 'Image',
   },
   pdf: {
-    type: 'upload',
+    type: 'file',
     accept: '.pdf',
     label: 'PDF',
   },
@@ -72,8 +105,21 @@ const rules: FormRules = {
     required: true,
   },
 }
+
+const queries: Queries = {
+  all: 'lessons',
+  organization: 'lessonOrganization',
+}
 </script>
 
 <template>
-  <crud-table v-bind="{ columns, fields, rules }" query="lessons" query-org="lessonOrganization" name="lesson" />
+  <table-crud v-bind="{ columns, fields, rules, queries }" name="lesson" />
+
+  <app-modal v-model:show="translations.show" title="Translations">
+    <lessons-translations :foreign-key-value="translations.foreignKeyValue" />
+  </app-modal>
+
+  <app-modal v-model:show="videos.show" title="Videos">
+    <lessons-videos :foreign-key-value="videos.foreignKeyValue" />
+  </app-modal>
 </template>

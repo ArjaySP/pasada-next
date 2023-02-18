@@ -11,6 +11,6 @@ const open = () => {
 
 <template>
   <n-button v-if="name" @click="open()">
-    Open
+    View
   </n-button>
 </template>

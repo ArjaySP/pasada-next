@@ -3,6 +3,7 @@ import type { DataTableColumns, PaginationProps } from 'naive-ui'
 
 const props = defineProps<{
   columns: DataTableColumns
+  loading?: boolean
   data: object[]
 }>()
 
@@ -38,7 +39,7 @@ const filteredData = computed(() => {
     </template>
 
     <n-scrollbar x-scrollable>
-      <n-data-table :data="filteredData" v-bind="{ columns, pagination }" class="min-w-max pb-6" />
+      <n-data-table :data="filteredData" v-bind="{ columns, loading, pagination }" class="min-w-max pb-6" />
     </n-scrollbar>
   </n-card>
 </template>

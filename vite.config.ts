@@ -18,6 +18,9 @@ export default defineConfig({
     vue(),
     vueJsx(),
     Components({
+      dirs: ['src/components', 'src/modules'],
+      directoryAsNamespace: true,
+      collapseSamePrefixes: true,
       resolvers: [
         IconsResolver({
           prefix: false,

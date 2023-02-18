@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const props = defineProps({
-  query: String,
-  value: Number,
-  format: Function,
-})
+const props = defineProps<{
+  query: string
+  value?: number
+  format: Function
+}>()
 const emit = defineEmits(['update:value'])
 const model = useVModel(props, 'value', emit)
 

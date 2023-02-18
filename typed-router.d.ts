@@ -40,6 +40,7 @@ declare module 'vue-router/auto/routes' {
     '/app/@template': RouteRecordInfo<'/app/@template', '/app/@template', Record<never, never>, Record<never, never>>,
     '/app/lessons': RouteRecordInfo<'/app/lessons', '/app/lessons', Record<never, never>, Record<never, never>>,
     '/app/modules': RouteRecordInfo<'/app/modules', '/app/modules', Record<never, never>, Record<never, never>>,
+    '/app/quizzes': RouteRecordInfo<'/app/quizzes', '/app/quizzes', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
   }
 }

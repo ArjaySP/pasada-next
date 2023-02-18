@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import App from '@/App.vue'
-import themeOverrides from '@/utils/theme'
+import { themeOverrides } from '@/utils/config'
 </script>
 
 <template>

@@ -23,7 +23,7 @@ import Violations from '~icons/ion/WarningOutline'
 import Accidents from '~icons/ion/FlameOutline'
 import authState from '@/utils/authState'
 
-const collapsed = useLocalStorage('siderCollapsed', false)
+const isCollapsed = useLocalStorage('isCollapsed', false)
 
 const renderLabel = (label: string, to: string) => () => h(RouterLink, { to }, () => label)
 const renderIcon = (icon: Component) => () => h(icon)
@@ -144,7 +144,7 @@ const menu: MenuOption[] = [
 </script>
 
 <template>
-  <n-layout-sider bordered collapse-mode="width" :width="240" :collapsed-width="64" show-trigger v-bind="{ collapsed }" @collapse="collapsed = true" @expand="collapsed = false">
+  <n-layout-sider bordered collapse-mode="width" :width="240" :collapsed-width="64" show-trigger v-bind="{ collapsed: isCollapsed }" @collapse="isCollapsed = true" @expand="isCollapsed = false">
     <img src="/favicon.ico" class="p-4" alt="PASADA icon">
     <n-menu
       accordion

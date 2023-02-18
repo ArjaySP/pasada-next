@@ -1,21 +1,23 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormInst, FormRules, UploadFileInfo } from 'naive-ui'
 import { NButton, NPopconfirm } from 'naive-ui'
-import type { FormValidateMessages } from 'naive-ui/es/form/src/interface'
 import formState from '@/utils/formState'
-import BaseTable from '@/components/tables/base-table.vue'
 import authState from '@/utils/authState'
 import userState, { isAdmin } from '@/utils/userState'
-import { type FormFields } from '@/types/fields'
+import type { FormFields, Queries } from '@/types'
+import { validateMessages } from '@/utils/config'
 
-const props = defineProps<{
+interface Props {
   columns: DataTableColumns
   rules: FormRules
   fields: FormFields
-  query: string
-  queryOrg?: string
   name: string
-}>()
+  queries: Queries
+
+  foreignKey?: string
+  foreignKeyValue?: number
+}
+const props = defineProps<Props>()
 
 const formRef = ref<FormInst | null>(null)
 const message = useMessage()
@@ -28,10 +30,18 @@ const uploadFields = Object.entries(props.fields).filter(([, field]) => field.ty
 // GET method
 const { data, error, loading, run: refresh } = useRequest(
   async () => {
-    const query = (!isAdmin() && props.queryOrg) ? props.queryOrg : props.query
+    let query
+    const { queries } = props
+    if (queries.get)
+      query = queries.get
+    else if (!isAdmin() && queries.organization)
+      query = queries.organization
+    else query = queries.all
+    if (props.foreignKey)
+      query += `/${props.foreignKeyValue}`
     const results = await axios.get(`/${query}`)
     return results.data.results
-  },
+  }, { initialData: [] },
 )
 
 // POST method
@@ -56,7 +66,10 @@ const { loading: postLoading, run: postRun } = useRequest(
       else { formData.append(key, value as string) }
     })
 
-    const url = id ? `/${props.query}/${id}` : `/${props.query}`
+    let url
+    if (id)
+      url = `/${props.queries.all}/${id}`
+    else url = `/${props.queries.all}`
     return axios.post(url, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
   }, {
     manual: true,
@@ -76,7 +89,7 @@ function handlePost() {
 // DELETE method
 const { run: deleteRun } = useRequest(
   (id) => {
-    return axios.delete(`/${props.query}/${id}`)
+    return axios.delete(`/${props.queries.all}/${id}`)
   }, {
     manual: true,
     onSuccess: () => {
@@ -94,7 +107,7 @@ const columns: DataTableColumns = [
     render(row) {
       return (
         <div class="flex gap-2">
-          <NButton type="primary" onClick={() => {
+          <NButton onClick={() => {
             Object.entries(row).forEach(([key, value]) => {
               if (value == null)
                 delete row[key]
@@ -114,11 +127,12 @@ const columns: DataTableColumns = [
     },
   },
 ]
-if (isAdmin() && props.queryOrg) {
+if (isAdmin() && props.queries.organization) {
   columns.unshift(
     {
       title: 'Organization',
       key: 'organization.org_title',
+      sorter: 'default',
     })
 }
 
@@ -126,22 +140,9 @@ function handleNew() {
   modal.mode = 'Add'
   formState.value = {}
   modal.show = true
-
-  if (isAdmin())
-    formState.value.organization_id = 1
-  else
-    formState.value.organization_id = userState.value?.organization_id
-}
-
-const validateMessages: FormValidateMessages = {
-  required: 'This field is required',
-  whitespace: 'This field cannot be empty',
-  types: {
-    email: 'Please enter a valid email address',
-    url: 'Please enter a valid URL',
-    // regexp: 'Please enter a valid %s',
-    // regexp: 'Please enter a valid ${label}',
-  },
+  formState.value.organization_id = isAdmin() ? 1 : userState.value?.organization_id
+  if (props.foreignKey)
+    formState.value[props.foreignKey] = props.foreignKeyValue
 }
 
 const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) => {
@@ -150,36 +151,34 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
 </script>
 
 <template>
-  <n-spin :show="loading">
-    <BaseTable v-if="data" v-bind="{ columns, data }">
-      <template #actions>
-        <NButton type="primary" @click="handleNew()">
-          <template #icon>
-            <i-plus />
-          </template>
-          Add
-        </NButton>
-      </template>
-    </BaseTable>
-    <result-refresh v-else-if="error" @refresh="refresh" />
-  </n-spin>
+  <table-base v-if="!error" :loading="loading" v-bind="{ columns, data }">
+    <template #actions>
+      <NButton type="primary" @click="handleNew()">
+        <template #icon>
+          <i-plus />
+        </template>
+        Add
+      </NButton>
+    </template>
+  </table-base>
+  <app-error v-else @refresh="refresh" />
 
-  <n-modal
-    v-model:show="modal.show" class="max-w-xl" preset="card" segmented bordered size="small" :title="`${modal.mode} ${name}`"
+  <app-modal
+    v-model:show="modal.show" :title="`${modal.mode} ${name}`"
   >
     <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }">
-      <FormFields
+      <form-master
         v-if="isAdmin()" :fields="
           {
             organization_id: {
               type: 'select',
               label: 'Organization',
-              query: 'organization',
+              queries: { all: 'organization' },
               format: org => org.org_title,
             },
           }"
       />
-      <FormFields v-bind="{ fields }" />
+      <form-master v-bind="{ fields }" />
     </n-form>
 
     <template #footer>
@@ -192,5 +191,5 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
         </NButton>
       </NSpace>
     </template>
-  </n-modal>
+  </app-modal>
 </template>
