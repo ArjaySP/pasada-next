@@ -19,7 +19,7 @@ const columns: DataTableColumns = [
     title: 'Titles',
     key: 'quiz_title',
     render(row) {
-      return <NSpace vertical size="small"><NText>{row.quiz_title}</NText><NText depth="2">Filipino: {row.tagalog_title}</NText></NSpace>
+      return <NSpace vertical size="small"><NText>{row.quiz_title}</NText><NText depth="3">Filipino: {row.tagalog_title}</NText></NSpace>
     },
     sorter: 'default',
   },
@@ -53,7 +53,7 @@ const columns: DataTableColumns = [
     title: 'Questions',
     key: 'questions',
     render(row) {
-      return <NButton onClick={() => {
+      return <NButton type="primary" onClick={() => {
         questions.show = true
         questions.foreignKeyValue = row.id as number
       }}>Open</NButton>

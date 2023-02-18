@@ -18,10 +18,12 @@ const columns: DataTableColumns = [
   {
     title: 'Module name',
     key: 'module_name',
+    sorter: 'default',
   },
   {
     title: 'Lesson title',
     key: 'title',
+    sorter: 'default',
   },
   {
     title: 'Image',
@@ -42,7 +44,7 @@ const columns: DataTableColumns = [
     title: 'Translations',
     key: 'translations',
     render(row) {
-      return <NButton onClick={() => {
+      return <NButton type="primary" onClick={() => {
         translations.show = true
         translations.foreignKeyValue = row.id as number
       }}>Open</NButton>
@@ -52,7 +54,7 @@ const columns: DataTableColumns = [
     title: 'Videos',
     key: 'videos',
     render(row) {
-      return <NButton onClick={() => {
+      return <NButton type="primary" onClick={() => {
         videos.show = true
         videos.foreignKeyValue = row.id as number
       }}>Open</NButton>

@@ -107,7 +107,7 @@ const columns: DataTableColumns = [
     render(row) {
       return (
         <div class="flex gap-2">
-          <NButton onClick={() => {
+          <NButton type="primary" onClick={() => {
             Object.entries(row).forEach(([key, value]) => {
               if (value == null)
                 delete row[key]
