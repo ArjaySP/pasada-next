@@ -27,6 +27,10 @@ interface FormNumber extends FormItem {
   suffix?: string
 }
 
+interface FormPassword extends FormItem {
+  type: 'password'
+}
+
 interface FormQuill extends FormItem {
   type: 'quill'
 }
@@ -49,8 +53,12 @@ interface FormTextarea extends FormItem {
   type: 'textarea'
 }
 
+interface FormTime extends FormItem {
+  type: 'time'
+}
+
 type Path = string
-type FormFieldTypes = (FormDate | FormDropdown | FormFile | FormInput | FormNumber | FormSelect | FormRadio | FormQuill | FormTextarea)
+type FormFieldTypes = (FormDate | FormDropdown | FormFile | FormInput | FormNumber | FormPassword | FormSelect | FormRadio | FormQuill | FormTextarea | FormTime)
 
 export interface FormFields {
   [path: Path]: FormFieldTypes

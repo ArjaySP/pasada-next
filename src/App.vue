@@ -27,6 +27,8 @@ axios.interceptors.response.use(
 
 <template>
   <router-view />
+
+<!--  TODO: Add hasOrganizationField to: Incentives, Reminders, Webinars, Flipbooks? -->
 </template>
 
 <style>

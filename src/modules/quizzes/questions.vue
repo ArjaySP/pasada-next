@@ -22,7 +22,7 @@ const columns: DataTableColumns = [
     title: 'Content',
     key: 'question_content',
     render(row) {
-      return <div class="line-clamp-6" innerHTML={(row.question_content as string)} />
+      return <div class="max-w-xs line-clamp-6" innerHTML={(row.question_content as string)} />
     },
   },
   {

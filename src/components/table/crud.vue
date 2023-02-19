@@ -10,16 +10,17 @@ import { validateMessages } from '@/utils/config'
 interface Props {
   columns: DataTableColumns
   rules: FormRules
-  fields: FormFields
+  fields?: FormFields
   name: string
   queries: Queries
 
+  mode?: 'Add' | 'Edit'
   foreignKey?: string
   foreignKeyValue?: number
 }
 const props = defineProps<Props>()
 
-const emit = defineEmits(['add', 'edit'])
+const emit = defineEmits(['update:mode'])
 
 const formRef = ref<FormInst | null>(null)
 const message = useMessage()
@@ -27,7 +28,7 @@ const modal = reactive({
   show: false,
   mode: '',
 })
-const uploadFields = Object.entries(props.fields).filter(([, field]) => field.type === 'file').map(([key]) => key)
+const uploadFields = Object.entries(props.fields || []).filter(([, field]) => field.type === 'file').map(([key]) => key)
 
 // GET method
 const { data, error, loading, run: refresh } = useRequest(
@@ -107,26 +108,26 @@ const columns: DataTableColumns = [
     title: 'Actions',
     key: 'actions',
     render(row) {
-      return (
-        <div class="flex gap-2">
-          <NButton type="primary" onClick={() => {
-            emit('edit')
-            Object.entries(row).forEach(([key, value]) => {
-              if (value == null)
-                delete row[key]
-            })
-            formState.value = row
-            modal.mode = 'Edit'
-            modal.show = true
-          }}>
-            Edit
-          </NButton>
-          <NPopconfirm positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id)}>{{
-            trigger: () => <NButton type="error">Delete</NButton>,
-            default: () => `Are you sure to delete this ${props.name}?`,
-          }}</NPopconfirm>
-        </div>
-      )
+      if (row.role_id as number <= authState.value!.access_level!)
+        return
+      return <div class="flex gap-2">
+        <NButton type="primary" onClick={() => {
+          emit('update:mode', 'Edit')
+          Object.entries(row).forEach(([key, value]) => {
+            if (value == null)
+              delete row[key]
+          })
+          formState.value = row
+          modal.mode = 'Edit'
+          modal.show = true
+        }}>
+          Edit
+        </NButton>
+        <NPopconfirm positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id)}>{{
+          trigger: () => <NButton type="error">Delete</NButton>,
+          default: () => `Are you sure to delete this ${props.name}?`,
+        }}</NPopconfirm>
+      </div>
     },
     // render(row) {
     //   return (
@@ -173,7 +174,7 @@ if (isAdmin() && props.queries.organization) {
 }
 
 function handleNew() {
-  emit('add')
+  emit('update:mode', 'Add')
   modal.mode = 'Add'
   formState.value = {}
   modal.show = true
@@ -205,7 +206,7 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
   >
     <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
       <form-field-master
-        v-if="isAdmin() && queries.organization" :fields="
+        v-if="isAdmin() && queries.hasOrganizationField" :fields="
           {
             organization_id: {
               type: 'select',
@@ -215,7 +216,9 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
             },
           }"
       />
-      <form-field-master v-bind="{ fields }" />
+      <slot name="fields" :mode="modal.mode">
+        <form-field-master v-bind="{ fields }" />
+      </slot>
     </n-form>
 
     <template #footer>

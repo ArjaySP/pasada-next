@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { NDatePicker, NFormItem, NInput } from 'naive-ui'
+import { NDatePicker, NFormItem, NInput, NTimePicker } from 'naive-ui'
 import type { FormFields } from '@/types'
 import formState from '@/utils/formState'
 import FormDropdown from '@/components/form/form-dropdown.vue'
@@ -23,7 +23,7 @@ export default defineComponent({
         <NFormItem label={field.label} path={key}>{() => {
           switch (field.type) {
             case 'date':
-              return <NDatePicker v-model:formatted-value={formState.value[key]} type="date" value-format="yyyy-MM-dd" />
+              return <NDatePicker v-model:formatted-value={formState.value[key]} type="date" value-format="yyyy-MM-dd" placeholder={field.placeholder || ''} />
             case 'dropdown':
               return <FormDropdown v-model:value={formState.value[key]} options={field.options} />
             case 'file':
@@ -32,6 +32,8 @@ export default defineComponent({
               return <NInput v-model:value={formState.value[key]} placeholder={field.placeholder || ''} />
             case 'number':
               return <FormNumber v-model:value={formState.value[key]} placeholder={field.placeholder || ''} suffix={field.suffix}></FormNumber>
+            case 'password':
+              return <NInput v-model:value={formState.value[key]} type="password" placeholder={field.placeholder || ''} />
             case 'quill':
               return <FormQuill v-model:value={formState.value[key]} />
             case 'radio':
@@ -43,6 +45,8 @@ export default defineComponent({
             }
             case 'textarea':
               return <NInput v-model:value={formState.value[key]} type="textarea" maxlength="250" show-count placeholder={field.placeholder || ''} />
+            case 'time':
+              return <NTimePicker v-model:formatted-value={formState.value[key]} format="h:mm a" value-format="HH:mm:00" placeholder={field.placeholder || ''} />
           }
         }}</NFormItem>
       </div>

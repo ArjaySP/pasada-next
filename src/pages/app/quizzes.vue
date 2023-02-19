@@ -37,7 +37,7 @@ const columns: DataTableColumns = [
       // TypeScript at its finest
       return <NTag type={{
         Easy: 'success',
-        Medium: 'warning',
+        Moderate: 'warning',
         Hard: 'error',
       }[row.difficulty as string] as 'success' | 'warning' | 'error'}>{row.difficulty}</NTag>
     },
@@ -99,7 +99,7 @@ const fields: FormFields = {
     label: 'Difficulty',
     options: [
       { label: 'Easy', value: 'Easy' },
-      { label: 'Medium', value: 'Medium' },
+      { label: 'Moderate', value: 'Moderate' },
       { label: 'Hard', value: 'Hard' },
     ],
   },
@@ -167,6 +167,7 @@ const rules: FormRules = {
 const queries: Queries = {
   all: 'quiz',
   organization: 'quizInformationOrganization',
+  hasOrganizationField: true,
 }
 </script>
 

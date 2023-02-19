@@ -117,6 +117,7 @@ const rules: FormRules = {
 const queries: Queries = {
   all: 'lessons',
   organization: 'lessonOrganization',
+  hasOrganizationField: true,
 }
 </script>
 

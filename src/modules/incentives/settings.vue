@@ -3,51 +3,42 @@ import type { DataTableColumns, FormRules } from 'naive-ui'
 import { NTag } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 
-definePage({
-  name: 'Daily Quiz',
-})
-
 const columns: DataTableColumns = [
   {
-    title: 'Quiz',
-    key: 'quiz_information.quiz_title',
+    title: 'Title',
+    key: 'is_title',
     sorter: 'default',
   },
   {
     title: 'Description',
-    key: 'daily_description',
+    key: 'is_description',
     sorter: 'default',
   },
   {
     title: 'Status',
-    key: 'daily_status',
+    key: 'is_status',
     render(row) {
       return <NTag type={{
         Inactive: 'warning',
         Active: 'success',
-      }[row.daily_status as string] as 'success' | 'warning'}>{row.daily_status}</NTag>
+      }[row.is_status as string] as 'success' | 'warning'}>{row.is_status}</NTag>
     },
     sorter: 'default',
   },
 ]
 
 const fields: FormFields = {
-  quiz_information_id: {
-    type: 'select',
-    label: 'Quiz',
-    placeholder: 'Search quiz...',
-    queries: {
-      all: 'quiz',
-      organization: 'quizInformationOrganization',
-    },
-    format: quiz => `${quiz.module_name} - ${quiz.quiz_title}`,
+  is_title: {
+    type: 'input',
+    label: 'Title',
+    placeholder: 'e.g. "Free gasoline"',
   },
-  daily_description: {
+  is_description: {
     type: 'textarea',
     label: 'Description',
     placeholder: 'Type description here...',
   },
-  daily_status: {
+  is_status: {
     type: 'radio',
     label: 'Status',
     options: [
@@ -64,25 +55,24 @@ const fields: FormFields = {
 }
 
 const rules: FormRules = {
-  quiz_information_id: {
-    type: 'number',
+  is_title: {
     required: true,
   },
-  daily_description: {
+  is_description: {
     required: true,
   },
-  daily_status: {
+  is_status: {
     required: true,
   },
 }
 
 const queries: Queries = {
-  all: 'dailyQuiz',
-  organization: 'dailyQuizOrganization',
+  all: 'incentive',
+  organization: 'incentiveSettingsOrganization',
   hasOrganizationField: true,
 }
 </script>
 
 <template>
-  <table-crud v-bind="{ columns, fields, rules, queries }" name="daily quiz" />
+  <table-crud v-bind="{ columns, fields, rules, queries }" name="incentive" />
 </template>

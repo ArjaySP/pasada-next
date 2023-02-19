@@ -41,6 +41,7 @@ const rules: FormRules = {
 const queries: Queries = {
   all: 'modules',
   organization: 'modulesOrganization',
+  hasOrganizationField: true,
 }
 </script>
 

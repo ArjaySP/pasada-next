@@ -38,6 +38,8 @@ const filteredData = computed(() => {
       </n-space>
     </template>
 
-    <n-data-table :data="filteredData" v-bind="{ columns, loading, pagination }" class="pb-6" :row-key="(row) => row.id" />
+    <n-scrollbar x-scrollable>
+      <n-data-table :data="filteredData" v-bind="{ columns, loading, pagination }" class="min-w-max pb-6" :row-key="(row) => row.id" />
+    </n-scrollbar>
   </n-card>
 </template>

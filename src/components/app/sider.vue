@@ -82,7 +82,14 @@ const menu: MenuOption[] = [
         key: 'organizations',
         icon: renderIcon(Organizations),
         show: isAdmin(),
-      }, {
+      },
+      {
+        label: renderLabel('Members', '/members'),
+        key: 'members',
+        icon: renderIcon(Organizations),
+        show: !isAdmin(),
+      },
+      {
         label: renderLabel('Drivers', '/drivers'),
         key: 'drivers',
         icon: renderIcon(Driver),
