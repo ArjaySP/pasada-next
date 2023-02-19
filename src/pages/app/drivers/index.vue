@@ -16,7 +16,7 @@ const columns: DataTableColumns = [
       return (`${rowA.fname} ${rowA.lname}`).localeCompare(`${rowB.fname} ${rowB.lname}`)
     },
     render(row) {
-      return <div class="flex items-center gap-3"><NAvatar round src={`${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/${row.user_image}`} size={32}>{{ default: () => row.user_image ? undefined : (row.fname as string).slice(0, 1).toUpperCase() }}</NAvatar><div>{row.fname} {row.lname}</div></div>
+      return <div class="flex items-center gap-3"><NAvatar round src={`${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/${row.user_image}`} size={32} fallbackSrc='/images/default.svg'/><div>{row.fname} {row.lname}</div></div>
     },
   },
   {
@@ -105,6 +105,5 @@ const queries: Queries = {
 </script>
 
 <template>
-  {{ formState }}
   <table-crud v-bind="{ columns, fields, rules, queries }" name="driver" />
 </template>

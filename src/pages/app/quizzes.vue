@@ -153,14 +153,12 @@ const rules: FormRules = {
   passing_grade: {
     type: 'number',
     required: true,
-    validator(rule, value) {
-      return new Promise((resolve, reject) => {
-        if (value > (formState.value.total_points as number))
-          reject(new Error('Passing grade must be less than or equal to total points'))
-        else
-          resolve()
-      })
-    },
+    validator: (rule, value) => new Promise((resolve, reject) => {
+      if (value > (formState.value.total_points as number))
+        reject(new Error('Passing grade must be less than or equal to total points'))
+      else
+        resolve()
+    }),
   },
 }
 

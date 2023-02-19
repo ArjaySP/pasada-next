@@ -168,8 +168,17 @@ if (isAdmin() && props.queries.organization) {
   columns.unshift(
     {
       title: 'Organization',
-      key: 'organization.org_title',
+      key: 'organization',
       sorter: 'default',
+      render(row: any) {
+        return 'org_title' in row
+          ? row.org_title
+          : 'organization' in row
+            ? row.organization.org_title
+            : 'organization_id' in row
+              ? row.organization_id
+              : ''
+      },
     })
 }
 

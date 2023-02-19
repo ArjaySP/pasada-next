@@ -12,7 +12,7 @@ const columns: DataTableColumns = [
       return (`${rowA.fname} ${rowA.lname}`).localeCompare(`${rowB.fname} ${rowB.lname}`)
     },
     render(row) {
-      return <div class="flex items-center gap-3"><NAvatar round src={`${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/${row.user_image}`} size={32}>{{ default: () => row.user_image ? undefined : (row.fname as string).slice(0, 1).toUpperCase() }}</NAvatar><div>{row.fname} {row.lname}</div></div>
+      return <div class="flex items-center gap-3"><NAvatar round src={`${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/${row.user_image}`} size={32} fallbackSrc='/images/default.svg'/><div>{row.fname} {row.lname}</div></div>
     },
   },
   {
@@ -51,13 +51,12 @@ const fields = computed<FormFields>(() => {
   return ((mode.value === 'Add')
     ? {
         user_id: {
-          type: 'select',
+          type: 'select-user',
           label: 'User',
           placeholder: 'Select user...',
           queries: {
             all: 'getMembersByOrganizationID/1',
           },
-          format: driver => `${driver.fname} ${driver.lname} (${driver.email})`,
         },
       }
     : {

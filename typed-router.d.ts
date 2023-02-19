@@ -38,8 +38,9 @@ declare module 'vue-router/auto/routes' {
     '/app': RouteRecordInfo<'/app', '/', Record<never, never>, Record<never, never>>,
     '/app/[...any]': RouteRecordInfo<'/app/[...any]', '/app/:any(.*)', { any: ParamValue<true> }, { any: ParamValue<false> }>,
     '/app/@template': RouteRecordInfo<'/app/@template', '/app/@template', Record<never, never>, Record<never, never>>,
-    '/app/analytics': RouteRecordInfo<'/app/analytics', '/app/analytics', Record<never, never>, Record<never, never>>,
+    'Analytics': RouteRecordInfo<'Analytics', '/app/analytics', Record<never, never>, Record<never, never>>,
     'Books': RouteRecordInfo<'Books', '/app/books', Record<never, never>, Record<never, never>>,
+    '/app/complaints': RouteRecordInfo<'/app/complaints', '/app/complaints', Record<never, never>, Record<never, never>>,
     'Daily Quiz': RouteRecordInfo<'Daily Quiz', '/app/daily-quiz', Record<never, never>, Record<never, never>>,
     '/app/dashboard': RouteRecordInfo<'/app/dashboard', '/app/dashboard', Record<never, never>, Record<never, never>>,
     'Drivers': RouteRecordInfo<'Drivers', '/app/drivers', Record<never, never>, Record<never, never>>,
@@ -51,6 +52,7 @@ declare module 'vue-router/auto/routes' {
     'Quizzes': RouteRecordInfo<'Quizzes', '/app/quizzes', Record<never, never>, Record<never, never>>,
     'Reminders': RouteRecordInfo<'Reminders', '/app/reminders', Record<never, never>, Record<never, never>>,
     'Vehicles': RouteRecordInfo<'Vehicles', '/app/vehicles', Record<never, never>, Record<never, never>>,
+    'Violations': RouteRecordInfo<'Violations', '/app/violations', Record<never, never>, Record<never, never>>,
     'Webinars': RouteRecordInfo<'Webinars', '/app/webinars', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
   }

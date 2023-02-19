@@ -4,6 +4,11 @@ interface FormItem {
   span?: number
 }
 
+interface FormAutocomplete extends FormItem {
+  type: 'autocomplete'
+  options: string[]
+}
+
 interface FormDate extends FormItem {
   type: 'date'
 }
@@ -49,6 +54,14 @@ interface FormSelect extends FormItem {
   format: (object: Record<string, string>) => string
 }
 
+interface FormSelectUser extends FormItem {
+  type: 'select-user'
+  queries: {
+    all: string
+    organization?: string
+  }
+}
+
 interface FormTextarea extends FormItem {
   type: 'textarea'
 }
@@ -58,7 +71,7 @@ interface FormTime extends FormItem {
 }
 
 type Path = string
-type FormFieldTypes = (FormDate | FormDropdown | FormFile | FormInput | FormNumber | FormPassword | FormSelect | FormRadio | FormQuill | FormTextarea | FormTime)
+type FormFieldTypes = (FormAutocomplete | FormDate | FormDropdown | FormFile | FormInput | FormNumber | FormPassword | FormSelect | FormRadio | FormQuill | FormSelectUser | FormTextarea | FormTime)
 
 export interface FormFields {
   [path: Path]: FormFieldTypes

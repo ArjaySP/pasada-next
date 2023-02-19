@@ -2,12 +2,14 @@
 import { NDatePicker, NFormItem, NInput, NTimePicker } from 'naive-ui'
 import type { FormFields } from '@/types'
 import formState from '@/utils/formState'
+import FormAutocomplete from '@/components/form/form-autocomplete.vue'
 import FormDropdown from '@/components/form/form-dropdown.vue'
 import FormFile from '@/components/form/form-file.vue'
 import FormNumber from '@/components/form/form-number.vue'
 import FormQuill from '@/components/form/form-quill.vue'
 import FormRadio from '@/components/form/form-radio.vue'
 import FormSelect from '@/components/form/form-select.vue'
+import FormSelectUser from '@/components/form/form-select-user.vue'
 import { isAdmin } from '@/utils/userState'
 
 export default defineComponent({
@@ -22,10 +24,12 @@ export default defineComponent({
       return <div style={`grid-column: span ${field.span || 24} / span ${field.span || 24}`}>
         <NFormItem label={field.label} path={key}>{() => {
           switch (field.type) {
+            case 'autocomplete':
+              return <FormAutocomplete v-model:value={formState.value[key]} options={field.options} placeholder={field.placeholder || ''} />
             case 'date':
               return <NDatePicker v-model:formatted-value={formState.value[key]} type="date" value-format="yyyy-MM-dd" placeholder={field.placeholder || ''} />
             case 'dropdown':
-              return <FormDropdown v-model:value={formState.value[key]} options={field.options} />
+              return <FormDropdown v-model:value={formState.value[key]} options={field.options} placeholder={field.placeholder || ''} />
             case 'file':
               return <FormFile v-model:value={formState.value[key]} accept={field.accept} />
             case 'input':
@@ -42,6 +46,11 @@ export default defineComponent({
               const { queries } = field
               const query = queries.organization ? (isAdmin() ? queries.all : queries.organization) : queries.all
               return <FormSelect v-model:value={formState.value[key]} placeholder={field.placeholder || ''} query={query} format={field.format}/>
+            }
+            case 'select-user': {
+              const { queries } = field
+              const query = queries.organization ? (isAdmin() ? queries.all : queries.organization) : queries.all
+              return <FormSelectUser v-model:value={formState.value[key]} placeholder={field.placeholder || ''} query={query}/>
             }
             case 'textarea':
               return <NInput v-model:value={formState.value[key]} type="textarea" maxlength="250" show-count placeholder={field.placeholder || ''} />
