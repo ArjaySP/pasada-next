@@ -33,11 +33,11 @@ const filteredData = computed(() => {
   <n-card title=" " segmented>
     <template #header-extra>
       <n-space size="small">
-        <n-input v-model:value="search" placeholder="Type to search..." />
+        <n-input v-model:value="search" placeholder="Type to search..." clearable />
         <slot name="actions" />
       </n-space>
     </template>
 
-    <n-data-table :data="filteredData" v-bind="{ columns, loading, pagination }" class="pb-6" />
+    <n-data-table :data="filteredData" v-bind="{ columns, loading, pagination }" class="pb-6" :row-key="(row) => row.id" />
   </n-card>
 </template>

@@ -5,6 +5,10 @@ import type { FormFields, Queries } from '@/types'
 import ViewImage from '@/components/button/view-image.vue'
 import ViewFile from '@/components/button/view-file.vue'
 
+definePage({
+  name: 'Lessons',
+})
+
 const translations = reactive({
   show: false,
   foreignKeyValue: 0,
@@ -80,11 +84,13 @@ const fields: FormFields = {
   },
   image: {
     type: 'file',
+    span: 12,
     accept: '.jpg, .jpeg, .gif, .png',
     label: 'Image',
   },
   pdf: {
     type: 'file',
+    span: 12,
     accept: '.pdf',
     label: 'PDF',
   },

@@ -3,14 +3,20 @@ import type { DataTableColumns, FormRules } from 'naive-ui'
 import { NTag } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 
+definePage({
+  name: 'Daily Quiz',
+})
+
 const columns: DataTableColumns = [
   {
     title: 'Quiz',
     key: 'quiz_information.quiz_title',
+    sorter: 'default',
   },
   {
     title: 'Description',
     key: 'daily_description',
+    sorter: 'default',
   },
   {
     title: 'Status',
@@ -21,6 +27,7 @@ const columns: DataTableColumns = [
         Active: 'success',
       }[row.daily_status as string] as 'success' | 'error'}>{row.daily_status}</NTag>
     },
+    sorter: 'default',
   },
 ]
 

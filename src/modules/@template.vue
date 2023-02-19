@@ -2,10 +2,6 @@
 import type { DataTableColumns, FormRules } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 
-definePage({
-  name: '',
-})
-
 const columns: DataTableColumns = [
 ]
 
@@ -17,10 +13,10 @@ const rules: FormRules = {
 
 const queries: Queries = {
   all: '',
-  organization: '',
+  get: '',
 }
 </script>
 
 <template>
-  <table-crud v-bind="{ columns, fields, rules, queries }" name="" />
+  <table-crud v-bind="{ columns, fields, rules, queries }" name="" foreign-key="" />
 </template>

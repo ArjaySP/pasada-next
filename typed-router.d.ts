@@ -38,10 +38,13 @@ declare module 'vue-router/auto/routes' {
     '/app': RouteRecordInfo<'/app', '/', Record<never, never>, Record<never, never>>,
     '/app/[...any]': RouteRecordInfo<'/app/[...any]', '/app/:any(.*)', { any: ParamValue<true> }, { any: ParamValue<false> }>,
     '/app/@template': RouteRecordInfo<'/app/@template', '/app/@template', Record<never, never>, Record<never, never>>,
-    '/app/daily-quiz': RouteRecordInfo<'/app/daily-quiz', '/app/daily-quiz', Record<never, never>, Record<never, never>>,
-    '/app/lessons': RouteRecordInfo<'/app/lessons', '/app/lessons', Record<never, never>, Record<never, never>>,
-    '/app/modules': RouteRecordInfo<'/app/modules', '/app/modules', Record<never, never>, Record<never, never>>,
-    '/app/quizzes': RouteRecordInfo<'/app/quizzes', '/app/quizzes', Record<never, never>, Record<never, never>>,
+    'Books': RouteRecordInfo<'Books', '/app/books', Record<never, never>, Record<never, never>>,
+    'Daily Quiz': RouteRecordInfo<'Daily Quiz', '/app/daily-quiz', Record<never, never>, Record<never, never>>,
+    'Lessons': RouteRecordInfo<'Lessons', '/app/lessons', Record<never, never>, Record<never, never>>,
+    'Modules': RouteRecordInfo<'Modules', '/app/modules', Record<never, never>, Record<never, never>>,
+    'Organizations': RouteRecordInfo<'Organizations', '/app/organizations', Record<never, never>, Record<never, never>>,
+    'Quizzes': RouteRecordInfo<'Quizzes', '/app/quizzes', Record<never, never>, Record<never, never>>,
+    'Vehicles': RouteRecordInfo<'Vehicles', '/app/vehicles', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
   }
 }

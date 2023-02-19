@@ -4,6 +4,10 @@ import { NButton, NSpace, NTag, NText } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 import formState from '@/utils/formState'
 
+definePage({
+  name: 'Quizzes',
+})
+
 const questions = reactive({
   show: false,
   foreignKeyValue: 0,
@@ -55,6 +59,7 @@ const columns: DataTableColumns = [
   {
     title: 'Timer',
     key: 'timer',
+    sorter: 'default',
   },
   {
     title: 'Questions',

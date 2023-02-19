@@ -20,6 +20,7 @@ const fields: FormFields = {
   tagalog_title: {
     type: 'input',
     label: 'Translated title',
+    placeholder: 'e.g. "Pagmamaneho sa Basang Panahon"',
   },
   tagalog_content: {
     type: 'quill',

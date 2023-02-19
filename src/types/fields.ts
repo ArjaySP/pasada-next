@@ -1,6 +1,11 @@
 interface FormItem {
   label: string
   placeholder?: string
+  span?: number
+}
+
+interface FormDate extends FormItem {
+  type: 'date'
 }
 
 interface FormDropdown extends FormItem {
@@ -19,6 +24,7 @@ interface FormInput extends FormItem {
 
 interface FormNumber extends FormItem {
   type: 'number'
+  suffix?: string
 }
 
 interface FormQuill extends FormItem {
@@ -44,7 +50,7 @@ interface FormTextarea extends FormItem {
 }
 
 type Path = string
-type FormFieldTypes = (FormDropdown | FormFile | FormInput | FormNumber | FormSelect | FormRadio | FormQuill | FormTextarea)
+type FormFieldTypes = (FormDate | FormDropdown | FormFile | FormInput | FormNumber | FormSelect | FormRadio | FormQuill | FormTextarea)
 
 export interface FormFields {
   [path: Path]: FormFieldTypes

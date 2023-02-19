@@ -19,6 +19,8 @@ interface Props {
 }
 const props = defineProps<Props>()
 
+const emit = defineEmits(['add', 'edit'])
+
 const formRef = ref<FormInst | null>(null)
 const message = useMessage()
 const modal = reactive({
@@ -108,6 +110,7 @@ const columns: DataTableColumns = [
       return (
         <div class="flex gap-2">
           <NButton type="primary" onClick={() => {
+            emit('edit')
             Object.entries(row).forEach(([key, value]) => {
               if (value == null)
                 delete row[key]
@@ -125,6 +128,39 @@ const columns: DataTableColumns = [
         </div>
       )
     },
+    // render(row) {
+    //   return (
+    //       <div class="flex gap-3">
+    //         <NPopover trigger="hover">
+    //           {{
+    //             trigger: () =>
+    //                 <NButton type="primary" onClick={() => {
+    //                   Object.entries(row).forEach(([key, value]) => {
+    //                     if (value == null)
+    //                       delete row[key]
+    //                   })
+    //                   formState.value = row
+    //                   modal.mode = 'Edit'
+    //                   modal.show = true
+    //                 }} text>{{
+    //                   icon: () => <i-edit />,
+    //                 }}
+    //                 </NButton>,
+    //             default: () => `Edit ${props.name}`,
+    //           }}
+    //         </NPopover>
+    //         <NPopconfirm positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id)}>{{
+    //           trigger: () => <NPopover trigger="hover">{{
+    //             trigger: () => <NButton type="error" text>{{
+    //               icon: () => <i-trash />,
+    //             }}</NButton>,
+    //             default: () => `Delete ${props.name}`,
+    //           }}</NPopover>,
+    //           default: () => `Are you sure to delete this ${props.name}?`,
+    //         }}</NPopconfirm>
+    //       </div>
+    //   )
+    // },
   },
 ]
 if (isAdmin() && props.queries.organization) {
@@ -137,6 +173,7 @@ if (isAdmin() && props.queries.organization) {
 }
 
 function handleNew() {
+  emit('add')
   modal.mode = 'Add'
   formState.value = {}
   modal.show = true
@@ -157,7 +194,7 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
         <template #icon>
           <i-plus />
         </template>
-        Add
+        Add {{ name }}
       </NButton>
     </template>
   </table-base>
@@ -166,8 +203,8 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
   <app-modal
     v-model:show="modal.show" :title="`${modal.mode} ${name}`"
   >
-    <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }">
-      <form-master
+    <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
+      <form-field-master
         v-if="isAdmin() && queries.organization" :fields="
           {
             organization_id: {
@@ -178,7 +215,7 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
             },
           }"
       />
-      <form-master v-bind="{ fields }" />
+      <form-field-master v-bind="{ fields }" />
     </n-form>
 
     <template #footer>

@@ -14,7 +14,7 @@ const choices = reactive({
 
 const columns: DataTableColumns = [
   {
-    title: 'Question',
+    title: '#',
     key: 'question_num',
     sorter: 'default',
   },
@@ -72,7 +72,7 @@ const queries: Queries = {
 <template>
   <table-crud v-bind="{ columns, fields, rules, queries, foreignKeyValue }" name="question" foreign-key="quiz_id" />
 
-  <app-modal v-model:show="choices.show" title="Videos">
+  <app-modal v-model:show="choices.show" title="Choices">
     <quizzes-choices :foreign-key-value="choices.foreignKeyValue" />
   </app-modal>
 </template>

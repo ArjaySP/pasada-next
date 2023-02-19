@@ -35,6 +35,7 @@ const fields: FormFields = {
   lesson_video_title: {
     type: 'input',
     label: 'Title',
+    placeholder: 'e.g. "Driving in Wet Weather"',
   },
   lesson_vid_url: {
     type: 'input',

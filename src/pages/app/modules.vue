@@ -2,6 +2,10 @@
 import type { DataTableColumns, FormRules } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 
+definePage({
+  name: 'Modules',
+})
+
 const columns: DataTableColumns = [
   {
     title: 'Module title',

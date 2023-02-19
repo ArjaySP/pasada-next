@@ -22,6 +22,7 @@ import Complaints from '~icons/ion/ReaderOutline'
 import Violations from '~icons/ion/WarningOutline'
 import Accidents from '~icons/ion/FlameOutline'
 import authState from '@/utils/authState'
+import { isAdmin } from '@/utils/userState'
 
 const isCollapsed = useLocalStorage('isCollapsed', false)
 
@@ -80,6 +81,7 @@ const menu: MenuOption[] = [
         label: renderLabel('Organizations', '/organizations'),
         key: 'organizations',
         icon: renderIcon(Organizations),
+        show: isAdmin(),
       }, {
         label: renderLabel('Drivers', '/drivers'),
         key: 'drivers',
@@ -146,6 +148,12 @@ const menu: MenuOption[] = [
 <template>
   <n-layout-sider bordered collapse-mode="width" :width="240" :collapsed-width="64" show-trigger v-bind="{ collapsed: isCollapsed }" @collapse="isCollapsed = true" @expand="isCollapsed = false">
     <img src="/favicon.ico" class="p-4" alt="PASADA icon">
+    <n-collapse-transition :show="!isCollapsed">
+      <div class="px-4 pb-2">
+        PASADA - The Next Generation of Public Transportation
+      </div>
+    </n-collapse-transition>
+    <n-divider class="!mt-2 !mb-4" />
     <n-menu
       accordion
       :options="menu"

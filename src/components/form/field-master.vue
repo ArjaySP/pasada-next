@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { NFormItem, NInput } from 'naive-ui'
+import { NDatePicker, NFormItem, NInput } from 'naive-ui'
 import type { FormFields } from '@/types'
 import formState from '@/utils/formState'
 import FormDropdown from '@/components/form/form-dropdown.vue'
@@ -19,9 +19,11 @@ export default defineComponent({
   },
   setup(props) {
     return () => Object.entries(props.fields).map(([key, field]) => {
-      return <NFormItem label={field.label} path={key}>
-        {() => {
+      return <div style={`grid-column: span ${field.span || 24} / span ${field.span || 24}`}>
+        <NFormItem label={field.label} path={key}>{() => {
           switch (field.type) {
+            case 'date':
+              return <NDatePicker v-model:formatted-value={formState.value[key]} type="date" value-format="yyyy-MM-dd" />
             case 'dropdown':
               return <FormDropdown v-model:value={formState.value[key]} options={field.options} />
             case 'file':
@@ -29,7 +31,7 @@ export default defineComponent({
             case 'input':
               return <NInput v-model:value={formState.value[key]} placeholder={field.placeholder || ''} />
             case 'number':
-              return <FormNumber v-model:value={formState.value[key]} placeholder={field.placeholder || ''} />
+              return <FormNumber v-model:value={formState.value[key]} placeholder={field.placeholder || ''} suffix={field.suffix}></FormNumber>
             case 'quill':
               return <FormQuill v-model:value={formState.value[key]} />
             case 'radio':
@@ -40,10 +42,10 @@ export default defineComponent({
               return <FormSelect v-model:value={formState.value[key]} placeholder={field.placeholder || ''} query={query} format={field.format}/>
             }
             case 'textarea':
-              return <NInput v-model:value={formState.value[key]} type="textarea" placeholder={field.placeholder || ''} />
+              return <NInput v-model:value={formState.value[key]} type="textarea" maxlength="250" show-count placeholder={field.placeholder || ''} />
           }
-        }}
-      </NFormItem>
+        }}</NFormItem>
+      </div>
     })
   },
 })
