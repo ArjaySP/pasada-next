@@ -2,6 +2,7 @@
 import type { DataTableColumns, FormRules } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 import TableFieldUser from '@/components/table/field-user.vue'
+import formState from '@/utils/formState'
 
 definePage({
   name: 'Accidents',
@@ -220,12 +221,24 @@ const rules: FormRules = {
   },
   time_committed: {
     required: true,
+    validator: (_, value) => {
+      const input = dayjs(`${formState.value.date_committed} ${value}`, 'MM-DD-YYYY HH:mm:ss')
+      return !input.isAfter(dayjs()) || new Error('Time must be before current time')
+    },
   },
   date_reported: {
     required: true,
   },
   time_reported: {
     required: true,
+    validator: (_, value) => {
+      const form = formState.value
+      const committed = dayjs(`${form.date_committed} ${form.time_committed}`, 'MM-DD-YYYY HH:mm:ss')
+      const reported = dayjs(`${form.date_reported} ${value}`, 'MM-DD-YYYY HH:mm:ss')
+      if (reported.isBefore(committed))
+        return new Error('Time reported must be after time committed')
+      return !reported.isAfter(dayjs()) || new Error('Time must be before current time')
+    },
   },
   case_status: {
     required: true,

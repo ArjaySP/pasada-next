@@ -13,6 +13,11 @@ const questions = reactive({
   foreignKeyValue: 0,
 })
 
+const statistics = reactive({
+  show: false,
+  foreignKeyValue: 0,
+})
+
 const columns: DataTableColumns = [
   {
     title: 'Module',
@@ -68,6 +73,16 @@ const columns: DataTableColumns = [
       return <NButton type="primary" onClick={() => {
         questions.show = true
         questions.foreignKeyValue = row.id as number
+      }}>Open</NButton>
+    },
+  },
+  {
+    title: 'Statistics',
+    key: 'statistics',
+    render(row) {
+      return <NButton type="primary" onClick={() => {
+        statistics.show = true
+        statistics.foreignKeyValue = row.id as number
       }}>Open</NButton>
     },
   },
@@ -174,5 +189,8 @@ const queries: Queries = {
 
   <app-modal v-model:show="questions.show" title="Questions">
     <quizzes-questions :foreign-key-value="questions.foreignKeyValue" />
+  </app-modal>
+  <app-modal v-model:show="statistics.show" title="Statistics">
+    <quizzes-statistics :foreign-key-value="statistics.foreignKeyValue" />
   </app-modal>
 </template>

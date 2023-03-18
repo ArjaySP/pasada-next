@@ -10,7 +10,7 @@ const columns: DataTableColumns = [
     render(row) {
       return <>
         <NH3>{row.tagalog_title}</NH3>
-        <div class="max-w-xs line-clamp-6" innerHTML={(row.tagalog_content as string)}/>
+        <div class="prose" innerHTML={(row.tagalog_content as string)}/>
     </>
     },
   },

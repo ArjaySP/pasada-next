@@ -85,11 +85,14 @@ const rules: FormRules = {
   },
   birthdate: {
     required: true,
+    validator: (_, value) => {
+      return dayjs().diff(dayjs(value, 'MM-DD-YYYY'), 'year') >= 18 || new Error('Must be 18 years old or above')
+    },
   },
   mobile_number: {
     type: 'number',
     required: true,
-    validator: (_, value) => /^639\d{9}$/.test(value),
+    validator: (_, value) => /^639\d{9}$/.test(value) || new Error('Invalid format'),
   },
   email: {
     required: true,
