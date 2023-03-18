@@ -1,20 +1,19 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormInst, FormRules, UploadFileInfo } from 'naive-ui'
 import { NButton, NPopconfirm } from 'naive-ui'
-import formState from '@/utils/formState'
-import authState from '@/utils/authState'
-import userState, { isAdmin } from '@/utils/userState'
+import form from '@/utils/form'
+import { useAuth } from '@/utils/auth'
 import type { FormFields, Queries } from '@/types'
 import { validateMessages } from '@/utils/config'
 
 interface Props {
   columns: DataTableColumns
   rules: FormRules
-  fields?: FormFields
+  fields: FormFields
   name: string
   queries: Queries
 
-  mode?: 'Add' | 'Edit'
+  // mode?: 'Add' | 'Edit'
   foreignKey?: string
   foreignKeyValue?: number
 }
@@ -23,12 +22,12 @@ const props = defineProps<Props>()
 const emit = defineEmits(['update:mode'])
 
 const formRef = ref<FormInst | null>(null)
+const auth = useAuth()
 const message = useMessage()
 const modal = reactive({
   show: false,
   mode: '',
 })
-const uploadFields = Object.entries(props.fields || []).filter(([, field]) => field.type === 'file').map(([key]) => key)
 
 // GET method
 const { data, error, loading, run: refresh } = useRequest(
@@ -37,7 +36,7 @@ const { data, error, loading, run: refresh } = useRequest(
     const { queries } = props
     if (queries.get)
       query = queries.get
-    else if (!isAdmin() && queries.organization)
+    else if (!auth.isAdmin && queries.organization)
       query = queries.organization
     else query = queries.all
     if (props.foreignKey)
@@ -50,19 +49,19 @@ const { data, error, loading, run: refresh } = useRequest(
 // POST method
 const { loading: postLoading, run: postRun } = useRequest(
   () => {
-    const { id } = formState.value
-    const data = { ...formState.value }
-    data.created_by ??= authState.value?.id
+    const { id } = form.value
+    const data = { ...form.value }
+    data.created_by ??= auth.credentials!.id
     if (id) {
       data._method = 'PUT'
-      data.updated_by = authState.value?.id
+      data.updated_by = auth.credentials!.id
       delete data.id
     }
 
     const formData = new FormData()
     Object.entries(data).forEach(([key, value]) => {
       value ??= ''
-      if (uploadFields.includes(key)) {
+      if (props.fields[key].type === 'file') {
         const file = (value as UploadFileInfo[])[0].file!
         formData.append(key, file)
       }
@@ -108,8 +107,8 @@ const columns: DataTableColumns = [
     title: 'Actions',
     key: 'actions',
     render(row) {
-      if (row.role_id as number <= authState.value!.access_level!)
-        return
+      if (row.role_id as number <= auth.credentials!.access_level)
+        return 'No permissions'
       return <div class="flex gap-2">
         <NButton type="primary" onClick={() => {
           emit('update:mode', 'Edit')
@@ -117,7 +116,7 @@ const columns: DataTableColumns = [
             if (value == null)
               delete row[key]
           })
-          formState.value = row
+          form.value = row
           modal.mode = 'Edit'
           modal.show = true
         }}>
@@ -129,45 +128,12 @@ const columns: DataTableColumns = [
         }}</NPopconfirm>
       </div>
     },
-    // render(row) {
-    //   return (
-    //       <div class="flex gap-3">
-    //         <NPopover trigger="hover">
-    //           {{
-    //             trigger: () =>
-    //                 <NButton type="primary" onClick={() => {
-    //                   Object.entries(row).forEach(([key, value]) => {
-    //                     if (value == null)
-    //                       delete row[key]
-    //                   })
-    //                   formState.value = row
-    //                   modal.mode = 'Edit'
-    //                   modal.show = true
-    //                 }} text>{{
-    //                   icon: () => <i-edit />,
-    //                 }}
-    //                 </NButton>,
-    //             default: () => `Edit ${props.name}`,
-    //           }}
-    //         </NPopover>
-    //         <NPopconfirm positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id)}>{{
-    //           trigger: () => <NPopover trigger="hover">{{
-    //             trigger: () => <NButton type="error" text>{{
-    //               icon: () => <i-trash />,
-    //             }}</NButton>,
-    //             default: () => `Delete ${props.name}`,
-    //           }}</NPopover>,
-    //           default: () => `Are you sure to delete this ${props.name}?`,
-    //         }}</NPopconfirm>
-    //       </div>
-    //   )
-    // },
   },
 ]
-if (isAdmin() && props.queries.organization) {
+if (auth.isAdmin && props.queries.organization) {
   columns.unshift(
     {
-      title: 'Organization',
+      title: 'Org.',
       key: 'organization',
       sorter: 'default',
       render(row: any) {
@@ -185,11 +151,11 @@ if (isAdmin() && props.queries.organization) {
 function handleNew() {
   emit('update:mode', 'Add')
   modal.mode = 'Add'
-  formState.value = {}
+  form.value = {}
   modal.show = true
-  formState.value.organization_id = isAdmin() ? 1 : userState.value?.organization_id
+  form.value.organization_id = auth.isAdmin ? 1 : auth.user!.organization_id
   if (props.foreignKey)
-    formState.value[props.foreignKey] = props.foreignKeyValue
+    form.value[props.foreignKey] = props.foreignKeyValue
 }
 
 const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) => {
@@ -213,9 +179,9 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
   <app-modal
     v-model:show="modal.show" :title="`${modal.mode} ${name}`"
   >
-    <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
-      <form-field-master
-        v-if="isAdmin() && queries.hasOrganizationField" :fields="
+    <n-form ref="formRef" :model="form" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
+      <form-master
+        v-if="auth.isAdmin && queries.hasOrganizationField" :fields="
           {
             organization_id: {
               type: 'select',
@@ -226,7 +192,7 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
           }"
       />
       <slot name="fields" :mode="modal.mode">
-        <form-field-master v-bind="{ fields }" />
+        <form-master v-bind="{ fields }" />
       </slot>
     </n-form>
 

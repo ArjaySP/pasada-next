@@ -3,3 +3,5 @@ definePage({
   redirect: '/dashboard',
 })
 </script>
+
+<template />

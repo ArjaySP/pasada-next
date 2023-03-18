@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import authState from '@/utils/authState'
-import { getUser } from '@/utils/userState'
+import { useAuth } from '@/utils/auth'
 
+const auth = useAuth()
 const message = useMessage()
 
 axios.defaults.baseURL = `${import.meta.env.VITE_BACKEND_URL}/api`
-watch(authState, async (value) => {
-  axios.defaults.headers.common.Authorization = value?.token ? `Bearer ${value.token}` : ''
-  getUser()
+auth.$subscribe((mutation, state) => {
+  if (!state.credentials)
+    return
+  const { token } = state.credentials
+  if (token)
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`
 }, { immediate: true })
 
 axios.interceptors.response.use(

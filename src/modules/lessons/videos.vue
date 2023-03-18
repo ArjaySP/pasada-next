@@ -17,7 +17,7 @@ const columns: DataTableColumns = [
     title: 'Image',
     key: 'thumbnail',
     render(row) {
-      return <ViewImage path={'fileLessonThumbnail'} name={row.thumbnail}>
+      return <ViewImage path='fileLessonThumbnail' name={row.thumbnail}>
       </ViewImage>
     },
   },
@@ -25,7 +25,7 @@ const columns: DataTableColumns = [
     title: 'Video',
     key: 'lesson_video',
     render(row) {
-      return <ViewFile path={'fileLessonVideo'} name={row.lesson_video}>
+      return <ViewFile path='fileLessonVideo' name={row.lesson_video}>
       </ViewFile>
     },
   },

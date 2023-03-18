@@ -33,7 +33,7 @@ const columns: DataTableColumns = [
     title: 'Image',
     key: 'lesson_image',
     render(row) {
-      return <ViewImage path={'fileLessonImage'} name={row.lesson_image}>
+      return <ViewImage path='fileLessonImage' name={row.lesson_image}>
       </ViewImage>
     },
   },
@@ -41,7 +41,7 @@ const columns: DataTableColumns = [
     title: 'PDF',
     key: 'lesson_pdf',
     render(row) {
-      return <ViewFile path={'fileLessonPDF'} name={row.lesson_pdf}/>
+      return <ViewFile path='fileLessonPDF' name={row.lesson_pdf}/>
     },
   },
   {

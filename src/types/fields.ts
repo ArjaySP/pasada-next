@@ -1,51 +1,51 @@
-interface FormItem {
+interface FieldItem {
   label: string
   placeholder?: string
   span?: number
 }
 
-interface FormAutocomplete extends FormItem {
+interface FieldAutocomplete extends FieldItem {
   type: 'autocomplete'
   options: string[]
 }
 
-interface FormDate extends FormItem {
+interface FieldDate extends FieldItem {
   type: 'date'
 }
 
-interface FormDropdown extends FormItem {
+interface FieldDropdown extends FieldItem {
   type: 'dropdown'
   options: { label: string; value: string }[]
 }
 
-interface FormFile extends FormItem {
+interface FieldFile extends FieldItem {
   type: 'file'
   accept: string
 }
 
-interface FormInput extends FormItem {
+interface FieldInput extends FieldItem {
   type: 'input'
 }
 
-interface FormNumber extends FormItem {
+interface FieldNumber extends FieldItem {
   type: 'number'
   suffix?: string
 }
 
-interface FormPassword extends FormItem {
+interface FieldPassword extends FieldItem {
   type: 'password'
 }
 
-interface FormQuill extends FormItem {
+interface FieldQuill extends FieldItem {
   type: 'quill'
 }
 
-interface FormRadio extends FormItem {
+interface FieldRadio extends Omit<FieldItem, 'placeholder'> {
   type: 'radio'
   options: { label: string; value: string | number }[]
 }
 
-interface FormSelect extends FormItem {
+interface FieldSelect extends FieldItem {
   type: 'select'
   queries: {
     all: string
@@ -54,7 +54,7 @@ interface FormSelect extends FormItem {
   format: (object: Record<string, string>) => string
 }
 
-interface FormSelectUser extends FormItem {
+interface FieldSelectUser extends FieldItem {
   type: 'select-user'
   queries: {
     all: string
@@ -62,16 +62,16 @@ interface FormSelectUser extends FormItem {
   }
 }
 
-interface FormTextarea extends FormItem {
+interface FieldTextarea extends FieldItem {
   type: 'textarea'
 }
 
-interface FormTime extends FormItem {
+interface FieldTime extends FieldItem {
   type: 'time'
 }
 
 type Path = string
-type FormFieldTypes = (FormAutocomplete | FormDate | FormDropdown | FormFile | FormInput | FormNumber | FormPassword | FormSelect | FormRadio | FormQuill | FormSelectUser | FormTextarea | FormTime)
+type FormFieldTypes = (FieldAutocomplete | FieldDate | FieldDropdown | FieldFile | FieldInput | FieldNumber | FieldPassword | FieldSelect | FieldRadio | FieldQuill | FieldSelectUser | FieldTextarea | FieldTime)
 
 export interface FormFields {
   [path: Path]: FormFieldTypes

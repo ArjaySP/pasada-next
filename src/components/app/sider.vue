@@ -18,13 +18,15 @@ import Incentive from '~icons/ion/StarOutline'
 import Reminders from '~icons/ion/NotificationsOutline'
 import Webinars from '~icons/ion/VideocamOutline'
 import Reports from '~icons/ion/FileTrayFullOutline'
+import Summary from '~icons/ion/NewspaperOutline'
 import Complaints from '~icons/ion/ReaderOutline'
 import Violations from '~icons/ion/WarningOutline'
 import Accidents from '~icons/ion/FlameOutline'
-import authState from '@/utils/authState'
-import { isAdmin } from '@/utils/userState'
+import { useAuth } from '@/utils/auth'
 
 const isCollapsed = useLocalStorage('isCollapsed', false)
+const router = useRouter()
+const auth = useAuth()
 
 const renderLabel = (label: string, to: string) => () => h(RouterLink, { to }, () => label)
 const renderIcon = (icon: Component) => () => h(icon)
@@ -41,7 +43,7 @@ const menu: MenuOption[] = [
     icon: renderIcon(Analytics),
   },
   {
-    label: 'Learning',
+    label: 'Learning Content',
     key: 'learning',
     icon: renderIcon(Learning),
     children: [
@@ -81,31 +83,35 @@ const menu: MenuOption[] = [
         label: renderLabel('Organizations', '/organizations'),
         key: 'organizations',
         icon: renderIcon(Organizations),
-        show: isAdmin(),
+        show: auth.isAdmin,
       },
       {
         label: renderLabel('Members', '/members'),
         key: 'members',
         icon: renderIcon(Organizations),
-        show: !isAdmin(),
+        show: !auth.isAdmin,
       },
       {
         label: renderLabel('Drivers', '/drivers'),
         key: 'drivers',
         icon: renderIcon(Driver),
-      }, {
+      },
+      {
         label: renderLabel('Vehicles', '/vehicles'),
         key: 'vehicles',
         icon: renderIcon(Vehicle),
-      }, {
+      },
+      {
         label: renderLabel('Incentives', '/incentives'),
         key: 'incentives',
         icon: renderIcon(Incentive),
-      }, {
+      },
+      {
         label: renderLabel('Reminders', '/reminders'),
         key: 'reminders',
         icon: renderIcon(Reminders),
-      }, {
+      },
+      {
         label: renderLabel('Webinars', '/webinars'),
         key: 'webinars',
         icon: renderIcon(Webinars),
@@ -118,14 +124,21 @@ const menu: MenuOption[] = [
     icon: renderIcon(Reports),
     children: [
       {
+        label: renderLabel('Summary', '/summary'),
+        key: 'summary',
+        icon: renderIcon(Summary),
+      },
+      {
         label: renderLabel('Complaints', '/complaints'),
         key: 'complaints',
         icon: renderIcon(Complaints),
-      }, {
+      },
+      {
         label: renderLabel('Violations', '/violations'),
         key: 'violations',
         icon: renderIcon(Violations),
-      }, {
+      },
+      {
         label: renderLabel('Accidents', '/accidents'),
         key: 'accidents',
         icon: renderIcon(Accidents),
@@ -136,18 +149,18 @@ const menu: MenuOption[] = [
     key: 'divider',
     type: 'divider',
   },
-  {
-    label: renderLabel('Login', '/login'),
-    key: 'login',
-  },
+  // {
+  //   label: renderLabel('Login', '/login'),
+  //   key: 'login',
+  // },
   {
     label: () => h('div', {
       onClick: () => {
-        authState.value!.access_level = authState.value?.access_level === 1 ? 3 : 1
-        window.location.reload()
+        auth.credentials = undefined
+        router.push('/login')
       },
-    }, `Change access level (${authState.value?.access_level})`),
-    key: 'access-level',
+    }, 'Logout'),
+    key: 'logout',
   },
 ]
 </script>

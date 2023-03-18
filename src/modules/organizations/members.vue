@@ -1,8 +1,11 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormRules } from 'naive-ui'
-import { NAvatar, NTag } from 'naive-ui'
+import { NTag } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
-import authState from '@/utils/authState'
+import { useAuth } from '@/utils/auth'
+import TableFieldUser from '@/components/table/field-user.vue'
+
+const auth = useAuth()
 
 const columns: DataTableColumns = [
   {
@@ -12,7 +15,7 @@ const columns: DataTableColumns = [
       return (`${rowA.fname} ${rowA.lname}`).localeCompare(`${rowB.fname} ${rowB.lname}`)
     },
     render(row) {
-      return <div class="flex items-center gap-3"><NAvatar round src={`${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/${row.user_image}`} size={32} fallbackSrc='/images/default.svg'/><div>{row.fname} {row.lname}</div></div>
+      return <TableFieldUser fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
     },
   },
   {
@@ -81,7 +84,7 @@ const fields = computed<FormFields>(() => {
               label: 'Driver',
             },
           ].reduce((acc, option) => {
-            if (option.value > authState.value!.access_level!)
+            if (option.value > auth.credentials!.access_level)
               acc.push(option)
 
             return acc

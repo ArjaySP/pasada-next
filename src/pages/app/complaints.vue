@@ -1,10 +1,10 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormRules } from 'naive-ui'
-import { NAvatar } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
+import TableFieldUser from '@/components/table/field-user.vue'
 
 definePage({
-  name: '',
+  name: 'Complaints',
 })
 
 const columns: DataTableColumns = [
@@ -12,7 +12,10 @@ const columns: DataTableColumns = [
     title: 'Driver',
     key: 'driver_name',
     render(row) {
-      return <div class="flex items-center gap-3"><NAvatar round src={`${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/${row.user_image}`} size={32} fallbackSrc='/images/default.svg'/><div>{row.driver_fname} {row.driver_lname}</div></div>
+      return <TableFieldUser fname={row.driver_fname} lname={row.driver_lname} user_image={row.user_image}></TableFieldUser>
+    },
+    sorter(rowA, rowB) {
+      return (`${rowA.driver_fname} ${rowA.driver_lname}`).localeCompare(`${rowB.driver_fname} ${rowB.driver_lname}`)
     },
   },
   {
@@ -24,7 +27,6 @@ const columns: DataTableColumns = [
     title: 'Complaint',
     key: 'complaint_subject',
     sorter: 'default',
-
   },
   {
     title: 'Date',
@@ -56,19 +58,21 @@ const fields: FormFields = {
     type: 'autocomplete',
     label: 'Subject',
     placeholder: 'Enter subject (specify if others)',
-    options: ['Contracting Passenger',
+    options: [
+      'Contracting Passenger',
       'Overcharging of Fare/Undercharging',
       'Arrogant/Discourteous Driver',
       'Hit and Run',
       'Threatening Passenger',
       'Reckless Driving',
       'Discriminating Against Passenger',
-      'Refusal to Grant Senior/Student/PWD Discount'],
+      'Refusal to Grant Senior/Student/PWD Discount',
+    ],
   },
   complaint_description: {
     type: 'textarea',
     label: 'Description',
-    placeholder: 'Type description here...',
+    placeholder: 'e.g. "Overspeeding on Main Road"',
   },
   complainant_name: {
     type: 'input',

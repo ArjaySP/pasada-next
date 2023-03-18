@@ -1,8 +1,9 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormRules } from 'naive-ui'
-import { NAvatar } from 'naive-ui'
+import { NButton } from 'naive-ui'
+import { RouterLink } from 'vue-router'
 import type { FormFields, Queries } from '@/types'
-import formState from '@/utils/formState'
+import TableFieldUser from '@/components/table/field-user.vue'
 
 definePage({
   name: 'Drivers',
@@ -16,13 +17,23 @@ const columns: DataTableColumns = [
       return (`${rowA.fname} ${rowA.lname}`).localeCompare(`${rowB.fname} ${rowB.lname}`)
     },
     render(row) {
-      return <div class="flex items-center gap-3"><NAvatar round src={`${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/${row.user_image}`} size={32} fallbackSrc='/images/default.svg'/><div>{row.fname} {row.lname}</div></div>
+      return <TableFieldUser fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
     },
   },
   {
     title: 'Email',
     key: 'email',
     sorter: 'default',
+  },
+  {
+    title: 'Profile',
+    key: 'profile',
+    render(row) {
+      return <RouterLink to={{ name: 'driver-profile', params: { id: row.id as number } }}
+                         target="_blank" as="template">
+          <NButton type="primary">Open</NButton>
+      </RouterLink>
+    },
   },
 ]
 
@@ -51,21 +62,16 @@ const fields: FormFields = {
     placeholder: 'Select birthday...',
     span: 12,
   },
-  mobile_number: {
-    type: 'number',
-    label: 'Mobile number',
-    placeholder: 'e.g. "639123456789"',
-    span: 12,
-  },
   email: {
     type: 'input',
     label: 'Email',
     placeholder: 'e.g. "juandelacruz@gmail.com"',
     span: 12,
   },
-  password: {
-    type: 'password',
-    label: 'Password',
+  mobile_number: {
+    type: 'number',
+    label: 'Mobile number',
+    placeholder: 'e.g. "639123456789"',
     span: 12,
   },
 }
@@ -88,14 +94,7 @@ const rules: FormRules = {
   email: {
     required: true,
   },
-  password: {
-    required: true,
-  },
 }
-
-watch(formState, () => {
-  formState.value.password_confirmed = formState.value.password
-}, { deep: true })
 
 const queries: Queries = {
   all: 'userManagement',

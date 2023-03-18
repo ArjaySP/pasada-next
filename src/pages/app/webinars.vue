@@ -33,7 +33,7 @@ const columns: DataTableColumns = [
     title: 'Image',
     key: 'lesson_image',
     render(row) {
-      return <ViewImage path={'fileWebinarImage'} name={row.web_banner_profile}>
+      return <ViewImage path='fileWebinarImage' name={row.web_banner_profile}>
       </ViewImage>
     },
   },

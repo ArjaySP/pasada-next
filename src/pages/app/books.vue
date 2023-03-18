@@ -34,7 +34,7 @@ const columns: DataTableColumns = [
     title: 'Image',
     key: 'book_image',
     render(row) {
-      return <ViewImage path={'filePDFBookImage'} name={row.book_image}>
+      return <ViewImage path='filePDFBookImage' name={row.book_image}>
       </ViewImage>
     },
   },

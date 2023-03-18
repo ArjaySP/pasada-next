@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import userState from '@/utils/userState'
+import { useAuth } from '@/utils/auth'
+
+const auth = useAuth()
+
+definePage({
+  name: 'Members',
+})
 </script>
 
 <template>
-  <organizations-members :foreign-key-value="userState.organization_id" />
+  <organizations-members :foreign-key-value="auth.user.organization_id" />
 </template>
