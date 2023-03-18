@@ -8,9 +8,7 @@ const columns: DataTableColumns = [
     title: 'Content',
     key: 'option',
     render(row) {
-      return <>
-        <div class="max-w-xs line-clamp-6" innerHTML={(row.option as string)} />
-      </>
+      return <div class="prose" innerHTML={(row.option as string)} />
     },
   },
   {

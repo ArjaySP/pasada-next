@@ -2,6 +2,7 @@
 import type { DataTableColumns, FormRules } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 import TableFieldUser from '@/components/table/field-user.vue'
+import formState from '@/utils/formState'
 
 definePage({
   name: 'Complaints',
@@ -155,13 +156,17 @@ const rules: FormRules = {
   complainant_contact_num: {
     type: 'number',
     required: true,
-    validator: (_, value) => /^639\d{9}$/.test(value),
+    validator: (_, value) => /^639\d{9}$/.test(value) || new Error('Invalid format'),
   },
   date_happened: {
     required: true,
   },
   time_happened: {
     required: true,
+    validator: (_, value) => {
+      const input = dayjs(`${formState.value.date_happened} ${value}`, 'MM-DD-YYYY HH:mm:ss')
+      return !input.isAfter(dayjs()) || new Error('Time must be before current time')
+    },
   },
 }
 

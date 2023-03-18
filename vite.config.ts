@@ -52,6 +52,9 @@ export default defineConfig({
           'vue-request': [
             'useRequest',
           ],
+          'dayjs': [
+            ['default', 'dayjs'],
+          ],
         },
       ],
       vueTemplate: true,

@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormInst, FormRules, UploadFileInfo } from 'naive-ui'
 import { NButton, NPopconfirm } from 'naive-ui'
-import form from '@/utils/form'
+import formState from '@/utils/formState'
 import { useAuth } from '@/utils/auth'
 import type { FormFields, Queries } from '@/types'
 import { validateMessages } from '@/utils/config'
@@ -49,8 +49,8 @@ const { data, error, loading, run: refresh } = useRequest(
 // POST method
 const { loading: postLoading, run: postRun } = useRequest(
   () => {
-    const { id } = form.value
-    const data = { ...form.value }
+    const { id } = formState.value
+    const data = { ...formState.value }
     data.created_by ??= auth.credentials!.id
     if (id) {
       data._method = 'PUT'
@@ -116,7 +116,7 @@ const columns: DataTableColumns = [
             if (value == null)
               delete row[key]
           })
-          form.value = row
+          formState.value = row
           modal.mode = 'Edit'
           modal.show = true
         }}>
@@ -151,11 +151,11 @@ if (auth.isAdmin && props.queries.organization) {
 function handleNew() {
   emit('update:mode', 'Add')
   modal.mode = 'Add'
-  form.value = {}
+  formState.value = {}
   modal.show = true
-  form.value.organization_id = auth.isAdmin ? 1 : auth.user!.organization_id
+  formState.value.organization_id = auth.isAdmin ? 1 : auth.user!.organization_id
   if (props.foreignKey)
-    form.value[props.foreignKey] = props.foreignKeyValue
+    formState.value[props.foreignKey] = props.foreignKeyValue
 }
 
 const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) => {
@@ -179,7 +179,7 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
   <app-modal
     v-model:show="modal.show" :title="`${modal.mode} ${name}`"
   >
-    <n-form ref="formRef" :model="form" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
+    <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
       <form-master
         v-if="auth.isAdmin && queries.hasOrganizationField" :fields="
           {
