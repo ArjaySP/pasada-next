@@ -28,15 +28,15 @@ export const useAuth = defineStore('auth', () => {
 
   const user = ref<Record<string, string | number> | undefined>()
 
-  watch(credentials, () => {
-    localStorage.setItem('credentials', JSON.stringify(credentials.value))
-  }, { deep: true })
-
   async function getUser() {
     const res = await axios.get(`/userManagement/${credentials.value!.id}`)
     user.value = res.data.results[0]
     return user.value
   }
+
+  watch(credentials, () => {
+    localStorage.setItem('credentials', JSON.stringify(credentials.value))
+  }, { deep: true })
 
   return { credentials, isAdmin, user, getUser }
 })

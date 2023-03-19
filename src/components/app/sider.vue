@@ -21,7 +21,7 @@ import Reports from '~icons/ion/FileTrayFullOutline'
 import Summary from '~icons/ion/NewspaperOutline'
 import Complaints from '~icons/ion/ReaderOutline'
 import Violations from '~icons/ion/WarningOutline'
-import Accidents from '~icons/ion/FlameOutline'
+import Accidents from '~icons/ion/MedkitOutline'
 import { useAuth } from '@/utils/auth'
 
 const isCollapsed = useLocalStorage('isCollapsed', false)

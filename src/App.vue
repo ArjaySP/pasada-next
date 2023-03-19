@@ -5,12 +5,13 @@ const auth = useAuth()
 const message = useMessage()
 
 axios.defaults.baseURL = `${import.meta.env.VITE_BACKEND_URL}/api`
-auth.$subscribe((mutation, state) => {
-  if (!state.credentials)
+watch(auth.credentials, (value) => {
+  const { token } = value
+  if (!token)
     return
-  const { token } = state.credentials
-  if (token)
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`
+  auth.getUser()
 }, { immediate: true })
 
 axios.interceptors.response.use(

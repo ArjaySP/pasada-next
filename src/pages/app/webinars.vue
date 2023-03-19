@@ -1,9 +1,10 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormRules } from 'naive-ui'
-import { NSpace, NText } from 'naive-ui'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import type { FormFields, Queries } from '@/types'
 import ViewImage from '@/components/button/view-image.vue'
-import formState from '@/utils/formState'
+
+dayjs.extend(customParseFormat)
 
 definePage({
   name: 'Webinars',
@@ -24,10 +25,10 @@ const columns: DataTableColumns = [
     title: 'Schedule',
     key: 'web_start_date',
     render(row) {
-      return <NSpace vertical size="small">
-        <NText>Start: {row.web_start_date} {row.web_start_time}</NText>
-        <NText>End: {row.web_end_date} {row.web_end_time}</NText>
-      </NSpace>
+      if (row.web_start_date === row.web_end_date)
+        return <div>{row.web_start_date} {dayjs(row.web_start_time, 'HH:mm:ss').format('h:mm A')} - {dayjs(row.web_end_time, 'HH:mm:ss').format('h:mm A')}</div>
+
+      else return <div>{row.web_start_date} {dayjs(row.web_start_time, 'HH:mm:ss').format('h:mm A')} - {row.web_end_date} {dayjs(row.web_end_time, 'HH:mm:ss').format('h:mm A')}</div>
     },
   },
   {
@@ -105,11 +106,11 @@ const rules: FormRules = {
   },
   web_end_time: {
     required: true,
-    validator: (_, value) => {
-      const start = dayjs(`${formState.value.web_start_date} ${formState.value.web_start_time}`, 'MM-DD-YYYY HH:mm:ss')
-      const end = dayjs(`${formState.value.web_end_date} ${value}`, 'MM-DD-YYYY HH:mm:ss')
-      return end.isAfter(start) || new Error('End date & time must be after start.')
-    },
+    // validator: (_, value) => {
+    //   const start = dayjs(`${formState.value.web_start_date} ${formState.value.web_start_time}`, 'MM-DD-YYYY HH:mm:ss')
+    //   const end = dayjs(`${formState.value.web_end_date} ${value}`, 'MM-DD-YYYY HH:mm:ss')
+    //   return end.isAfter(start) || new Error('End date & time must be after start.')
+    // },
   },
 }
 

@@ -51,17 +51,17 @@ const { loading: postLoading, run: postRun } = useRequest(
   () => {
     const { id } = formState.value
     const data = { ...formState.value }
-    data.created_by ??= auth.credentials!.id
+    data.created_by ??= auth.credentials.id
     if (id) {
       data._method = 'PUT'
-      data.updated_by = auth.credentials!.id
+      data.updated_by = auth.credentials.id
       delete data.id
     }
 
     const formData = new FormData()
     Object.entries(data).forEach(([key, value]) => {
       value ??= ''
-      if (props.fields[key].type === 'file') {
+      if (props.fields[key]?.type === 'file') {
         const file = (value as UploadFileInfo[])[0].file!
         formData.append(key, file)
       }
@@ -164,47 +164,49 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
 </script>
 
 <template>
-  <table-base v-if="!error" :loading="loading" v-bind="{ columns, data }">
-    <template #actions>
-      <NButton type="primary" @click="handleNew()">
-        <template #icon>
-          <i-plus />
-        </template>
-        Add {{ name }}
-      </NButton>
-    </template>
-  </table-base>
-  <app-error v-else v-bind="{ loading }" @refresh="refresh" />
-
-  <app-modal
-    v-model:show="modal.show" :title="`${modal.mode} ${name}`"
-  >
-    <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
-      <form-master
-        v-if="auth.isAdmin && queries.hasOrganizationField" :fields="
-          {
-            organization_id: {
-              type: 'select',
-              label: 'Organization',
-              queries: { all: 'organization' },
-              format: org => org.org_title,
-            },
-          }"
-      />
-      <slot name="fields" :mode="modal.mode">
-        <form-master v-bind="{ fields }" />
-      </slot>
-    </n-form>
-
-    <template #footer>
-      <NSpace justify="end">
-        <NButton @click="modal.show = false">
-          Cancel
+  <div>
+    <table-base v-if="!error" :loading="loading" v-bind="{ columns, data }">
+      <template #actions>
+        <NButton type="primary" @click="handleNew()">
+          <template #icon>
+            <i-plus />
+          </template>
+          Add {{ name }}
         </NButton>
-        <NButton type="primary" :loading="postLoading" @click="handlePost()">
-          Save
-        </NButton>
-      </NSpace>
-    </template>
-  </app-modal>
+      </template>
+    </table-base>
+    <app-error v-else v-bind="{ loading }" @refresh="refresh" />
+
+    <app-modal
+      v-model:show="modal.show" :title="`${modal.mode} ${name}`"
+    >
+      <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
+        <form-master
+          v-if="auth.isAdmin && queries.hasOrganizationField" :fields="
+            {
+              organization_id: {
+                type: 'select',
+                label: 'Organization',
+                queries: { all: 'organization' },
+                format: org => org.org_title,
+              },
+            }"
+        />
+        <slot name="fields" :mode="modal.mode">
+          <form-master v-bind="{ fields }" />
+        </slot>
+      </n-form>
+
+      <template #footer>
+        <NSpace justify="end">
+          <NButton @click="modal.show = false">
+            Cancel
+          </NButton>
+          <NButton type="primary" :loading="postLoading" @click="handlePost()">
+            Save
+          </NButton>
+        </NSpace>
+      </template>
+    </app-modal>
+  </div>
 </template>
