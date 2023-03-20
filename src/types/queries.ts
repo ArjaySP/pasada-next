@@ -3,5 +3,6 @@ export interface Queries {
   organization?: string
   hasOrganizationField?: boolean
   get?: string
-  edit?: string
+  edit?: false
+  delete?: string | false
 }

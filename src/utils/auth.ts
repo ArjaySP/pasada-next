@@ -9,17 +9,17 @@ interface Credentials {
 function loadCredentials() {
   const credentials = localStorage.getItem('credentials')
   try {
-    if (credentials)
-      return JSON.parse(credentials)
+    return JSON.parse(credentials!) as Credentials
   }
   catch (e) {
     localStorage.removeItem('credentials')
-    return undefined
   }
+  return null
 }
 
 export const useAuth = defineStore('auth', () => {
-  const credentials = ref<Credentials>(loadCredentials())
+  const credentials = ref<Credentials | null>(loadCredentials())
+
   const isAdmin = computed(() => {
     if (credentials.value)
       return credentials.value.access_level <= 2
@@ -34,9 +34,19 @@ export const useAuth = defineStore('auth', () => {
     return user.value
   }
 
-  watch(credentials, () => {
-    localStorage.setItem('credentials', JSON.stringify(credentials.value))
-  }, { deep: true })
+  async function logout() {
+    credentials.value = null
+    localStorage.removeItem('credentials')
+  }
 
-  return { credentials, isAdmin, user, getUser }
+  watch(credentials, (value) => {
+    if (!value)
+      return
+    const { token } = value
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`
+    getUser()
+    localStorage.setItem('credentials', JSON.stringify(value))
+  }, { deep: true, immediate: true })
+
+  return { credentials, isAdmin, user, getUser, logout }
 })

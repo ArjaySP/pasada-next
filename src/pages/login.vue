@@ -30,7 +30,7 @@ const { loading, run } = useRequest(() => axios.post('/login', formState.value),
       router.push('/dashboard')
     }
     else {
-      alertMessage.value = 'Incorrect email or password.'
+      alertMessage.value = res.data.message === 'Login error!' ? 'Incorrect email or password.' : res.data.message
     }
   },
 })
@@ -61,7 +61,7 @@ const validate = () => {
             <n-input v-model:value="formState.password" type="password" show-password-on="click" placeholder="" />
           </n-form-item>
         </n-form>
-        <n-button v-bind="{ loading }" class="!mt-6" block type="primary" @click="validate">
+        <n-button v-bind="{ loading }" attr-type="submit" class="!mt-6" block type="primary" @click="validate">
           Log in
         </n-button>
       </n-card>

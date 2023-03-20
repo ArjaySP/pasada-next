@@ -262,5 +262,9 @@ const queries: Queries = {
 </script>
 
 <template>
+  <n-button bordered>
+    Download PDF
+  </n-button>
+
   <table-crud v-bind="{ columns, fields, rules, queries }" name="accident" />
 </template>

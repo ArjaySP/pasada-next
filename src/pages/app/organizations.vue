@@ -32,7 +32,7 @@ const columns: DataTableColumns = [
       return <NButton type="primary" onClick={() => {
         members.show = true
         members.foreignKeyValue = row.id as number
-      }}>Open</NButton>
+      }}>Members</NButton>
     },
   },
 ]

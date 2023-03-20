@@ -32,9 +32,10 @@ const rules: FormRules = {
 
 const queries: Queries = {
   all: 'attachmentByViolationID',
+  edit: false,
 }
 </script>
 
 <template>
-  <table-crud v-bind="{ columns, fields, rules, queries }" name="Attachments" foreign-key="violations_id" />
+  <table-crud v-bind="{ columns, fields, rules, queries }" name="attachment" foreign-key="violations_id" />
 </template>

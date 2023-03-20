@@ -3,21 +3,17 @@ import { useAuth } from '@/utils/auth'
 
 const auth = useAuth()
 const message = useMessage()
-
-axios.defaults.baseURL = `${import.meta.env.VITE_BACKEND_URL}/api`
-watch(auth.credentials, (value) => {
-  const { token } = value
-  if (!token)
-    return
-
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`
-  auth.getUser()
-}, { immediate: true })
+const router = useRouter()
 
 axios.interceptors.response.use(
   response => response,
   (error) => {
     switch (error.response.status) {
+      case 401:
+        message.error('Unauthorized')
+        auth.logout()
+        router.push('/login')
+        break
       case 413:
         message.error('File too large')
         break

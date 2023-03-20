@@ -156,7 +156,7 @@ const menu: MenuOption[] = [
   {
     label: () => h('div', {
       onClick: () => {
-        auth.credentials = undefined
+        auth.logout()
         router.push('/login')
       },
     }, 'Logout'),

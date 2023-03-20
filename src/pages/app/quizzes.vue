@@ -52,8 +52,8 @@ const columns: DataTableColumns = [
     key: 'total_points',
     render(row) {
       return <NSpace vertical size="small">
-        <NText>Total: {row.total_points}</NText>
-        <NText>Passing: {row.passing_grade}</NText>
+        <div>Total: {row.total_points}</div>
+        <div>Passing: {row.passing_grade}</div>
       </NSpace>
     },
     sorter(rowA, rowB) {
@@ -73,7 +73,7 @@ const columns: DataTableColumns = [
       return <NButton type="primary" onClick={() => {
         questions.show = true
         questions.foreignKeyValue = row.id as number
-      }}>Open</NButton>
+      }}>Questions</NButton>
     },
   },
   {
@@ -83,7 +83,7 @@ const columns: DataTableColumns = [
       return <NButton type="primary" onClick={() => {
         statistics.show = true
         statistics.foreignKeyValue = row.id as number
-      }}>Open</NButton>
+      }}>Statistics</NButton>
     },
   },
 ]

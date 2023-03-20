@@ -51,7 +51,7 @@ const columns: DataTableColumns = [
       return <NButton type="primary" onClick={() => {
         translations.show = true
         translations.foreignKeyValue = row.id as number
-      }}>Open</NButton>
+      }}>Translations</NButton>
     },
   },
   {
@@ -61,7 +61,7 @@ const columns: DataTableColumns = [
       return <NButton type="primary" onClick={() => {
         videos.show = true
         videos.foreignKeyValue = row.id as number
-      }}>Open</NButton>
+      }}>Videos</NButton>
     },
   },
 ]

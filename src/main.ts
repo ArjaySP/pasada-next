@@ -9,6 +9,8 @@ const meta = document.createElement('meta')
 meta.name = 'naive-ui-style'
 document.head.appendChild(meta)
 
+axios.defaults.baseURL = `${import.meta.env.VITE_BACKEND_URL}/api`
+
 const pinia = createPinia()
 const app = createApp(Providers)
 app.use(pinia)

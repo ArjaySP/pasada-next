@@ -24,6 +24,9 @@ const columns: DataTableColumns = [
     title: 'Email',
     key: 'email',
     sorter: 'default',
+    render(row) {
+      return JSON.stringify(row)
+    },
   },
   {
     title: 'Profile',
@@ -103,6 +106,7 @@ const queries: Queries = {
   all: 'userManagement',
   organization: 'getAllUsersOrganization',
   get: 'getAllAccounts',
+  delete: false,
 }
 </script>
 

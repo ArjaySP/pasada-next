@@ -2,26 +2,44 @@
 import { NTag } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
 import TableFieldUser from '@/components/table/field-user.vue'
+import { useAuth } from '@/utils/auth'
 
 const props = defineProps<{
   foreignKeyValue: number
 }>()
-
-const { data, loading, error } = useRequest(async () => {
-  const res = await Promise.all([
-    axios.get(`/getQuizRankingByQuizID/${props.foreignKeyValue}`),
-    axios.get(`/getTopFailedQuestionsByQuizID/${props.foreignKeyValue}`)],
-  )
+const auth = useAuth()
+const { data, loading, error, refresh } = useRequest(async () => {
+  let queries
+  if (auth.isAdmin) {
+    queries = [
+      axios.get(`/getQuizRankingByQuizID/${props.foreignKeyValue}`),
+      axios.get(`/getTopFailedQuestionsByQuizID/${props.foreignKeyValue}`),
+    ]
+  }
+  else {
+    queries = [
+      axios.get(`/getQuizRankingByQuizIDOrganization/${props.foreignKeyValue}`),
+      axios.get(`/getTopFailedQuestionsByQuizID/${props.foreignKeyValue}`),
+    ]
+  }
+  const res = await Promise.all(queries)
+  const ranking = res[0].data.results
+  const statistics = {
+    attempts: 0,
+    average: 0,
+    total: ranking[0]?.total_points || 0,
+    passingRate: 0,
+  }
+  statistics.attempts = ranking.reduce((acc: number, cur: { attempts: number }) => acc + cur.attempts, 0)
+  statistics.average = Math.round(ranking.reduce((acc: number, cur: { average_score: number; attempts: number }) => acc + cur.average_score * cur.attempts, 0)
+      / statistics.attempts)
+  statistics.passingRate = Math.round(ranking.reduce((acc: number, cur: { status: string }) => acc + (cur.status === 'passed' ? 1 : 0), 0)
+      / ranking.length * 100)
   return {
-    ranking: res[0].data.results,
+    statistics,
+    ranking,
     topFailed: res[1].data.results,
   }
-},
-{
-  initialData: {
-    ranking: [],
-    topFailed: [],
-  },
 })
 
 const rankingColumns: DataTableColumns = [
@@ -99,12 +117,50 @@ const topFailedColumns: DataTableColumns = [
 </script>
 
 <template>
-  <n-tabs size="large" type="line">
-    <n-tab-pane name="ranking" tab="Ranking">
-      <table-base :data="data.ranking" :columns="rankingColumns" />
+  <n-tabs v-if="data?.ranking.length" size="large" type="line">
+    <n-tab-pane display-directive="show:lazy" name="ranking" tab="Ranking">
+      <n-space vertical>
+        <n-row gutter="8">
+          <n-col :span="8">
+            <n-card>
+              <n-statistic label="Total attempts" :value="data.statistics.attempts" />
+            </n-card>
+          </n-col>
+          <n-col :span="8">
+            <n-card>
+              <n-statistic label="Average score" :value="`${data.statistics.average}/${data.statistics.total}`" />
+            </n-card>
+          </n-col>
+          <n-col :span="8">
+            <n-card>
+              <n-statistic label="Passing rate">
+                <div class="flex items-center gap-1.5">
+                  <div>
+                    {{ data.statistics.passingRate }}%
+                  </div>
+                  <NTag class="mt-1" :type="data.statistics.passingRate >= 50 ? 'success' : 'error'">
+                    {{
+                      data.statistics.passingRate >= 50 ? 'Passed' : 'Failed'
+                    }}
+                  </NTag>
+                </div>
+              </n-statistic>
+            </n-card>
+          </n-col>
+        </n-row>
+        <table-base :data="data.ranking" :columns="rankingColumns" />
+      </n-space>
     </n-tab-pane>
-    <n-tab-pane name="topFailed" tab="Top failed questions">
+    <n-tab-pane display-directive="show:lazy" name="topFailed" tab="Top failed questions">
       <table-base :data="data.topFailed" :columns="topFailedColumns" />
+      <n-p>This data is from all organizations.</n-p>
     </n-tab-pane>
   </n-tabs>
+  <div v-else-if="loading">
+    Loading...
+  </div>
+  <app-error v-else-if="error" v-bind="{ loading }" @refresh="refresh()" />
+  <div v-else>
+    No one has taken this quiz yet.
+  </div>
 </template>

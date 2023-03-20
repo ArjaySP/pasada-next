@@ -56,7 +56,7 @@ const columns: DataTableColumns = [
       return <NButton type="primary" onClick={() => {
         attachments.show = true
         attachments.foreignKeyValue = row.id as number
-      }}>Open</NButton>
+      }}>Attachments</NButton>
     },
   },
 ]

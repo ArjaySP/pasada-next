@@ -45,7 +45,7 @@ const columns: DataTableColumns = [
       return <NButton type="primary" onClick={() => {
         pages.show = true
         pages.foreignKeyValue = row.id as number
-      }}>Open</NButton>
+      }}>Pages</NButton>
     },
   },
 ]

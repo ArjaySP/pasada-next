@@ -41,8 +41,8 @@ const { data, error, loading, run: refresh } = useRequest(
     else query = queries.all
     if (props.foreignKey)
       query += `/${props.foreignKeyValue}`
-    const results = await axios.get(`/${query}`)
-    return results.data.results
+    const res = await axios.get(`/${query}`)
+    return res.data.results
   }, { initialData: [] },
 )
 
@@ -51,10 +51,10 @@ const { loading: postLoading, run: postRun } = useRequest(
   () => {
     const { id } = formState.value
     const data = { ...formState.value }
-    data.created_by ??= auth.credentials.id
+    data.created_by ??= auth.credentials!.id
     if (id) {
       data._method = 'PUT'
-      data.updated_by = auth.credentials.id
+      data.updated_by = auth.credentials!.id
       delete data.id
     }
 
@@ -110,22 +110,26 @@ const columns: DataTableColumns = [
       if (row.role_id as number <= auth.credentials!.access_level)
         return 'No permissions'
       return <div class="flex gap-2">
-        <NButton type="primary" onClick={() => {
-          emit('update:mode', 'Edit')
-          Object.entries(row).forEach(([key, value]) => {
-            if (value == null)
-              delete row[key]
-          })
-          formState.value = row
-          modal.mode = 'Edit'
-          modal.show = true
-        }}>
-          Edit
-        </NButton>
-        <NPopconfirm positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id)}>{{
-          trigger: () => <NButton type="error">Delete</NButton>,
-          default: () => `Are you sure to delete this ${props.name}?`,
-        }}</NPopconfirm>
+        { props.queries?.edit !== false
+            && <NButton type="primary" onClick={() => {
+              emit('update:mode', 'Edit')
+              Object.entries(row).forEach(([key, value]) => {
+                if (value == null)
+                  delete row[key]
+              })
+              formState.value = row
+              modal.mode = 'Edit'
+              modal.show = true
+            }}>
+              Edit
+            </NButton>
+        }
+        { props.queries?.delete !== false
+          && <NPopconfirm positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id)}>{{
+            trigger: () => <NButton type="error">{props.queries?.delete || 'Delete'}</NButton>,
+            default: () => `Are you sure to delete this ${props.name}?`,
+          }}</NPopconfirm>
+        }
       </div>
     },
   },
@@ -137,13 +141,10 @@ if (auth.isAdmin && props.queries.organization) {
       key: 'organization',
       sorter: 'default',
       render(row: any) {
-        return 'org_title' in row
-          ? row.org_title
-          : 'organization' in row
-            ? row.organization.org_title
-            : 'organization_id' in row
-              ? row.organization_id
-              : ''
+        return row?.org_title
+            || row?.organization?.org_title
+            || row?.organization_id
+            || ''
       },
     })
 }
@@ -164,49 +165,47 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
 </script>
 
 <template>
-  <div>
-    <table-base v-if="!error" :loading="loading" v-bind="{ columns, data }">
-      <template #actions>
-        <NButton type="primary" @click="handleNew()">
-          <template #icon>
-            <i-plus />
-          </template>
-          Add {{ name }}
+  <table-base v-if="!error" :loading="loading" v-bind="{ columns, data }">
+    <template #actions>
+      <NButton type="primary" @click="handleNew()">
+        <template #icon>
+          <i-plus />
+        </template>
+        Add {{ name }}
+      </NButton>
+    </template>
+  </table-base>
+  <app-error v-else v-bind="{ loading }" @refresh="refresh()" />
+
+  <app-modal
+    v-model:show="modal.show" :title="`${modal.mode} ${name}`"
+  >
+    <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
+      <form-master
+        v-if="auth.isAdmin && queries.hasOrganizationField" :fields="
+          {
+            organization_id: {
+              type: 'select',
+              label: 'Organization',
+              queries: { all: 'organization' },
+              format: org => org.org_title,
+            },
+          }"
+      />
+      <slot name="fields" :mode="modal.mode">
+        <form-master v-bind="{ fields }" />
+      </slot>
+    </n-form>
+
+    <template #footer>
+      <NSpace justify="end">
+        <NButton @click="modal.show = false">
+          Cancel
         </NButton>
-      </template>
-    </table-base>
-    <app-error v-else v-bind="{ loading }" @refresh="refresh" />
-
-    <app-modal
-      v-model:show="modal.show" :title="`${modal.mode} ${name}`"
-    >
-      <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
-        <form-master
-          v-if="auth.isAdmin && queries.hasOrganizationField" :fields="
-            {
-              organization_id: {
-                type: 'select',
-                label: 'Organization',
-                queries: { all: 'organization' },
-                format: org => org.org_title,
-              },
-            }"
-        />
-        <slot name="fields" :mode="modal.mode">
-          <form-master v-bind="{ fields }" />
-        </slot>
-      </n-form>
-
-      <template #footer>
-        <NSpace justify="end">
-          <NButton @click="modal.show = false">
-            Cancel
-          </NButton>
-          <NButton type="primary" :loading="postLoading" @click="handlePost()">
-            Save
-          </NButton>
-        </NSpace>
-      </template>
-    </app-modal>
-  </div>
+        <NButton type="primary" :loading="postLoading" @click="handlePost()">
+          Save
+        </NButton>
+      </NSpace>
+    </template>
+  </app-modal>
 </template>

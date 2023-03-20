@@ -7,6 +7,11 @@ definePage({
   name: 'Vehicles',
 })
 
+const iot_assign = reactive({
+  show: false,
+  foreignKeyValue: 0,
+})
+
 const columns: DataTableColumns = [
   {
     type: 'expand',
@@ -47,6 +52,13 @@ const columns: DataTableColumns = [
     key: 'model_name',
     sorter: 'default',
   },
+  // {
+  //   title: 'Driver',
+  //   key: 'iot_assign',
+  //   render(row) {
+  //     return JSON.stringify(row)
+  //   },
+  // },
 ]
 
 const fields: FormFields = {
@@ -233,6 +245,7 @@ const rules: FormRules = {
 
 const queries: Queries = {
   all: 'vehicles',
+  organization: 'vehicleOrganization',
 }
 </script>
 
