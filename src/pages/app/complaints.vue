@@ -53,7 +53,7 @@ const fields: FormFields = {
     queries: {
       all: 'vehicles',
     },
-    format: vehicle => `${vehicle.plate_number} (${vehicle.manufacturer} ${vehicle.model})`,
+    format: vehicle => `${vehicle.plate_number} (${vehicle.manufacturer} ${vehicle.model_name})`,
   },
   complaint_subject: {
     type: 'autocomplete',
@@ -177,5 +177,5 @@ const queries: Queries = {
 </script>
 
 <template>
-  <table-crud v-bind="{ columns, fields, rules, queries }" name="complaint" />
+  <table-crud v-bind="{ columns, fields, rules, queries, ...$attrs }" name="complaint" />
 </template>

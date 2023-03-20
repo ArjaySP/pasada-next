@@ -1,9 +1,10 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormRules } from 'naive-ui'
-import { NButton, NPopconfirm, NTag } from 'naive-ui'
+import { NButton, NPopconfirm } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 import { useAuth } from '@/utils/auth'
 import TableFieldUser from '@/components/table/field-user.vue'
+import TableFieldRole from '@/components/table/field-role.vue'
 
 const props = defineProps<{
   foreignKeyValue: number
@@ -33,24 +34,7 @@ const columns: DataTableColumns = [
     key: 'role_id',
     sorter: 'default',
     render(row) {
-      return <NTag color={{
-        1: {
-          color: '#f9f0ff',
-          textColor: '#531dab',
-          borderColor: '#d3adf7',
-        },
-        2: {
-          color: '#e6f4ff',
-          textColor: '#0958d9',
-          borderColor: '#91caff',
-        },
-        3: {
-          color: '#e6fffb',
-          textColor: '#08979c',
-          borderColor: '#87e8de',
-        },
-        4: undefined,
-      }[row.role_id as number]}>{{ 1: 'Super Admin', 2: 'Admin', 3: 'Operator', 4: 'Driver' }[row.role_id as number]}</NTag>
+      return <TableFieldRole roleId={row.role_id} />
     },
   },
 ]

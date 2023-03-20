@@ -29,9 +29,9 @@ const columns: DataTableColumns = [
     title: 'Profile',
     key: 'profile',
     render(row) {
-      return <RouterLink to={{ name: 'driver-profile', params: { id: row.id as number } }}
+      return <RouterLink to={`/drivers/${row.id}`}
                          target="_blank" as="template">
-          <NButton type="primary">Open</NButton>
+          <NButton type="primary">Profile</NButton>
       </RouterLink>
     },
   },

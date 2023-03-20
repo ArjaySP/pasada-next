@@ -22,9 +22,14 @@ const filteredData = computed(() => {
   if (!search.value)
     return props.data
   return props.data.filter((row) => {
-    return Object.values(row).some((value) => {
-      return String(value).toLowerCase().includes(search.value.toLowerCase())
-    })
+    // Convert object values to string recursively
+    const values = Object.values(row).map((value) => {
+      if (typeof value === 'object' && value)
+        return Object.values(value).join(' ')
+
+      return value || ''
+    }).join(' ').toLowerCase()
+    return values.includes(search.value.toLowerCase())
   })
 })
 </script>

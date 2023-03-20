@@ -1,7 +1,8 @@
 <script setup lang="tsx">
-import type { DataTableColumns, FormRules } from 'naive-ui'
-import { NDescriptions, NDescriptionsItem } from 'naive-ui'
+import type { DataTableColumns, FormInst, FormRules } from 'naive-ui'
+import { NButton, NDescriptions, NDescriptionsItem } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
+import formState from '@/utils/formState'
 
 definePage({
   name: 'Vehicles',
@@ -10,6 +11,7 @@ definePage({
 const iot_assign = reactive({
   show: false,
   foreignKeyValue: 0,
+  row: undefined as any,
 })
 
 const columns: DataTableColumns = [
@@ -52,13 +54,17 @@ const columns: DataTableColumns = [
     key: 'model_name',
     sorter: 'default',
   },
-  // {
-  //   title: 'Driver',
-  //   key: 'iot_assign',
-  //   render(row) {
-  //     return JSON.stringify(row)
-  //   },
-  // },
+  {
+    title: 'Driver',
+    key: 'assign',
+    render(row) {
+      return <NButton type="primary" onClick={() => {
+        iot_assign.show = true
+        iot_assign.foreignKeyValue = row.id as number
+        iot_assign.row = row
+      }}>Attachments</NButton>
+    },
+  },
 ]
 
 const fields: FormFields = {
@@ -247,8 +253,72 @@ const queries: Queries = {
   all: 'vehicles',
   organization: 'vehicleOrganization',
 }
+
+// ======
+
+const { loading, run: assignRun } = useRequest(async () => {
+  const formData = new FormData()
+  const res = await axios.get(`/userManagement/${formState.value.driver_id}`)
+  const driver = res.data.results[0]
+  formData.append('first_name', driver.fname)
+  formData.append('last_name', driver.lname)
+  formData.append('email', driver.organization.org_title)
+  return axios.post(`http://13.229.134.213:8000/api/trucks/assignDriver/${iot_assign.row.iot_vehicle_id}`,
+    formData,
+    {
+      baseURL: '',
+    },
+  )
+}, {
+  manual: true,
+  onSuccess: data =>
+    console.log(data),
+  onError: err =>
+    console.log(err),
+})
+const formRef = ref<FormInst | null>(null)
+function handlePost() {
+  formRef.value?.validate().then(() => {
+    assignRun()
+  })
+}
+
+const iotFields: FormFields = {
+  driver_id: {
+    type: 'select-user',
+    label: 'Driver',
+    placeholder: 'Select driver...',
+    queries: {
+      all: 'getAllAccounts',
+      organization: 'getAllUsersOrganization',
+    },
+  },
+}
+
+const iotRules: FormRules = {
+  driver_id: {
+    type: 'number',
+    required: true,
+  },
+}
 </script>
 
 <template>
   <table-crud v-bind="{ columns, fields, rules, queries }" name="vehicle" />
+
+  <app-modal v-model:show="iot_assign.show" title="Assign">
+    <n-form ref="formRef" :model="formState" v-bind="{ rules: iotRules }">
+      <form-master ref="formRef" :fields="iotFields" />
+    </n-form>
+    <template #footer>
+      <NSpace justify="end">
+        <NButton @click="iot_assign.show = false">
+          Cancel
+        </NButton>
+        <NButton type="primary" :loading="loading" @click="handlePost()">
+          Save
+        </NButton>
+      </NSpace>
+    </template>
+  </app-modal>
 </template>

@@ -3,6 +3,7 @@ import type { FormInst, FormRules } from 'naive-ui'
 import formState from '@/utils/formState'
 import { useAuth } from '@/utils/auth'
 const auth = useAuth()
+const message = useMessage()
 
 const formRef = ref<FormInst | null>(null)
 const formRules: FormRules = {
@@ -27,6 +28,7 @@ const { loading, run } = useRequest(() => axios.post('/login', formState.value),
         return alertMessage.value = 'You are not authorized to access this page. Please use the PASADA mobile application instead.'
       const { token, id, access_level } = data
       auth.credentials = { token, id, access_level }
+      message.success('Login successful! Redirecting...')
       router.push('/dashboard')
     }
     else {

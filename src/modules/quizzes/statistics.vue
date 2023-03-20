@@ -117,7 +117,7 @@ const topFailedColumns: DataTableColumns = [
 </script>
 
 <template>
-  <n-tabs v-if="data?.ranking.length" size="large" type="line">
+  <n-tabs v-if="data" size="large" type="line">
     <n-tab-pane display-directive="show:lazy" name="ranking" tab="Ranking">
       <n-space vertical>
         <n-row gutter="8">

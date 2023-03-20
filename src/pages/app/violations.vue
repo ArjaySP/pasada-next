@@ -78,7 +78,7 @@ const fields: FormFields = {
     queries: {
       all: 'vehicles',
     },
-    format: vehicle => `${vehicle.plate_number} (${vehicle.manufacturer} ${vehicle.model})`,
+    format: vehicle => `${vehicle.plate_number} (${vehicle.manufacturer} ${vehicle.model_name})`,
   },
   violations_list_id: {
     type: 'select',
@@ -180,7 +180,7 @@ const queries: Queries = {
 </script>
 
 <template>
-  <table-crud v-bind="{ columns, fields, rules, queries }" name="violation" />
+  <table-crud v-bind="{ columns, fields, rules, queries, ...$attrs }" name="violation" />
 
   <app-modal v-model:show="attachments.show" title="Translations">
     <violations-attachments :foreign-key-value="attachments.foreignKeyValue" />

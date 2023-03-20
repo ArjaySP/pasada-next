@@ -245,7 +245,6 @@ const rules: FormRules = {
   },
   accident_cost: {
     type: 'number',
-    required: true,
   },
   victim_count: {
     type: 'number',
@@ -262,9 +261,5 @@ const queries: Queries = {
 </script>
 
 <template>
-  <n-button bordered>
-    Download PDF
-  </n-button>
-
-  <table-crud v-bind="{ columns, fields, rules, queries }" name="accident" />
+  <table-crud v-bind="{ columns, fields, rules, queries, ...$attrs }" name="accident" />
 </template>
