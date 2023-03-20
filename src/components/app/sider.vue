@@ -18,7 +18,6 @@ import Incentive from '~icons/ion/StarOutline'
 import Reminders from '~icons/ion/NotificationsOutline'
 import Webinars from '~icons/ion/VideocamOutline'
 import Reports from '~icons/ion/FileTrayFullOutline'
-import Summary from '~icons/ion/NewspaperOutline'
 import Complaints from '~icons/ion/ReaderOutline'
 import Violations from '~icons/ion/WarningOutline'
 import Accidents from '~icons/ion/MedkitOutline'
@@ -123,11 +122,11 @@ const menu: MenuOption[] = [
     key: 'reports',
     icon: renderIcon(Reports),
     children: [
-      {
-        label: renderLabel('Summary', '/summary'),
-        key: 'summary',
-        icon: renderIcon(Summary),
-      },
+      // {
+      //   label: renderLabel('Summary', '/summary'),
+      //   key: 'summary',
+      //   icon: renderIcon(Summary),
+      // },
       {
         label: renderLabel('Complaints', '/complaints'),
         key: 'complaints',

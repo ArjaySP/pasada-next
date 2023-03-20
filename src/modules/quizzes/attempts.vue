@@ -64,7 +64,7 @@ const { data, loading, error } = useRequest(async () => {
 
 <template>
   <div v-if="loading">
-    Loading
+    Loading...
   </div>
   <div v-else-if="data">
     <n-space vertical>
