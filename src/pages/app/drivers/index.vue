@@ -24,9 +24,6 @@ const columns: DataTableColumns = [
     title: 'Email',
     key: 'email',
     sorter: 'default',
-    render(row) {
-      return JSON.stringify(row)
-    },
   },
   {
     title: 'Profile',

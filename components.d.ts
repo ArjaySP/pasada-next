@@ -75,6 +75,7 @@ declare module '@vue/runtime-core' {
     NTab: typeof import('naive-ui')['NTab']
     NTabPane: typeof import('naive-ui')['NTabPane']
     NTabs: typeof import('naive-ui')['NTabs']
+    NThing: typeof import('naive-ui')['NThing']
     NUpload: typeof import('naive-ui')['NUpload']
     NUploadDragger: typeof import('naive-ui')['NUploadDragger']
     OrganizationsMembers: typeof import('./src/modules/organizations/members.vue')['default']
