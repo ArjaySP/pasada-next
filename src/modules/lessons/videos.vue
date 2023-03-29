@@ -2,7 +2,6 @@
 import type { DataTableColumns, FormRules } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 import ViewImage from '@/components/button/view-image.vue'
-import ViewFile from '@/components/button/view-file.vue'
 
 const columns: DataTableColumns = [
   {
@@ -21,14 +20,14 @@ const columns: DataTableColumns = [
       </ViewImage>
     },
   },
-  {
-    title: 'Video',
-    key: 'lesson_video',
-    render(row) {
-      return <ViewFile path='fileLessonVideo' name={row.lesson_video}>
-      </ViewFile>
-    },
-  },
+  // {
+  //   title: 'Video',
+  //   key: 'lesson_video',
+  //   render(row) {
+  //     return <ViewFile path='fileLessonVideo' name={row.lesson_video}>
+  //     </ViewFile>
+  //   },
+  // },
 ]
 
 const fields: FormFields = {
@@ -42,12 +41,12 @@ const fields: FormFields = {
     label: 'URL',
     placeholder: 'e.g. "https://www.youtube.com/watch?v=dQw4w9WgXcQ"',
   },
-  lesson_video: {
-    type: 'file',
-    label: 'Video',
-    accept: '.mp4',
-  },
-  thumbnail: {
+  // video: {
+  //   type: 'file',
+  //   label: 'Video',
+  //   accept: '.mp4',
+  // },
+  image: {
     type: 'file',
     label: 'Thumbnail',
     accept: '.jpg, .jpeg, .gif, .png',

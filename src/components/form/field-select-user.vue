@@ -18,6 +18,7 @@ const model = useVModel(props, 'value', emit)
 const { data, loading } = useRequest(async () => {
   const results = await axios.get(`/${props.query}`)
   return results.data.results.map(item => ({
+    label: (item.fname ? `${item.fname} ${item.lname}` : `${item.driver_fname} ${item.driver_lname}`) + item.email,
     value: item.id,
     name: item.fname ? `${item.fname} ${item.lname}` : `${item.driver_fname} ${item.driver_lname}`,
     email: item.email,
@@ -25,7 +26,6 @@ const { data, loading } = useRequest(async () => {
   }))
 })
 
-// Copy pasted from Naive UI documentation, can't care less
 const renderSingleSelectTag: SelectRenderTag = ({ option }) => {
   return h(
     'div',

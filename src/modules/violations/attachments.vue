@@ -15,7 +15,7 @@ const columns: DataTableColumns = [
 ]
 
 const fields: FormFields = {
-  violations_file: {
+  image: {
     type: 'file',
     label: 'Image',
     placeholder: 'Select image...',
@@ -26,12 +26,14 @@ const fields: FormFields = {
 
 const rules: FormRules = {
   violations_file: {
+    type: 'array',
     required: true,
   },
 }
 
 const queries: Queries = {
-  all: 'attachmentByViolationID',
+  all: 'violationAttachment',
+  get: 'attachmentByViolationID',
   edit: false,
 }
 </script>

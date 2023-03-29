@@ -30,6 +30,11 @@ const fields: FormFields = {
     label: 'Filipino translation',
     placeholder: 'e.g. "Depensibong Pagmamaneho"',
   },
+  icon: {
+    type: 'file',
+    label: 'Icon',
+    accept: '.jpg, .jpeg, .gif, .png',
+  },
 }
 
 const rules: FormRules = {

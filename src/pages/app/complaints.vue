@@ -75,7 +75,7 @@ const fields: FormFields = {
     label: 'Description',
     placeholder: 'e.g. "Overspeeding on Main Road"',
   },
-  complainant_name: {
+  complainant: {
     type: 'input',
     label: 'Complainant name',
     placeholder: 'e.g. "Juan Dela Cruz"',

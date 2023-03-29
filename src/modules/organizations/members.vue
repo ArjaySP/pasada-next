@@ -161,13 +161,15 @@ const unverifiedColumns: DataTableColumns = [
     title: 'Actions',
     key: 'actions',
     render(row) {
-      return <div class="flex gap-2"><NPopconfirm positiveButtonProps={{ type: 'primary' }} onPositiveClick={() => verifyRun(row.id as number)}>{{
-        trigger: () => <NButton type="primary">Verify</NButton>,
-        default: () => `Are you sure to verify ${row.fname} ${row.lname}?`,
-      }}</NPopconfirm><NPopconfirm positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id as number)}>{{
-        trigger: () => <NButton type="error">Delete</NButton>,
-        default: () => `Are you sure to delete ${row.fname} ${row.lname}?`,
-      }}</NPopconfirm>
+      return <div class="flex gap-2">
+        <NPopconfirm positiveButtonProps={{ type: 'primary' }} onPositiveClick={() => verifyRun(row.id as number)}>{{
+          trigger: () => <NButton type="primary">Verify</NButton>,
+          default: () => `Are you sure to verify ${row.fname} ${row.lname}?`,
+        }}</NPopconfirm>
+        <NPopconfirm positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id as number)}>{{
+          trigger: () => <NButton type="error">Delete</NButton>,
+          default: () => `Are you sure to delete ${row.fname} ${row.lname}?`,
+        }}</NPopconfirm>
       </div>
     },
   },
