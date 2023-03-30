@@ -38,9 +38,9 @@ const filteredData = computed(() => {
   <n-card title=" " segmented>
     <template #header-extra>
       <n-space size="small" class="-mb-6">
-        <n-input round v-model:value="search" placeholder="Type to search..." clearable>
+        <n-input v-model:value="search" round placeholder="Type to search..." clearable>
           <template #prefix>
-            <n-icon :component="SearchOutline"/>
+            <n-icon :component="SearchOutline" />
           </template>
         </n-input>
         <slot name="actions" />
@@ -60,7 +60,6 @@ const filteredData = computed(() => {
 
 .n-data-table .n-data-table-td {
   max-width: 240px;
-  margin-top: 60px ;
-
+  margin-top: 60px;
 }
 </style>

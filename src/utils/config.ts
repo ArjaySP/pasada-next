@@ -29,15 +29,15 @@ const themeOverrides: GlobalThemeOverrides = {
   DataTable: {
     thTextColor: '#FFFFFF',
     thColorHover: '#27407F',
-    thIconColorActive:'white',
-    borderRadius:'15px',
-    tdColor:''
+    thIconColorActive: 'white',
+    borderRadius: '15px',
+    tdColor: '',
 
   },
-  Card: {
-    color:'',
-    borderColor:'',
-  },
+  // Card: {
+  //   color: '',
+  //   borderColor: '',
+  // },
   Modal: {
 
   },
@@ -45,27 +45,26 @@ const themeOverrides: GlobalThemeOverrides = {
 
   },
   Menu: {
-    itemColorActiveCollapsed:'rgb(61,83,164)',
-    itemColorActiveCollapsedInverted:'white',
+    itemColorActiveCollapsed: 'rgb(61,83,164)',
+    itemColorActiveCollapsedInverted: 'white',
 
-    itemColorActive:'rgb(61,83,164)',
+    itemColorActive: 'rgb(61,83,164)',
     itemTextColorActive: 'white',
 
-    itemIconColorActiveHover:'white',
-    itemTextColorActiveHover:'white',
-    itemColorActiveHover:'rgb(61,83,164)',
+    itemIconColorActiveHover: 'white',
+    itemTextColorActiveHover: 'white',
+    itemColorActiveHover: 'rgb(61,83,164)',
 
     itemIconColorActive: 'white',
-    itemColorHover:'rgb(61,83,164, 0.1)',
-    itemTextColorHover:'rgb(61,83,164)',
-    itemIconColorHover:'rgb(61,83,164)',
+    itemColorHover: 'rgb(61,83,164, 0.1)',
+    itemTextColorHover: 'rgb(61,83,164)',
+    itemIconColorHover: 'rgb(61,83,164)',
 
   },
   Button: {
 
-  }
+  },
 }
-
 
 const validateMessages: FormValidateMessages = {
   required: 'This field is required',

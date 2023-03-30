@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { LineChart } from '@opd/g2plot-vue'
-import { useAuth } from '@/utils/auth'
 
 // Unideal solution but who cares at this point
 
@@ -8,7 +7,6 @@ const props = defineProps<{
   data: any
 }>()
 
-const auth = useAuth()
 const g2config = {
   theme: {
     styleSheet: {
@@ -87,7 +85,6 @@ interface ChartData {
 const chartData = ref<Array<any>>([])
 
 watch(props, () => {
-  console.log('asd')
   let complaints: Array<ChartData> = props.data.complaints
   let accidents: Array<ChartData> = props.data.accidents
   let violations: Array<ChartData> = props.data.violations

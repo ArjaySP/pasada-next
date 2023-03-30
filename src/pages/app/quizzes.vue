@@ -10,11 +10,13 @@ definePage({
 
 const questions = reactive({
   show: false,
+  title: '',
   foreignKeyValue: 0,
 })
 
 const statistics = reactive({
   show: false,
+  title: '',
   foreignKeyValue: 0,
 })
 
@@ -73,6 +75,7 @@ const columns: DataTableColumns = [
       return <NButton type="primary" onClick={() => {
         questions.show = true
         questions.foreignKeyValue = row.id as number
+        questions.title = row.quiz_title as string
       }}>Questions</NButton>
     },
   },
@@ -83,6 +86,7 @@ const columns: DataTableColumns = [
       return <NButton type="primary" onClick={() => {
         statistics.show = true
         statistics.foreignKeyValue = row.id as number
+        statistics.title = row.quiz_title as string
       }}>Statistics</NButton>
     },
   },
@@ -164,6 +168,11 @@ const rules: FormRules = {
   total_points: {
     type: 'number',
     required: true,
+    validator: (rule, value) => new Promise((resolve, reject) => {
+      if (value <= 0)
+        reject(new Error('Total points must be greater than 0'))
+      resolve()
+    }),
   },
   passing_grade: {
     type: 'number',
@@ -171,8 +180,9 @@ const rules: FormRules = {
     validator: (rule, value) => new Promise((resolve, reject) => {
       if (value > (formState.value.total_points as number))
         reject(new Error('Passing grade must be less than or equal to total points'))
-      else
-        resolve()
+      if (value <= 0)
+        reject(new Error('Passing grade must be greater than 0'))
+      resolve()
     }),
   },
 }
@@ -187,10 +197,10 @@ const queries: Queries = {
 <template>
   <table-crud v-bind="{ columns, fields, rules, queries }" name="quiz" />
 
-  <app-modal v-model:show="questions.show" title="Questions">
+  <app-modal v-model:show="questions.show" :title="`Questions: ${questions.title}`">
     <quizzes-questions :foreign-key-value="questions.foreignKeyValue" />
   </app-modal>
-  <app-modal v-model:show="statistics.show" title="Statistics">
+  <app-modal v-model:show="statistics.show" :title="`Statistics: ${statistics.title}`">
     <quizzes-statistics :foreign-key-value="statistics.foreignKeyValue" />
   </app-modal>
 </template>

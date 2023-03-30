@@ -50,11 +50,28 @@ const fields: FormFields = {
     label: 'Content',
   },
   reminder_status: {
-    type: 'checkbox',
+    type: 'radio',
     label: 'Status',
-    checkboxLabel: 'Active',
-    checkedValue: 'Active',
-    uncheckedValue: 'Inactive',
+    options: [
+      {
+        label: 'Active',
+        value: 'Active',
+      },
+      {
+        label: 'Inactive',
+        value: 'Inactive',
+      },
+    ],
+  },
+  reminder_end_date: {
+    type: 'date',
+    label: 'Start date',
+    span: 12,
+  },
+  reminder_end_time: {
+    type: 'time',
+    label: 'Start time',
+    span: 12,
   },
   image: {
     type: 'file',
@@ -71,6 +88,12 @@ const rules: FormRules = {
     required: true,
   },
   reminder_status: {
+    required: true,
+  },
+  reminder_end_date: {
+    required: true,
+  },
+  reminder_end_time: {
     required: true,
   },
 }

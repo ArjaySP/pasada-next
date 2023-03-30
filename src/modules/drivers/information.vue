@@ -149,7 +149,7 @@ const rules: FormRules = {
 const route = useRoute()
 const message = useMessage()
 
-const { loading, run } = useRequest(async (id: number) => {
+const { loading, run } = useRequest(async () => {
   const formData = new FormData()
   const data = { ...formState.value }
   data._method = 'PUT'

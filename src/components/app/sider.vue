@@ -237,7 +237,6 @@ const { loading: postLoading, run: postRun } = useRequest(
     data._method = 'PUT'
     data.updated_by = auth.credentials!.id
     data.organization_id = auth.user!.organization_id
-    console.log(data.organization_id)
     const formData = new FormData()
     Object.entries(data).forEach(([key, value]) => {
       value ??= ''
@@ -262,7 +261,6 @@ function handlePost() {
 </script>
 
 <template>
-
   <n-layout-sider
     class="h-full"
     bordered
@@ -275,14 +273,14 @@ function handlePost() {
   >
     <div>
       <img src="/images/logo.png" class="w-40 p-4" alt="PASADA icon">
-      <n-thing class="p-4" >
-        <template #avatar v-if="isCollapsed">
-            <table-field-user-collapsed v-bind="auth.user" />
-        </template>
-        <template #avatar v-if="!isCollapsed">
-            <table-field-user v-bind="auth.user" />
+
+      <n-divider class="!my-0" />
+      <n-thing class="p-4" @click="openModal()">
+        <template #avatar>
+          <table-field-user :collapsed="!isCollapsed" v-bind="auth.user" />
         </template>
       </n-thing>
+      <n-divider class="!my-0" />
 
       <n-menu
         accordion
@@ -292,41 +290,39 @@ function handlePost() {
         :value="useRoute().path.slice(1)"
       />
     </div>
-    <div class="mb-4">
-      <n-card content-style="padding: 12px;" @click="openModal()">
-        <div class="flex flex-col">
-          <n-button v-if="!isCollapsed" type="error" @click="handleLogout()" >
-            Log out
-            <template #icon>
-              <i-power-outline></i-power-outline>
-            </template>
-          </n-button>
-          <n-button v-if="isCollapsed" type="error" @click="handleLogout()" >
-            <template #icon>
-              <i-power-outline></i-power-outline>
-            </template>
-         </n-button>
-        </div>
-      </n-card>
+    <n-card content-style="padding: 12px;">
+      <div class="flex flex-col">
+        <n-button v-if="!isCollapsed" type="error" @click="handleLogout()">
+          Log out
+          <template #icon>
+            <i-power-outline />
+          </template>
+        </n-button>
+        <n-button v-if="isCollapsed" type="error" @click="handleLogout()">
+          <template #icon>
+            <i-power-outline />
+          </template>
+        </n-button>
+      </div>
+    </n-card>
 
-      <app-modal
-        v-model:show="modal" :title="auth.user?.fname || 'Edit user'"
-      >
-        <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
-          <form-master v-bind="{ fields }" />
-        </n-form>
+    <app-modal
+      v-model:show="modal" :title="auth.user?.fname || 'Edit user'"
+    >
+      <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
+        <form-master v-bind="{ fields }" />
+      </n-form>
 
-        <template #footer>
-          <NSpace justify="end" >
-            <NButton @click="modal = false">
-              Cancel
-            </NButton>
-            <NButton type="primary" :loading="postLoading" @click="handlePost()">
-              Save
-            </NButton>
-          </NSpace>
-        </template>
-      </app-modal>
-    </div>
+      <template #footer>
+        <NSpace justify="end">
+          <NButton @click="modal = false">
+            Cancel
+          </NButton>
+          <NButton type="primary" :loading="postLoading" @click="handlePost()">
+            Save
+          </NButton>
+        </NSpace>
+      </template>
+    </app-modal>
   </n-layout-sider>
 </template>

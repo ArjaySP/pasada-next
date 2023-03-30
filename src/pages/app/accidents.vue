@@ -89,7 +89,7 @@ const fields: FormFields = {
     label: 'Offense description',
     placeholder: 'e.g. "Hit and run"',
   },
-  police_station_reported: {
+  station_reported: {
     type: 'input',
     label: 'Police station reported',
     placeholder: 'e.g. "Cubao Police Station 7"',

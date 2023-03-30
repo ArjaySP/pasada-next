@@ -176,11 +176,18 @@ const fields: FormFields = {
     span: 12,
   },
   camera_fitted: {
-    type: 'checkbox',
+    type: 'radio',
     label: 'Camera fitted',
-    checkboxLabel: 'Yes',
-    checkedValue: 1,
-    uncheckedValue: 0,
+    options: [
+      {
+        label: 'No',
+        value: 0,
+      },
+      {
+        label: 'Yes',
+        value: 1,
+      },
+    ],
     span: 6,
   },
 }
@@ -244,6 +251,7 @@ const rules: FormRules = {
 const queries: Queries = {
   all: 'vehicles',
   organization: 'vehicleOrganization',
+  hasOrganizationField: true,
 }
 
 // ======

@@ -4,11 +4,6 @@ import type { FormFields, Queries } from '@/types'
 
 const columns: DataTableColumns = [
   {
-    title: '#',
-    key: 'content_chapter',
-    sorter: 'default',
-  },
-  {
     title: 'Content',
     key: 'content_main',
     render(row) {
@@ -18,11 +13,6 @@ const columns: DataTableColumns = [
 ]
 
 const fields: FormFields = {
-  content_chapter: {
-    type: 'number',
-    label: 'Page number',
-    placeholder: 'e.g. "1"',
-  },
   content_header: {
     type: 'quill',
     label: 'Header',
@@ -34,10 +24,6 @@ const fields: FormFields = {
 }
 
 const rules: FormRules = {
-  content_chapter: {
-    type: 'number',
-    required: true,
-  },
   content_header: {
     required: true,
   },

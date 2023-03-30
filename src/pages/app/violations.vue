@@ -182,7 +182,7 @@ const queries: Queries = {
 <template>
   <table-crud v-bind="{ columns, fields, rules, queries, ...$attrs }" name="violation" />
 
-  <app-modal v-model:show="attachments.show" title="Translations">
+  <app-modal v-model:show="attachments.show" title="Attachments">
     <violations-attachments :foreign-key-value="attachments.foreignKeyValue" />
   </app-modal>
 </template>

@@ -3,6 +3,7 @@ import type { DataTableColumns, FormRules } from 'naive-ui'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import type { FormFields, Queries } from '@/types'
 import ViewImage from '@/components/button/view-image.vue'
+import formState from '@/utils/formState'
 
 dayjs.extend(customParseFormat)
 
@@ -106,11 +107,11 @@ const rules: FormRules = {
   },
   web_end_time: {
     required: true,
-    // validator: (_, value) => {
-    //   const start = dayjs(`${formState.value.web_start_date} ${formState.value.web_start_time}`, 'MM-DD-YYYY HH:mm:ss')
-    //   const end = dayjs(`${formState.value.web_end_date} ${value}`, 'MM-DD-YYYY HH:mm:ss')
-    //   return end.isAfter(start) || new Error('End date & time must be after start.')
-    // },
+    validator: (_, value) => {
+      const start = dayjs(`${formState.value.web_start_date} ${formState.value.web_start_time}`, 'MM-DD-YYYY HH:mm:ss')
+      const end = dayjs(`${formState.value.web_end_date} ${value}`, 'MM-DD-YYYY HH:mm:ss')
+      return end.isAfter(start) || new Error('Webinar end must be after start.')
+    },
   },
 }
 

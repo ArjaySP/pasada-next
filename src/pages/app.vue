@@ -11,7 +11,7 @@ definePage({
   <n-layout has-sider class="h-full">
     <app-sider />
     <n-layout class="h-full">
-      <n-layout-header v-if="$route.name !== 'Analytics'" class="backdrop-blur-sm shadow-xl sticky top-0 z-50 flex h-16  items-center px-4">
+      <n-layout-header v-if="$route.name !== 'Analytics'" class="sticky top-0 z-50 flex h-16 items-center px-4  shadow-xl backdrop-blur-sm">
         <n-h2 class="!mb-0">
           {{ $route.name }}
         </n-h2>

@@ -14,11 +14,6 @@ const choices = reactive({
 
 const columns: DataTableColumns = [
   {
-    title: '#',
-    key: 'question_num',
-    sorter: 'default',
-  },
-  {
     title: 'Content',
     key: 'question_content',
     render(row) {
@@ -38,11 +33,6 @@ const columns: DataTableColumns = [
 ]
 
 const fields: FormFields = {
-  question_num: {
-    type: 'number',
-    label: 'Question number',
-    placeholder: 'e.g. "1"',
-  },
   question_content: {
     type: 'quill',
     label: 'Question content',

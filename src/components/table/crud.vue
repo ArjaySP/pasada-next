@@ -111,7 +111,7 @@ const columns: DataTableColumns = [
         return 'No permissions'
       return <n-button-group size="small" class="flex">
         { props.queries?.edit !== false
-            && <n-button round ghost type="" onClick={() => {
+            && <n-button round ghost onClick={() => {
               emit('update:mode', 'Edit')
               Object.entries(row).forEach(([key, value]) => {
                 if (value == null || props.fields[key]?.type === 'file')
@@ -126,7 +126,7 @@ const columns: DataTableColumns = [
         }
         { props.queries?.delete !== false
           && <NPopconfirm positiveButtonProps={{ type: 'warning' }} onPositiveClick={() => deleteRun(row.id)}>{{
-            trigger: () => <n-button ghost type="">{props.queries?.delete || 'Delete'}</n-button>,
+            trigger: () => <n-button ghost>{props.queries?.delete || 'Delete'}</n-button>,
             default: () => `Are you sure to delete this ${props.name}?`,
           }}</NPopconfirm>
         }
@@ -168,7 +168,7 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
   <div>
     <table-base v-if="!error" :loading="loading" v-bind="{ columns, data }">
       <template #actions>
-        <NButton round v-if="queries.create !== false" type="primary" @click="handleNew()">
+        <NButton v-if="queries.create !== false" round type="primary" @click="handleNew()">
           <template #icon>
             <i-plus />
           </template>

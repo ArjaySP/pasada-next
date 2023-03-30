@@ -207,11 +207,18 @@ const unverifiedColumns: DataTableColumns = [
                   label: 'Reason',
                 },
                 permanent_disable: {
-                  type: 'checkbox',
-                  label: 'Permanently disable user',
-                  checkboxLabel: 'Disable user',
-                  checkedValue: 1,
-                  uncheckedValue: 0,
+                  type: 'radio',
+                  label: 'Permanently disable',
+                  options: [
+                    {
+                      label: 'No',
+                      value: 0,
+                    },
+                    {
+                      label: 'Yes',
+                      value: 1,
+                    },
+                  ],
                 },
               }
               }></FormMaster>
