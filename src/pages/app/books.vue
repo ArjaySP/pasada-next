@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormRules } from 'naive-ui'
-import { NButton, NSpace, NText } from 'naive-ui'
+import { NButton } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 import ViewImage from '@/components/button/view-image.vue'
 
@@ -19,10 +19,10 @@ const columns: DataTableColumns = [
     key: 'book_title',
     sorter: 'default',
     render(row) {
-      return <NSpace vertical size="small">
-        <NText>{row.book_title}</NText>
-        <NText depth="3">{row.book_subtitle}</NText>
-      </NSpace>
+      return <div>
+        {row.book_title}
+        <div class="text-xs text-gray-500">{row.book_subtitle}</div>
+      </div>
     },
   },
   {

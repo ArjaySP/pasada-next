@@ -36,18 +36,11 @@ const fields: FormFields = {
     label: 'Filipino translation',
   },
   remarks: {
-    type: 'radio',
-    label: 'Remarks',
-    options: [
-      {
-        label: 'Correct',
-        value: 1,
-      },
-      {
-        label: 'Incorrect',
-        value: 0,
-      },
-    ],
+    type: 'checkbox',
+    label: 'Remark',
+    checkboxLabel: 'Correct answer',
+    checkedValue: 1,
+    uncheckedValue: 0,
   },
 }
 

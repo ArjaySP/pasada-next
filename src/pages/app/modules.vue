@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormRules } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
+import ViewImage from '@/components/button/view-image.vue'
 
 definePage({
   name: 'Modules',
@@ -16,6 +17,14 @@ const columns: DataTableColumns = [
     title: 'Filipino translation',
     key: 'tagalog_title',
     sorter: 'default',
+  },
+  {
+    title: 'Icon',
+    key: 'icon',
+    render(row) {
+      return <ViewImage path='fileModuleImage' name={row.icon}>
+      </ViewImage>
+    },
   },
 ]
 

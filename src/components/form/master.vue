@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { NDatePicker, NFormItem, NInput, NTimePicker } from 'naive-ui'
+import { NCheckbox, NDatePicker, NFormItem, NInput, NTimePicker } from 'naive-ui'
 import type { FormFields } from '@/types'
 import formState from '@/utils/formState'
 import FieldAutocomplete from '@/components/form/field-autocomplete.vue'
@@ -28,6 +28,8 @@ export default defineComponent({
           switch (field.type) {
             case 'autocomplete':
               return <FieldAutocomplete v-model:value={formState.value[key]} options={field.options} placeholder={field.placeholder || ''} />
+            case 'checkbox':
+              return <NCheckbox checkedValue={field.checkedValue} uncheckedValue={field.uncheckedValue} v-model:checked={formState.value[key]}>{field.checkboxLabel}</NCheckbox>
             case 'date':
               return <NDatePicker v-model:formatted-value={formState.value[key]} type="date" value-format="yyyy-MM-dd" placeholder={field.placeholder || ''} />
             case 'dropdown':

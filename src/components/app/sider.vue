@@ -8,7 +8,6 @@ import Learning from '~icons/ion/SchoolOutline'
 import Modules from '~icons/ion/BookOutline'
 import Lessons from '~icons/ion/DocumentTextOutline'
 import Quizzes from '~icons/ion/ListOutline'
-import DailyQuiz from '~icons/ion/TodayOutline'
 import Books from '~icons/ion/LibraryOutline'
 import Drivers from '~icons/ion/PeopleOutline'
 import Organizations from '~icons/ion/MedicalOutline'
@@ -32,7 +31,7 @@ const renderIcon = (icon: Component) => () => h(icon)
 
 const menu: MenuOption[] = [
   {
-    label: renderLabel('Dashboard', '/dashboard'),
+    label: renderLabel('Dashboard', '/'),
     key: 'dashboard',
     icon: renderIcon(Dashboard),
   },
@@ -61,11 +60,11 @@ const menu: MenuOption[] = [
         key: 'quizzes',
         icon: renderIcon(Quizzes),
       },
-      {
-        label: renderLabel('Daily Quiz', '/daily-quiz'),
-        key: 'daily-quiz',
-        icon: renderIcon(DailyQuiz),
-      },
+      // {
+      //   label: renderLabel('Daily Quiz', '/daily-quiz'),
+      //   key: 'daily-quiz',
+      //   icon: renderIcon(DailyQuiz),
+      // },
       {
         label: renderLabel('Books', '/books'),
         key: 'books',

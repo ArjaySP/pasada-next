@@ -5,6 +5,8 @@ import type { FormFields, Queries } from '@/types'
 import { useAuth } from '@/utils/auth'
 import TableFieldUser from '@/components/table/field-user.vue'
 import TableFieldRole from '@/components/table/field-role.vue'
+import formState from '@/utils/formState'
+import FormMaster from '@/components/form/master.vue'
 
 const props = defineProps<{
   foreignKeyValue: number
@@ -49,7 +51,7 @@ const fields = computed<FormFields>(() => {
           label: 'User',
           placeholder: 'Select user...',
           queries: {
-            all: 'getMembersByOrganizationID/1',
+            all: 'getVerifiedMembersByOrganizationID/1',
           },
         },
       }
@@ -103,6 +105,7 @@ const rules = computed<FormRules>(() => {
 const queries: Queries = {
   all: 'members',
   get: 'getVerifiedMembersByOrg',
+  create: false,
   delete: 'Remove',
 }
 
@@ -166,9 +169,26 @@ const unverifiedColumns: DataTableColumns = [
           trigger: () => <NButton type="primary">Verify</NButton>,
           default: () => `Are you sure to verify ${row.fname} ${row.lname}?`,
         }}</NPopconfirm>
-        <NPopconfirm positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id as number)}>{{
+        <NPopconfirm showIcon={false} positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id as number)}>{{
           trigger: () => <NButton type="error">Delete</NButton>,
-          default: () => `Are you sure to delete ${row.fname} ${row.lname}?`,
+          default: () =>
+          <div>
+            <n-form model={formState}>
+              <FormMaster fields={{
+                rejection_reason: {
+                  type: 'textarea',
+                  label: 'Reason',
+                },
+                permanent_disable: {
+                  type: 'checkbox',
+                  label: 'Permanent disable',
+                  checkedValue: 1,
+                  uncheckedValue: 0,
+                },
+              }
+              }></FormMaster>
+            </n-form>
+          </div>,
         }}</NPopconfirm>
       </div>
     },

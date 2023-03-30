@@ -114,7 +114,7 @@ const columns: DataTableColumns = [
             && <NButton type="primary" onClick={() => {
               emit('update:mode', 'Edit')
               Object.entries(row).forEach(([key, value]) => {
-                if (value == null)
+                if (value == null || props.fields[key]?.type === 'file')
                   delete row[key]
               })
               formState.value = row
@@ -134,7 +134,7 @@ const columns: DataTableColumns = [
     },
   },
 ]
-if (auth.isAdmin && props.queries.organization) {
+if (auth.isAdmin && props.queries.organization && props.queries.hasOrganizationField !== false) {
   columns.unshift(
     {
       title: 'Org.',
@@ -168,7 +168,7 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
   <div>
     <table-base v-if="!error" :loading="loading" v-bind="{ columns, data }">
       <template #actions>
-        <NButton type="primary" @click="handleNew()">
+        <NButton v-if="queries.create !== false" type="primary" @click="handleNew()">
           <template #icon>
             <i-plus />
           </template>

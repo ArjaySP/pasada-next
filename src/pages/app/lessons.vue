@@ -23,6 +23,12 @@ const columns: DataTableColumns = [
     title: 'Module',
     key: 'module_name',
     sorter: 'default',
+    render(row) {
+      return <div>
+        {row.module_name}
+        <div class="text-sm text-gray-500">Org: {row.organization.org_title}</div>
+      </div>
+    },
   },
   {
     title: 'Lesson title',
@@ -117,7 +123,7 @@ const rules: FormRules = {
 const queries: Queries = {
   all: 'lessons',
   organization: 'lessonOrganization',
-  hasOrganizationField: true,
+  hasOrganizationField: false,
 }
 </script>
 

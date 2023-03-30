@@ -9,6 +9,13 @@ interface FieldAutocomplete extends FieldItem {
   options: string[]
 }
 
+interface FieldCheckbox extends FieldItem {
+  type: 'checkbox'
+  checkboxLabel: string
+  checkedValue: string | number
+  uncheckedValue: string | number
+}
+
 interface FieldDate extends FieldItem {
   type: 'date'
 }
@@ -71,7 +78,7 @@ interface FieldTime extends FieldItem {
 }
 
 type Path = string
-type FormFieldTypes = (FieldAutocomplete | FieldDate | FieldDropdown | FieldFile | FieldInput | FieldNumber | FieldPassword | FieldSelect | FieldRadio | FieldQuill | FieldSelectUser | FieldTextarea | FieldTime)
+type FormFieldTypes = (FieldAutocomplete | FieldCheckbox | FieldDate | FieldDropdown | FieldFile | FieldInput | FieldNumber | FieldPassword | FieldSelect | FieldRadio | FieldQuill | FieldSelectUser | FieldTextarea | FieldTime)
 
 export interface FormFields {
   [path: Path]: FormFieldTypes

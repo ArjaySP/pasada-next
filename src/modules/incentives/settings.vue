@@ -39,18 +39,11 @@ const fields: FormFields = {
     placeholder: 'Type description here...',
   },
   is_status: {
-    type: 'radio',
+    type: 'checkbox',
     label: 'Status',
-    options: [
-      {
-        label: 'Active',
-        value: 'Active',
-      },
-      {
-        label: 'Inactive',
-        value: 'Inactive',
-      },
-    ],
+    checkboxLabel: 'Active',
+    checkedValue: 'Active',
+    uncheckedValue: 'Inactive',
   },
 }
 

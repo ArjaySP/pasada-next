@@ -177,18 +177,11 @@ const fields: FormFields = {
     span: 12,
   },
   camera_fitted: {
-    type: 'radio',
+    type: 'checkbox',
     label: 'Camera fitted',
-    options: [
-      {
-        label: 'No',
-        value: 0,
-      },
-      {
-        label: 'Yes',
-        value: 1,
-      },
-    ],
+    checkboxLabel: 'Yes',
+    checkedValue: 1,
+    uncheckedValue: 0,
     span: 6,
   },
 }

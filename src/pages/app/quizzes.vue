@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormRules } from 'naive-ui'
-import { NButton, NSpace, NTag, NText } from 'naive-ui'
+import { NButton, NSpace, NTag } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 import formState from '@/utils/formState'
 
@@ -28,10 +28,10 @@ const columns: DataTableColumns = [
     title: 'Title',
     key: 'quiz_title',
     render(row) {
-      return <NSpace vertical size="small">
-        <NText>{row.quiz_title}</NText>
-        <NText depth="3">Filipino: {row.tagalog_title}</NText>
-      </NSpace>
+      return <div>
+        {row.quiz_title}
+        <div class="text-sm text-gray-500">Filipino: {row.tagalog_title}</div>
+      </div>
     },
     sorter: 'default',
   },

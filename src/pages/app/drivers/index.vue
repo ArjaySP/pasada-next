@@ -29,10 +29,12 @@ const columns: DataTableColumns = [
     title: 'Profile',
     key: 'profile',
     render(row) {
-      return <RouterLink to={`/drivers/${row.id}`}
-                         target="_blank" as="template">
+      return row.role_id === 4
+        ? <RouterLink to={`/drivers/${row.id}`}
+                                        target="_blank" as="template">
           <NButton type="primary">Profile</NButton>
-      </RouterLink>
+        </RouterLink>
+        : ''
     },
   },
 ]
@@ -80,6 +82,9 @@ const rules: FormRules = {
   fname: {
     required: true,
   },
+  mname: {
+    required: true,
+  },
   lname: {
     required: true,
   },
@@ -101,8 +106,9 @@ const rules: FormRules = {
 
 const queries: Queries = {
   all: 'userManagement',
+  get: 'getAllUsers',
   organization: 'getAllUsersOrganization',
-  get: 'getAllAccounts',
+  hasOrganizationField: true,
   delete: false,
 }
 </script>

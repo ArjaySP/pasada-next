@@ -9,6 +9,14 @@ axios.interceptors.response.use(
   response => response,
   (error) => {
     switch (error.response.status) {
+      case 400:
+      case 422: {
+        const { data } = error.response
+        Object.values(data?.errors || data).forEach((errorMessage) => {
+          message.error(errorMessage[0] as Array<string>)
+        })
+        break
+      }
       case 401:
         message.error('Unauthorized')
         auth.logout()
