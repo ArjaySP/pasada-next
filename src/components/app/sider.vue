@@ -20,6 +20,7 @@ import Reports from '~icons/ion/FileTrayFullOutline'
 import Complaints from '~icons/ion/ReaderOutline'
 import Violations from '~icons/ion/WarningOutline'
 import Accidents from '~icons/ion/MedkitOutline'
+import Logout from '~icons/ion/LogOutOutline'
 import { useAuth } from '@/utils/auth'
 
 const isCollapsed = useLocalStorage('isCollapsed', false)
@@ -159,6 +160,7 @@ const menu: MenuOption[] = [
       },
     }, 'Logout'),
     key: 'logout',
+    icon: renderIcon(Logout),
   },
 ]
 </script>

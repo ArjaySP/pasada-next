@@ -47,12 +47,12 @@ const setbacksColumns: DataTableColumns = [
   },
   {
     title: 'Driver',
-    key: 'driver_name',
+    key: 'name',
     render(row) {
-      return <TableFieldUser fname={row.driver_fname} lname={row.driver_lname} user_image={row.user_image}></TableFieldUser>
+      return <TableFieldUser fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
     },
     sorter(rowA, rowB) {
-      return (`${rowA.driver_fname} ${rowA.driver_lname}`).localeCompare(`${rowB.driver_fname} ${rowB.driver_lname}`)
+      return (`${rowA.fname} ${rowA.lname}`).localeCompare(`${rowB.fname} ${rowB.lname}`)
     },
   },
   {
@@ -80,10 +80,10 @@ const setbacksColumns: DataTableColumns = [
 const quizScoreColumns: DataTableColumns = [
   {
     title: 'Driver',
-    key: 'driver_name',
+    key: 'name',
     sorter: 'default',
     render(row) {
-      return <TableFieldUser fname={row.driver_fname} lname={row.driver_lname} user_image={row.user_image}></TableFieldUser>
+      return <TableFieldUser fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
     },
   },
   {

@@ -2,21 +2,6 @@
 import type { FormFields } from '@/types'
 
 const personalFields: FormFields = {
-  driver_fname: {
-    type: 'input',
-    label: 'First name',
-    span: 8,
-  },
-  driver_mname: {
-    type: 'input',
-    label: 'Middle name',
-    span: 8,
-  },
-  driver_lname: {
-    type: 'input',
-    label: 'Last name',
-    span: 8,
-  },
   driver_birthday: {
     type: 'date',
     label: 'Birthday',

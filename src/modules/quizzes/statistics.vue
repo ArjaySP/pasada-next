@@ -117,7 +117,10 @@ const topFailedColumns: DataTableColumns = [
 </script>
 
 <template>
-  <n-tabs v-if="data" size="large" type="line">
+  <div v-if="loading">
+    Loading...
+  </div>
+  <n-tabs v-else-if="data?.statistics.attempts" size="large" type="line">
     <n-tab-pane display-directive="show:lazy" name="ranking" tab="Ranking">
       <n-space vertical>
         <n-row gutter="8">
@@ -156,9 +159,6 @@ const topFailedColumns: DataTableColumns = [
       <n-p>This data is from all organizations.</n-p>
     </n-tab-pane>
   </n-tabs>
-  <div v-else-if="loading">
-    Loading...
-  </div>
   <app-error v-else-if="error" v-bind="{ loading }" @refresh="refresh()" />
   <div v-else>
     No one has taken this quiz yet.

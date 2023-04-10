@@ -132,9 +132,13 @@ const { run: verifyRun } = useRequest(async (id: number) => {
 })
 
 const { run: deleteRun } = useRequest(async (id: number) => {
+  const data = { ...formState.value }
   const formData = new FormData()
+  Object.entries(data).forEach(([key, value]) =>
+    formData.append(key, value as string),
+  )
   formData.append('user_id', id.toString())
-  const res = await axios.post('/userOrganizationRemove', formData)
+  const res = await axios.post('/userOrganizationReject', formData)
   return res.data
 }, {
   manual: true,
@@ -181,7 +185,8 @@ const unverifiedColumns: DataTableColumns = [
                 },
                 permanent_disable: {
                   type: 'checkbox',
-                  label: 'Permanent disable',
+                  label: 'Permanently disable user',
+                  checkboxLabel: 'Disable user',
                   checkedValue: 1,
                   uncheckedValue: 0,
                 },
@@ -203,8 +208,8 @@ const unverifiedColumns: DataTableColumns = [
     </n-tab-pane>
     <n-tab-pane display-directive="show:lazy" name="unverified">
       <template #tab>
-        <span class="mr-2">Needs verification</span>
-        <n-badge v-if="data.length > 0" :value="data.length" />
+        <span>Needs verification</span>
+        <n-badge v-if="data.length > 0" class="ml-2" :value="data.length" />
       </template>
       <table-base v-if="!error" v-bind="{ columns: unverifiedColumns, data, loading }" />
       <app-error v-else :loading="loading" @refresh="refresh()" />

@@ -19,9 +19,9 @@ const { data, loading } = useRequest(async () => {
   const results = await axios.get(`/${props.query}`)
   console.log(results.data.results)
   return results.data.results.map(item => ({
-    label: (item.fname ? `${item.fname} ${item.lname}` : `${item.driver_fname} ${item.driver_lname}`) + item.email,
+    label: (item.fname ? `${item.fname} ${item.lname}` : `${item.fname} ${item.lname}`) + item.email,
     value: item.id,
-    name: item.fname ? `${item.fname} ${item.lname}` : `${item.driver_fname} ${item.driver_lname}`,
+    name: item.fname ? `${item.fname} ${item.lname}` : `${item.fname} ${item.lname}`,
     email: item.email,
     image: `${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/${item.user_image}`,
   }))

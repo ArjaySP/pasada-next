@@ -37,7 +37,7 @@ const avatarURL = `${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/`
     Loading...
   </div>
   <div v-else-if="data" class="flex flex-col gap-3 xl:flex-row">
-    <n-card class="shrink-0 xl:max-w-xs">
+    <n-card class="h-max shrink-0 xl:max-w-xs">
       <div class="text-center">
         <NAvatar
           class="shrink-0" round
@@ -71,7 +71,7 @@ const avatarURL = `${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/`
       </div>
     </n-card>
 
-    <n-card content-style="padding-top: 4px;">
+    <n-card class="h-max" content-style="padding-top: 4px;">
       <n-tabs type="line" size="large">
         <n-tab-pane display-directive="show:lazy" name="information" tab="Information">
           <drivers-information />

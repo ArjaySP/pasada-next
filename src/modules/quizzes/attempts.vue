@@ -66,7 +66,7 @@ const { data, loading, error } = useRequest(async () => {
   <div v-if="loading">
     Loading...
   </div>
-  <div v-else-if="data">
+  <div v-else-if="data?.statistics.attempts">
     <n-space vertical>
       <n-row gutter="8">
         <n-col :span="12">
@@ -84,4 +84,7 @@ const { data, loading, error } = useRequest(async () => {
     </n-space>
   </div>
   <app-error v-else-if="error" :loading="loading" @refresh="refresh()" />
+  <div v-else>
+    This user has not taken any quizzes yet.
+  </div>
 </template>

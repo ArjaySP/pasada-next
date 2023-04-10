@@ -71,7 +71,7 @@ const fields: FormFields = {
     span: 12,
   },
   mobile_number: {
-    type: 'number',
+    type: 'input',
     label: 'Mobile number',
     placeholder: 'e.g. "639123456789"',
     span: 12,
@@ -95,7 +95,7 @@ const rules: FormRules = {
     },
   },
   mobile_number: {
-    type: 'number',
+    type: 'input',
     required: true,
     validator: (_, value) => /^639\d{9}$/.test(value) || new Error('Invalid format'),
   },
