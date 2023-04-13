@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import type { DataTableColumns } from 'naive-ui'
+import { NTag } from 'naive-ui'
 import calendar from 'dayjs/plugin/calendar'
 import TableFieldUser from '@/components/table/field-user.vue'
 import { useAuth } from '@/utils/auth'
@@ -11,13 +12,29 @@ definePage({
   name: 'Dashboard',
 })
 
-const { data, loading, error, run: refresh } = useRequest(async () => {
+const graphData = ref()
+const { data, loading, error, run } = useRequest(async () => {
+  let graphQuery
+  if (auth.isAdmin) {
+    graphQuery = [
+      axios.get('/complaint'),
+      axios.get('/accidents'),
+      axios.get('/violation'),
+    ]
+  }
+  else {
+    graphQuery = [
+      axios.get('/complaintOrganization'),
+      axios.get('/accidentsOrganization'),
+      axios.get('/violationsOrganizations'),
+    ]
+  }
   const dashboard = await Promise.all([
     axios.get('/getDashboardInfo'),
     axios.get('/getAllSetbacks'),
     axios.get(auth.isAdmin ? '/getQuizPassFail' : '/getQuizPassFailOrganization'),
     axios.get(auth.isAdmin ? '/quizScore' : '/quizScoreOrganization'),
-    // axios.get('/')
+    ...graphQuery,
   ])
 
   const time = dayjs()
@@ -29,6 +46,12 @@ const { data, loading, error, run: refresh } = useRequest(async () => {
   else if (hour >= 12 && hour < 18)
     greeting = 'Good afternoon'
 
+  graphData.value = {
+    complaints: dashboard[4].data.results,
+    accidents: dashboard[5].data.results,
+    violations: dashboard[6].data.results,
+  }
+
   return {
     timeUpdated,
     greeting,
@@ -37,6 +60,13 @@ const { data, loading, error, run: refresh } = useRequest(async () => {
     passingRate: dashboard[2].data.results,
     quizScores: dashboard[3].data.results,
   }
+})
+const { isPending, start, stop } = useTimeoutFn(() => {
+  run()
+  start()
+}, 30000)
+onMounted(() => {
+  start()
 })
 
 const setbacksColumns: DataTableColumns = [
@@ -97,7 +127,7 @@ const quizScoreColumns: DataTableColumns = [
     sorter: 'default',
     render(row) {
       return <div>{ (row.number_of_correct_answers)}/{
-          (row.quiz_information as any).total_points}
+        (row.quiz_information as any).total_points}
       </div>
     },
   },
@@ -105,6 +135,21 @@ const quizScoreColumns: DataTableColumns = [
     title: 'Percentage',
     key: 'percentage',
     sorter: 'default',
+    render(row) {
+      const percentage = Number((((row.number_of_correct_answers as number)
+        / (row.quiz_information as any).total_points) * 100).toFixed(2))
+      const evaluation = percentage >= 50 ? 'passed' : 'failed'
+      return <div class="flex items-center gap-2">
+        <div>{percentage}%
+        </div><NTag type={{
+          failed: 'error',
+          passed: 'success',
+        }[evaluation] as 'success' | 'error'}>{{
+          failed: 'Failed',
+          passed: 'Passed',
+        }[evaluation]}</NTag>
+      </div>
+    },
   },
   {
     title: 'Date',
@@ -118,7 +163,7 @@ const quizScoreColumns: DataTableColumns = [
 </script>
 
 <template>
-  <app-error v-if="error" v-bind="{ loading }" @refresh="refresh()" />
+  <app-error v-if="error" v-bind="{ loading }" @refresh="run()" />
   <div v-else-if="loading && !data">
     Loading...
   </div>
@@ -133,7 +178,7 @@ background: linear-gradient(240deg, rgba(61,55,167,0.24) 0%, rgba(35,35,199,0.24
         </n-h2>
         <div class="flex items-center gap-3">
           <p>Last updated: {{ data.timeUpdated }}</p>
-          <n-button type="primary" :loading="loading" ghost @click="refresh()">
+          <n-button type="primary" :loading="loading" ghost @click="run()">
             Refresh
           </n-button>
         </div>
@@ -141,60 +186,65 @@ background: linear-gradient(240deg, rgba(61,55,167,0.24) 0%, rgba(35,35,199,0.24
     </n-card>
 
     <n-h2>Statistics</n-h2>
-    <n-row gutter="8">
-      <n-col :span="6">
-        <router-link to="/lessons">
-          <n-card>
-            <n-statistic label="Lessons" :value="data.dashboard.lessons">
-              <template #prefix>
-                <n-icon>
-                  <i-document-text-outline />
-                </n-icon>
-              </template>
-            </n-statistic>
-          </n-card>
-        </router-link>
-      </n-col>
-      <n-col :span="6">
-        <router-link to="/webinars">
-          <n-card>
-            <n-statistic label="Webinars" :value="data.dashboard.webinars">
-              <template #prefix>
-                <n-icon>
-                  <i-videocam-outline />
-                </n-icon>
-              </template>
-            </n-statistic>
-          </n-card>
-        </router-link>
-      </n-col>
-      <n-col :span="6">
-        <router-link to="/drivers">
-          <n-card>
-            <n-statistic label="Drivers" :value="data.dashboard.users">
-              <template #prefix>
-                <n-icon>
-                  <i-people-outline />
-                </n-icon>
-              </template>
-            </n-statistic>
-          </n-card>
-        </router-link>
-      </n-col>
-      <n-col :span="6">
-        <router-link to="/vehicles">
-          <n-card>
-            <n-statistic label="Vehicles" :value="data.dashboard.vehicles">
-              <template #prefix>
-                <n-icon>
-                  <i-car-outline />
-                </n-icon>
-              </template>
-            </n-statistic>
-          </n-card>
-        </router-link>
-      </n-col>
-    </n-row>
+    <n-space vertical>
+      <dashboard-all-in-one
+        :data="graphData"
+      />
+      <n-row gutter="8">
+        <n-col :span="6">
+          <router-link to="/lessons">
+            <n-card>
+              <n-statistic label="Lessons" :value="data.dashboard.lessons">
+                <template #prefix>
+                  <n-icon>
+                    <i-document-text-outline />
+                  </n-icon>
+                </template>
+              </n-statistic>
+            </n-card>
+          </router-link>
+        </n-col>
+        <n-col :span="6">
+          <router-link to="/webinars">
+            <n-card>
+              <n-statistic label="Webinars" :value="data.dashboard.webinars">
+                <template #prefix>
+                  <n-icon>
+                    <i-videocam-outline />
+                  </n-icon>
+                </template>
+              </n-statistic>
+            </n-card>
+          </router-link>
+        </n-col>
+        <n-col :span="6">
+          <router-link to="/drivers">
+            <n-card>
+              <n-statistic label="Drivers" :value="data.dashboard.users">
+                <template #prefix>
+                  <n-icon>
+                    <i-people-outline />
+                  </n-icon>
+                </template>
+              </n-statistic>
+            </n-card>
+          </router-link>
+        </n-col>
+        <n-col :span="6">
+          <router-link to="/vehicles">
+            <n-card>
+              <n-statistic label="Vehicles" :value="data.dashboard.vehicles">
+                <template #prefix>
+                  <n-icon>
+                    <i-car-outline />
+                  </n-icon>
+                </template>
+              </n-statistic>
+            </n-card>
+          </router-link>
+        </n-col>
+      </n-row>
+    </n-space>
 
     <n-h2>Driver worthiness</n-h2>
     <table-base :data="data.setbacks" :columns="setbacksColumns" />

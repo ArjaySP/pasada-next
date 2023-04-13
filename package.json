@@ -10,6 +10,8 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@antv/g2plot": "^2.4.20",
+    "@opd/g2plot-vue": "^3.6.4",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@vueup/vue-quill": "^1.1.0",
     "@vueuse/core": "^9.6.0",

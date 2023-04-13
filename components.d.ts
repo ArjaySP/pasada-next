@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     BooksPages: typeof import('./src/modules/books/pages.vue')['default']
     ButtonViewFile: typeof import('./src/components/button/view-file.vue')['default']
     ButtonViewImage: typeof import('./src/components/button/view-image.vue')['default']
+    DashboardAllInOne: typeof import('./src/modules/dashboard/all-in-one.vue')['default']
     DriversInformation: typeof import('./src/modules/drivers/information.vue')['default']
     FormFieldAutocomplete: typeof import('./src/components/form/field-autocomplete.vue')['default']
     FormFieldDropdown: typeof import('./src/components/form/field-dropdown.vue')['default']
