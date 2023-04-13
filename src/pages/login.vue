@@ -29,7 +29,7 @@ const { loading, run } = useRequest(() => axios.post('/login', formState.value),
       const { token, id, access_level } = data
       auth.credentials = { token, id, access_level }
       message.success('Login successful! Redirecting...')
-      router.push('/')
+      router.push('/dashboard')
     }
     else {
       alertMessage.value = res.data.message === 'Login error!' ? 'Incorrect email or password.' : res.data.message

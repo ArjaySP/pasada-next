@@ -16,16 +16,19 @@ const { data, loading, error, run: refresh } = useRequest(async () => {
   const res = await Promise.all([
     axios.get(`/userManagement/${id}`),
     axios.get(`/driversInformationUserID/${id}`),
+    axios.get(`/getOrganizationHistoryByUserID/${id}`),
+    axios.get(`/getUserVehicleHistoryByUserID/${id}`),
   ])
   const userManagement = res[0].data.results[0]
 
   return {
     userManagement,
     driverInformation: res[1].data.results,
+    vehicleHistory: res[2].data.results,
   }
 }, {
-  onSuccess: ({ _, driverInformation }) => {
-    formState.value = driverInformation
+  onSuccess: () => {
+    formState.value = data.value!.driverInformation
   },
 })
 
@@ -77,6 +80,12 @@ const avatarURL = `${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/`
           <drivers-information />
         </n-tab-pane>
         <template v-if="data.userManagement.role_id === 4">
+          <n-tab-pane name="vehicles" tab="Vehicle history">
+            {{ data.vehicleHistory }}
+          </n-tab-pane>
+          <n-tab-pane display-directive="show:lazy" name="quiz" tab="Quiz attempts">
+            <QuizzesAttempts :foreign-key-value="id" />
+          </n-tab-pane>
           <n-tab-pane display-directive="show:lazy" name="complaints" tab="Complaints">
             <Complaints
               :queries="{
@@ -100,9 +109,6 @@ const avatarURL = `${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/`
                 get: 'accidentByDriverID',
               }" foreign-key="driver_id" :foreign-key-value="id"
             />
-          </n-tab-pane>
-          <n-tab-pane display-directive="show:lazy" name="quiz" tab="Quiz attempts">
-            <QuizzesAttempts :foreign-key-value="id" />
           </n-tab-pane>
         </template>
       </n-tabs>

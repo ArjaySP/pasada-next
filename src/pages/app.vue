@@ -10,13 +10,13 @@ definePage({
 <template>
   <n-layout has-sider class="h-full">
     <app-sider />
-    <n-layout embedded class="h-full">
-      <n-layout-header v-if="$route.name !== 'Analytics'" class="sticky top-0 z-50 flex h-16 items-center px-4" bordered>
+    <n-layout class="h-full">
+      <n-layout-header v-if="$route.name !== 'Analytics'" class="sticky top-0 z-50 flex h-16 items-center px-4">
         <n-h3 class="!mb-0">
           {{ $route.name }}
         </n-h3>
       </n-layout-header>
-      <n-layout-content embedded :class="$route.name === 'Analytics' ? 'h-full' : 'p-4'">
+      <n-layout-content :class="$route.name === 'Analytics' ? 'h-full' : 'p-4'">
         <router-view />
       </n-layout-content>
     </n-layout>

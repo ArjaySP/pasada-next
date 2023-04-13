@@ -1,8 +1,8 @@
 <script setup lang="ts">
 defineProps<{
   userImage?: string
-  fname: string
-  lname: string
+  fname?: string
+  lname?: string
 }>()
 
 const backendURL = import.meta.env.VITE_BACKEND_URL

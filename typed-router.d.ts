@@ -36,7 +36,7 @@ import type {
 declare module 'vue-router/auto/routes' {
   export interface RouteNamedMap {
     '/app': RouteRecordInfo<'/app', '/', Record<never, never>, Record<never, never>>,
-    'Dashboard': RouteRecordInfo<'Dashboard', '/app', Record<never, never>, Record<never, never>>,
+    '/app/': RouteRecordInfo<'/app/', '/app', Record<never, never>, Record<never, never>>,
     '/app/[...any]': RouteRecordInfo<'/app/[...any]', '/app/:any(.*)', { any: ParamValue<true> }, { any: ParamValue<false> }>,
     '/app/@template': RouteRecordInfo<'/app/@template', '/app/@template', Record<never, never>, Record<never, never>>,
     'Accidents': RouteRecordInfo<'Accidents', '/app/accidents', Record<never, never>, Record<never, never>>,
@@ -44,6 +44,7 @@ declare module 'vue-router/auto/routes' {
     'Books': RouteRecordInfo<'Books', '/app/books', Record<never, never>, Record<never, never>>,
     'Complaints': RouteRecordInfo<'Complaints', '/app/complaints', Record<never, never>, Record<never, never>>,
     'Daily Quiz': RouteRecordInfo<'Daily Quiz', '/app/daily-quiz', Record<never, never>, Record<never, never>>,
+    'Dashboard': RouteRecordInfo<'Dashboard', '/app/dashboard', Record<never, never>, Record<never, never>>,
     'Drivers': RouteRecordInfo<'Drivers', '/app/drivers', Record<never, never>, Record<never, never>>,
     'Profile': RouteRecordInfo<'Profile', '/drivers/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'Incentives': RouteRecordInfo<'Incentives', '/app/incentives', Record<never, never>, Record<never, never>>,

@@ -20,19 +20,23 @@ import Reports from '~icons/ion/FileTrayFullOutline'
 import Complaints from '~icons/ion/ReaderOutline'
 import Violations from '~icons/ion/WarningOutline'
 import Accidents from '~icons/ion/MedkitOutline'
-import Logout from '~icons/ion/LogOutOutline'
 import { useAuth } from '@/utils/auth'
 
-const isCollapsed = useLocalStorage('isCollapsed', false)
+const isCollapsed = useLocalStorage('isCollapsed', true)
 const router = useRouter()
 const auth = useAuth()
 
 const renderLabel = (label: string, to: string) => () => h(RouterLink, { to }, () => label)
 const renderIcon = (icon: Component) => () => h(icon)
 
+const handleLogout = () => {
+  auth.logout()
+  router.push('/login')
+}
+
 const menu: MenuOption[] = [
   {
-    label: renderLabel('Dashboard', '/'),
+    label: renderLabel('Dashboard', '/dashboard'),
     key: 'dashboard',
     icon: renderIcon(Dashboard),
   },
@@ -144,42 +148,43 @@ const menu: MenuOption[] = [
       },
     ],
   },
-  {
-    key: 'divider',
-    type: 'divider',
-  },
-  // {
-  //   label: renderLabel('Login', '/login'),
-  //   key: 'login',
-  // },
-  {
-    label: () => h('div', {
-      onClick: () => {
-        auth.logout()
-        router.push('/login')
-      },
-    }, 'Logout'),
-    key: 'logout',
-    icon: renderIcon(Logout),
-  },
 ]
 </script>
 
 <template>
-  <n-layout-sider bordered collapse-mode="width" :width="240" :collapsed-width="64" show-trigger v-bind="{ collapsed: isCollapsed }" @collapse="isCollapsed = true" @expand="isCollapsed = false">
-    <img src="/favicon.ico" class="p-4" alt="PASADA icon">
-    <n-collapse-transition :show="!isCollapsed">
-      <div class="px-4 pb-2">
-        PASADA - The Next Generation of Public Transportation
-      </div>
-    </n-collapse-transition>
-    <n-divider class="!mt-2 !mb-4" />
-    <n-menu
-      accordion
-      :options="menu"
-      :indent="20"
-      :collapsed-width="64"
-      :value="useRoute().path.slice(1)"
-    />
+  <n-layout-sider
+    class="h-full"
+    bordered
+    show-trigger
+    collapse-mode="width" :width="240" :collapsed-width="64"
+    content-style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;"
+    v-bind="{ collapsed: isCollapsed }"
+    @collapse="isCollapsed = true"
+    @expand="isCollapsed = false"
+  >
+    <div>
+      <img src="/images/logo.png" class="w-40 p-4" alt="PASADA icon">
+      <n-menu
+        accordion
+        :options="menu"
+        :indent="20"
+        :collapsed-width="64"
+        :value="useRoute().path.slice(1)"
+      />
+    </div>
+    <div v-if="!isCollapsed" class="p-3">
+      <n-card content-style="padding: 12px;">
+        <div class="flex flex-col gap-3">
+          <n-thing>
+            <template #avatar>
+              <table-field-user v-bind="auth.user" />
+            </template>
+          </n-thing>
+          <n-button type="error" @click="handleLogout()">
+            Log out
+          </n-button>
+        </div>
+      </n-card>
+    </div>
   </n-layout-sider>
 </template>
