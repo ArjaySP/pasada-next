@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { DataTableColumn } from 'naive-ui'
 import formState from '@/utils/formState'
 import Complaints from '@/pages/app/complaints.vue'
 import Violations from '@/pages/app/violations.vue'
@@ -19,18 +20,34 @@ const { data, loading, error, run: refresh } = useRequest(async () => {
     axios.get(`/getOrganizationHistoryByUserID/${id}`),
     axios.get(`/getUserVehicleHistoryByUserID/${id}`),
   ])
-  const userManagement = res[0].data.results[0]
 
   return {
-    userManagement,
+    userManagement: res[0].data.results[0],
     driverInformation: res[1].data.results,
-    vehicleHistory: res[2].data.results,
+    organizationHistory: res[2].data.results,
+    vehicleHistory: res[3].data.results,
   }
 }, {
   onSuccess: () => {
     formState.value = data.value!.driverInformation
   },
 })
+
+const organizationHistoryColumns: DataTableColumn[] = [
+  {
+    title: 'Organization',
+    key: 'org_title',
+    sorter: 'default',
+  },
+  {
+    title: 'Date',
+    key: 'created_at',
+    sorter: 'default',
+    render(row) {
+      return String(row.created_at).slice(0, 10)
+    },
+  },
+]
 
 const avatarURL = `${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/`
 </script>
@@ -80,11 +97,14 @@ const avatarURL = `${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/`
           <drivers-information />
         </n-tab-pane>
         <template v-if="data.userManagement.role_id === 4">
-          <n-tab-pane name="vehicles" tab="Vehicle history">
-            {{ data.vehicleHistory }}
-          </n-tab-pane>
           <n-tab-pane display-directive="show:lazy" name="quiz" tab="Quiz attempts">
             <QuizzesAttempts :foreign-key-value="id" />
+          </n-tab-pane>
+          <!--          <n-tab-pane name="vehicles" tab="Vehicle history"> -->
+          <!--            <table-base v-bind="{ data: data.organizationHistory, columns: organizationHistoryColumns }" /> -->
+          <!--          </n-tab-pane> -->
+          <n-tab-pane name="organizations" tab="Organization history">
+            <table-base v-bind="{ data: data.organizationHistory, columns: organizationHistoryColumns }" />
           </n-tab-pane>
           <n-tab-pane display-directive="show:lazy" name="complaints" tab="Complaints">
             <Complaints

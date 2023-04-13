@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { MenuOption } from 'naive-ui'
+import type { FormInst, FormRules, MenuOption } from 'naive-ui'
 import type { Component } from 'vue'
 import { RouterLink } from 'vue-router'
+
 import Dashboard from '~icons/ion/SpeedometerOutline'
 import Analytics from '~icons/ion/AnalyticsOutline'
 import Learning from '~icons/ion/SchoolOutline'
@@ -21,6 +22,9 @@ import Complaints from '~icons/ion/ReaderOutline'
 import Violations from '~icons/ion/WarningOutline'
 import Accidents from '~icons/ion/MedkitOutline'
 import { useAuth } from '@/utils/auth'
+import formState from '@/utils/formState'
+import { validateMessages } from '@/utils/config'
+import type { FormFields } from '@/types'
 
 const isCollapsed = useLocalStorage('isCollapsed', true)
 const router = useRouter()
@@ -149,6 +153,112 @@ const menu: MenuOption[] = [
     ],
   },
 ]
+
+const fields: FormFields = {
+  organization_id: {
+    type: 'select',
+    label: 'Organization',
+    queries: { all: 'organization' },
+    format: org => org.org_title,
+  },
+  fname: {
+    type: 'input',
+    label: 'First name',
+    placeholder: 'e.g. "Juan"',
+    span: 8,
+  },
+  mname: {
+    type: 'input',
+    label: 'Middle name',
+    placeholder: 'e.g. "Bautista"',
+    span: 8,
+  },
+  lname: {
+    type: 'input',
+    label: 'Last name',
+    placeholder: 'e.g. "Dela Cruz"',
+    span: 8,
+  },
+  birthdate: {
+    type: 'date',
+    label: 'Birthday',
+    placeholder: 'Select birthday...',
+    span: 12,
+  },
+  email: {
+    type: 'input',
+    label: 'Email',
+    placeholder: 'e.g. "juandelacruz@gmail.com"',
+    span: 12,
+  },
+  mobile_number: {
+    type: 'input',
+    label: 'Mobile number',
+    placeholder: 'e.g. "639123456789"',
+    span: 12,
+  },
+}
+
+const rules: FormRules = {
+  fname: {
+    required: true,
+  },
+  mname: {
+    required: true,
+  },
+  lname: {
+    required: true,
+  },
+  birthdate: {
+    required: true,
+    validator: (_, value) => {
+      return dayjs().diff(dayjs(value, 'MM-DD-YYYY'), 'year') >= 18 || new Error('Must be 18 years old or above')
+    },
+  },
+  mobile_number: {
+    type: 'input',
+    required: true,
+    validator: (_, value) => /^639\d{9}$/.test(value) || new Error('Invalid format'),
+  },
+  email: {
+    required: true,
+  },
+}
+
+const message = useMessage()
+const modal = ref(false)
+const openModal = () => {
+  modal.value = true
+  formState.value = auth.user!
+}
+const { loading: postLoading, run: postRun } = useRequest(
+  () => {
+    const data = { ...formState.value }
+    data._method = 'PUT'
+    data.updated_by = auth.credentials!.id
+    data.organization_id = auth.user!.organization_id
+    console.log(data.organization_id)
+    const formData = new FormData()
+    Object.entries(data).forEach(([key, value]) => {
+      value ??= ''
+      formData.append(key, value as string)
+    })
+    return axios.post(`/userManagement/${auth.credentials!.id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+  }, {
+    manual: true,
+    onSuccess: () => {
+      message.success('Saved profile')
+      window.location.reload()
+      modal.value = false
+    },
+  },
+)
+const formRef = ref<FormInst | null>(null)
+function handlePost() {
+  formRef.value?.validate().then(() => {
+    postRun()
+  })
+}
 </script>
 
 <template>
@@ -173,7 +283,7 @@ const menu: MenuOption[] = [
       />
     </div>
     <div v-if="!isCollapsed" class="p-3">
-      <n-card content-style="padding: 12px;">
+      <n-card content-style="padding: 12px;" @click="openModal()">
         <div class="flex flex-col gap-3">
           <n-thing>
             <template #avatar>
@@ -185,6 +295,25 @@ const menu: MenuOption[] = [
           </n-button>
         </div>
       </n-card>
+
+      <app-modal
+        v-model:show="modal" :title="auth.user?.fname || 'Edit user'"
+      >
+        <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
+          <form-master v-bind="{ fields }" />
+        </n-form>
+
+        <template #footer>
+          <NSpace justify="end">
+            <NButton @click="modal = false">
+              Cancel
+            </NButton>
+            <NButton type="primary" :loading="postLoading" @click="handlePost()">
+              Save
+            </NButton>
+          </NSpace>
+        </template>
+      </app-modal>
     </div>
   </n-layout-sider>
 </template>

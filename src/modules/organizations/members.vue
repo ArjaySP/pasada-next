@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import type { DataTableColumns, FormRules } from 'naive-ui'
 import { NButton, NPopconfirm } from 'naive-ui'
+import { RouterLink } from 'vue-router'
 import type { FormFields, Queries } from '@/types'
 import { useAuth } from '@/utils/auth'
 import TableFieldUser from '@/components/table/field-user.vue'
@@ -37,6 +38,18 @@ const columns: DataTableColumns = [
     sorter: 'default',
     render(row) {
       return <TableFieldRole roleId={row.role_id} />
+    },
+  },
+  {
+    title: 'Profile',
+    key: 'profile',
+    render(row) {
+      return row.role_id === 4
+        ? <RouterLink to={`/drivers/${row.id}`}
+                      target="_blank" as="template">
+          <NButton type="primary">Profile</NButton>
+        </RouterLink>
+        : ''
     },
   },
 ]
@@ -103,7 +116,7 @@ const rules = computed<FormRules>(() => {
 })
 
 const queries: Queries = {
-  all: 'members',
+  all: 'role',
   get: 'getVerifiedMembersByOrg',
   create: false,
   delete: 'Remove',
@@ -162,6 +175,16 @@ const unverifiedColumns: DataTableColumns = [
   {
     title: 'Email',
     key: 'email',
+    sorter: 'default',
+  },
+  {
+    title: 'Birthday',
+    key: 'birthdate',
+    sorter: 'default',
+  },
+  {
+    title: 'Phone number',
+    key: 'mobile_number',
     sorter: 'default',
   },
   {
