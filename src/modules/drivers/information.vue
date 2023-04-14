@@ -1,12 +1,9 @@
 <script setup lang="tsx">
+import type { FormInst, FormRules } from 'naive-ui'
 import type { FormFields } from '@/types'
+import formState from '@/utils/formState'
 
 const personalFields: FormFields = {
-  driver_birthday: {
-    type: 'date',
-    label: 'Birthday',
-    span: 8,
-  },
   marital_status: {
     type: 'dropdown',
     label: 'Marital status',
@@ -135,7 +132,7 @@ const jobDescriptionFields: FormFields = {
     span: 8,
   },
   sleep_hours_range: {
-    type: 'number',
+    type: 'input',
     label: 'Sleep hours',
     span: 8,
   },
@@ -145,10 +142,41 @@ const jobDescriptionFields: FormFields = {
     span: 8,
   },
 }
+
+const rules: FormRules = {
+}
+
+const route = useRoute()
+const message = useMessage()
+
+const { loading, run } = useRequest(async (id: number) => {
+  const formData = new FormData()
+  const data = { ...formState.value }
+  data._method = 'PUT'
+  Object.entries(data).forEach(([key, value]) => {
+    value ??= ''
+    formData.append(key, value as string)
+  })
+  const res = await axios.post(`/updateDriversInformationUserID/${route.params.id}`, formData)
+  return res.data
+}, {
+  manual: true,
+  onSuccess() {
+    message.success('Verified user')
+    window.location.reload()
+  },
+})
+
+const formRef = ref<FormInst | null>(null)
+function handlePost() {
+  formRef.value?.validate().then(() => {
+    run()
+  })
+}
 </script>
 
 <template>
-  <n-form>
+  <n-form ref="formRef" :model="formState" :rules="rules">
     <n-space vertical>
       <n-card title="Personal">
         <div class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
@@ -165,6 +193,9 @@ const jobDescriptionFields: FormFields = {
           <form-master :fields="jobDescriptionFields" />
         </div>
       </n-card>
+      <n-button type="primary" class="!mt-4" :loading="loading" @click="handlePost()">
+        Save
+      </n-button>
     </n-space>
   </n-form>
 </template>
