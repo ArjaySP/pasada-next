@@ -21,7 +21,7 @@ const backendURL = import.meta.env.VITE_BACKEND_URL
       <div>
         {{ fname }} {{ lname }}
       </div>
-      <table-field-role :role-id="role_id" />
+      <table-field-role class="w-max" :role-id="role_id" />
     </div>
   </div>
 </template>

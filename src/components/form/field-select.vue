@@ -8,8 +8,9 @@ const emit = defineEmits(['update:value'])
 const model = useVModel(props, 'value', emit)
 
 const { data, loading } = useRequest(async () => {
-  const results = await axios.get(`/${props.query}`)
-  return results.data.results.map((item: { id: any }) => ({ label: props.format!(item), value: item.id }))
+  const res = await axios.get(`/${props.query}`)
+  const data = res.data.results
+  return data.map((item: { id: any }) => ({ label: props.format!(item), value: item.id }))
 })
 </script>
 
