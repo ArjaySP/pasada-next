@@ -18,7 +18,7 @@ const themeOverrides: GlobalThemeOverrides = {
     errorColorHover: '#8E2D2D',
     errorColorPressed: '#7F2121',
     errorColorSuppl: '#8E2D2D',
-
+    bodyColor: '#fafafa',
     fontSize: '15px',
     fontSizeMedium: '15px',
     tableHeaderColor: '#3D53A4',
@@ -29,15 +29,43 @@ const themeOverrides: GlobalThemeOverrides = {
   DataTable: {
     thTextColor: '#FFFFFF',
     thColorHover: '#27407F',
+    thIconColorActive:'white',
+    borderRadius:'15px',
+    tdColor:''
+
   },
-  Card: {},
+  Card: {
+    color:'',
+    borderColor:'',
+  },
   Modal: {
 
   },
   Image: {
 
   },
+  Menu: {
+    itemColorActiveCollapsed:'rgb(61,83,164)',
+    itemColorActiveCollapsedInverted:'white',
+
+    itemColorActive:'rgb(61,83,164)',
+    itemTextColorActive: 'white',
+
+    itemIconColorActiveHover:'white',
+    itemTextColorActiveHover:'white',
+    itemColorActiveHover:'rgb(61,83,164)',
+
+    itemIconColorActive: 'white',
+    itemColorHover:'rgb(61,83,164, 0.1)',
+    itemTextColorHover:'rgb(61,83,164)',
+    itemIconColorHover:'rgb(61,83,164)',
+
+  },
+  Button: {
+
+  }
 }
+
 
 const validateMessages: FormValidateMessages = {
   required: 'This field is required',

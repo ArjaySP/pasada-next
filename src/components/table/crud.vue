@@ -109,9 +109,9 @@ const columns: DataTableColumns = [
     render(row) {
       if (row.role_id as number <= auth.credentials!.access_level)
         return 'No permissions'
-      return <div class="flex gap-2">
+      return <n-button-group size="small" class="flex">
         { props.queries?.edit !== false
-            && <NButton type="primary" onClick={() => {
+            && <n-button round ghost type="" onClick={() => {
               emit('update:mode', 'Edit')
               Object.entries(row).forEach(([key, value]) => {
                 if (value == null || props.fields[key]?.type === 'file')
@@ -122,15 +122,15 @@ const columns: DataTableColumns = [
               modal.show = true
             }}>
               Edit
-            </NButton>
+            </n-button>
         }
         { props.queries?.delete !== false
-          && <NPopconfirm positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id)}>{{
-            trigger: () => <NButton type="error">{props.queries?.delete || 'Delete'}</NButton>,
+          && <NPopconfirm positiveButtonProps={{ type: 'warning' }} onPositiveClick={() => deleteRun(row.id)}>{{
+            trigger: () => <n-button ghost type="">{props.queries?.delete || 'Delete'}</n-button>,
             default: () => `Are you sure to delete this ${props.name}?`,
           }}</NPopconfirm>
         }
-      </div>
+      </n-button-group>
     },
   },
 ]
@@ -168,7 +168,7 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
   <div>
     <table-base v-if="!error" :loading="loading" v-bind="{ columns, data }">
       <template #actions>
-        <NButton v-if="queries.create !== false" type="primary" @click="handleNew()">
+        <NButton round v-if="queries.create !== false" type="primary" @click="handleNew()">
           <template #icon>
             <i-plus />
           </template>

@@ -170,7 +170,7 @@ const quizScoreColumns: DataTableColumns = [
   <div v-else-if="data">
     <n-card
       content-style="
-background: linear-gradient(240deg, rgba(61,55,167,0.24) 0%, rgba(35,35,199,0.24) 50%, rgba(0,212,255,0.24) 100%);"
+background: linear-gradient(20deg, rgba(129,196,255,1) 13%, rgba(241,241,241,1) 68%);"
     >
       <div class="flex justify-between">
         <n-h2 class="!mb-0 text-white">

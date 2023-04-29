@@ -2,7 +2,6 @@
 import type { FormInst, FormRules, MenuOption } from 'naive-ui'
 import type { Component } from 'vue'
 import { RouterLink } from 'vue-router'
-
 import Dashboard from '~icons/ion/SpeedometerOutline'
 import Analytics from '~icons/ion/AnalyticsOutline'
 import Learning from '~icons/ion/SchoolOutline'
@@ -19,6 +18,7 @@ import Reminders from '~icons/ion/NotificationsOutline'
 import Webinars from '~icons/ion/VideocamOutline'
 import Reports from '~icons/ion/FileTrayFullOutline'
 import Complaints from '~icons/ion/ReaderOutline'
+
 import Violations from '~icons/ion/WarningOutline'
 import Accidents from '~icons/ion/MedkitOutline'
 import { useAuth } from '@/utils/auth'
@@ -262,6 +262,7 @@ function handlePost() {
 </script>
 
 <template>
+
   <n-layout-sider
     class="h-full"
     bordered
@@ -274,6 +275,15 @@ function handlePost() {
   >
     <div>
       <img src="/images/logo.png" class="w-40 p-4" alt="PASADA icon">
+      <n-thing class="p-4" >
+        <template #avatar v-if="isCollapsed">
+            <table-field-user-collapsed v-bind="auth.user" />
+        </template>
+        <template #avatar v-if="!isCollapsed">
+            <table-field-user v-bind="auth.user" />
+        </template>
+      </n-thing>
+
       <n-menu
         accordion
         :options="menu"
@@ -282,17 +292,20 @@ function handlePost() {
         :value="useRoute().path.slice(1)"
       />
     </div>
-    <div v-if="!isCollapsed" class="p-3">
+    <div class="mb-4">
       <n-card content-style="padding: 12px;" @click="openModal()">
-        <div class="flex flex-col gap-3">
-          <n-thing>
-            <template #avatar>
-              <table-field-user v-bind="auth.user" />
-            </template>
-          </n-thing>
-          <n-button type="error" @click="handleLogout()">
+        <div class="flex flex-col">
+          <n-button v-if="!isCollapsed" type="error" @click="handleLogout()" >
             Log out
+            <template #icon>
+              <i-power-outline></i-power-outline>
+            </template>
           </n-button>
+          <n-button v-if="isCollapsed" type="error" @click="handleLogout()" >
+            <template #icon>
+              <i-power-outline></i-power-outline>
+            </template>
+         </n-button>
         </div>
       </n-card>
 
@@ -304,7 +317,7 @@ function handlePost() {
         </n-form>
 
         <template #footer>
-          <NSpace justify="end">
+          <NSpace justify="end" >
             <NButton @click="modal = false">
               Cancel
             </NButton>

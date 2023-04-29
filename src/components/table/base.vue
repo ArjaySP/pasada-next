@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DataTableColumns, PaginationProps } from 'naive-ui'
-
+import SearchOutline from '~icons/ion/SearchOutline'
 const props = defineProps<{
   columns: DataTableColumns
   loading?: boolean
@@ -37,8 +37,12 @@ const filteredData = computed(() => {
 <template>
   <n-card title=" " segmented>
     <template #header-extra>
-      <n-space size="small">
-        <n-input v-model:value="search" placeholder="Type to search..." clearable />
+      <n-space size="small" class="-mb-6">
+        <n-input round v-model:value="search" placeholder="Type to search..." clearable>
+          <template #prefix>
+            <n-icon :component="SearchOutline"/>
+          </template>
+        </n-input>
         <slot name="actions" />
       </n-space>
     </template>
@@ -56,5 +60,7 @@ const filteredData = computed(() => {
 
 .n-data-table .n-data-table-td {
   max-width: 240px;
+  margin-top: 60px ;
+
 }
 </style>
