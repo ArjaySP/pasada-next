@@ -13,6 +13,11 @@ const columns: DataTableColumns = [
 ]
 
 const fields: FormFields = {
+  content_chapter: {
+    type: 'number',
+    label: 'Page number',
+    placeholder: 'e.g. "1"',
+  },
   content_header: {
     type: 'quill',
     label: 'Header',
@@ -24,6 +29,10 @@ const fields: FormFields = {
 }
 
 const rules: FormRules = {
+  content_chapter: {
+    type: 'number',
+    required: true,
+  },
   content_header: {
     required: true,
   },
