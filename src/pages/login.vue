@@ -45,7 +45,7 @@ const validate = () => {
 </script>
 
 <template>
-  <n-layout embedded class="h-full py-60">
+  <n-layout class="grid h-full place-content-center" embedded>
     <div class="mx-auto max-w-sm">
       <img src="/images/banner.png" alt="PASADA logo">
       <n-card class="mt-8">
