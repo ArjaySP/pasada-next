@@ -155,6 +155,7 @@ const quizScoreColumns: DataTableColumns = [
     title: 'Date',
     key: 'created_at',
     sorter: 'default',
+    defaultSortOrder: 'descend',
     render(row) {
       return (row.created_at as string).slice(0, 10)
     },

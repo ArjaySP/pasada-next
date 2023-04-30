@@ -4,7 +4,7 @@ defineProps<{
   fname?: string
   lname?: string
   role_id?: number
-  collapsed: boolean
+  collapsed?: boolean
 }>()
 
 const backendURL = import.meta.env.VITE_BACKEND_URL
@@ -17,11 +17,11 @@ const backendURL = import.meta.env.VITE_BACKEND_URL
       :src="`${backendURL}/api/fileUserImage/${userImage}`"
       :size="32" fallback-src="/images/default.svg"
     />
-    <div v-if="collapsed" class="flex flex-col gap-1">
+    <div class="flex flex-col gap-1">
       <div>
         {{ fname }} {{ lname }}
       </div>
-      <table-field-role class="w-max" :role-id="role_id" />
+      <table-field-role v-if="collapsed" class="w-max" :role-id="role_id" />
     </div>
   </div>
 </template>
