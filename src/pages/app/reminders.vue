@@ -65,12 +65,12 @@ const fields: FormFields = {
   },
   reminder_end_date: {
     type: 'date',
-    label: 'Start date',
+    label: 'End date',
     span: 12,
   },
   reminder_end_time: {
     type: 'time',
-    label: 'Start time',
+    label: 'End time',
     span: 12,
   },
   image: {
