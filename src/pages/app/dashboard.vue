@@ -169,12 +169,10 @@ const quizScoreColumns: DataTableColumns = [
     Loading...
   </div>
   <div v-else-if="data">
-    <n-card
-      content-style="
-background: linear-gradient(20deg, rgba(129,196,255,1) 13%, rgba(241,241,241,1) 68%);"
-    >
+    <n-card :bordered="false"
+      content-style="background: linear-gradient(58deg, rgba(61,83,164,1) 22%, rgba(250,250,250,1) 60%);">
       <div class="flex justify-between">
-        <n-h2 class="!mb-0 text-white">
+        <n-h2 class="!mb-0" style="color:white">
           {{ data.greeting }}, {{ auth?.user?.fname || 'user' }}!
         </n-h2>
         <div class="flex items-center gap-3">
@@ -194,7 +192,7 @@ background: linear-gradient(20deg, rgba(129,196,255,1) 13%, rgba(241,241,241,1) 
       <n-row gutter="8">
         <n-col :span="6">
           <router-link to="/lessons">
-            <n-card>
+            <n-card class="test">
               <n-statistic label="Lessons" :value="data.dashboard.lessons">
                 <template #prefix>
                   <n-icon>
@@ -256,3 +254,19 @@ background: linear-gradient(20deg, rgba(129,196,255,1) 13%, rgba(241,241,241,1) 
     />
   </div>
 </template>
+
+<!--<style>-->
+<!--  .test:hover{-->
+<!--    background-color: #3D53A4;-->
+<!--    transition-duration: 0.4s;-->
+<!--    color:white;-->
+<!--  }-->
+<!--  .test:hover a{-->
+<!--    color:white;-->
+<!--    valueTextColor:white;-->
+<!--  }-->
+
+<!--  n-statistic:hover{-->
+<!--    valueTextColor:white;-->
+<!--  }-->
+<!--</style>-->
