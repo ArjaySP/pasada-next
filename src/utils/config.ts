@@ -62,7 +62,11 @@ const themeOverrides: GlobalThemeOverrides = {
 
   },
   Button: {
-
+    textColorError: '#a34141',
+    colorError:"",
+    colorHoverError: '#8E2D2D',
+    colorPressedError: '#7F2121',
+    colorFocusError: '#8E2D2D',
   },
 }
 
