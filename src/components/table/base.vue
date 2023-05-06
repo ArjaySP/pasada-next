@@ -36,14 +36,23 @@ const filteredData = computed(() => {
 
 <template>
   <n-card title=" " segmented>
+
+    <template #header v-if="!modal">
+      <n-h2 class="!mb-0">
+        {{ $route.name }}
+      </n-h2>
+    </template>
+
     <template #header-extra>
-      <n-space size="small" class="-mb-6">
-        <n-input v-model:value="search" round placeholder="Type to search..." clearable>
-          <template #prefix>
-            <n-icon :component="SearchOutline" />
-          </template>
-        </n-input>
-        <slot name="actions" />
+      <n-space size="small" class="">
+        <n-input-group>
+          <n-input v-model:value="search" round placeholder="Type to search..." clearable>
+            <template #prefix>
+              <n-icon :component="SearchOutline" />
+            </template>
+          </n-input>
+          <slot name="actions" />
+        </n-input-group>
       </n-space>
     </template>
 
