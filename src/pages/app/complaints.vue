@@ -45,7 +45,7 @@ const fields: FormFields = {
     label: 'Driver',
     placeholder: 'Select driver...',
     queries: {
-      all: 'getAllAccounts',
+      all: 'getAllUsers',
       organization: 'getAllUsersOrganization',
     },
   },

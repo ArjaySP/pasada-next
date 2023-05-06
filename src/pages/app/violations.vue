@@ -70,7 +70,7 @@ const fields: FormFields = {
     label: 'Driver',
     placeholder: 'Select driver...',
     queries: {
-      all: 'getAllAccounts',
+      all: 'getAllUsers',
       organization: 'getAllUsersOrganization',
     },
   },
@@ -155,6 +155,7 @@ const rules: FormRules = {
     required: true,
   },
   violations_list_id: {
+    type: 'any',
     required: true,
   },
   date_happened: {
