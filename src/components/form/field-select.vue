@@ -27,17 +27,14 @@ const filteredData = computed(() => {
     const filtered = data.value?.filter((item: {
       organization_id: number
     }) => item.organization_id === formState.value.organization_id)
-    console.log(filtered)
     return filtered || []
   }
   else { return data.value }
 })
 
 watch(() => formState.value.organization_id, () => {
-  if (props.queries.organization && auth.isSuperadmin) {
-    console.log('Should reset')
+  if (props.queries.organization && auth.isSuperadmin)
     model.value = null
-  }
 })
 </script>
 

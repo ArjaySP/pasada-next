@@ -109,7 +109,7 @@ const columns: DataTableColumns = [
     render(row) {
       if (row.role_id as number <= auth.credentials!.access_level)
         return 'No permissions'
-      return <n-button-group size="medium"  class="flex">
+      return <n-button-group size="medium" class="flex">
         { props.queries?.edit !== false
             && <n-button type="primary" onClick={() => {
               emit('update:mode', 'Edit')

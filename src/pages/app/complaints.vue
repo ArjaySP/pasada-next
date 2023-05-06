@@ -168,8 +168,9 @@ const rules: FormRules = {
   time_happened: {
     required: true,
     validator: (_, value) => {
-      const input = dayjs(`${formState.value.date_happened} ${value}`, 'MM-DD-YYYY HH:mm:ss')
-      return !input.isAfter(dayjs()) || new Error('Time must be before current time')
+      const input = dayjs(`${formState.value.date_happened} ${value}`, 'YYYY-MM-DD HH:mm:ss')
+      const now = dayjs()
+      return input.isBefore(now) || input.isSame(now) || new Error('Time must be before current time')
     },
   },
 }

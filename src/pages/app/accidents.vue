@@ -226,7 +226,7 @@ const rules: FormRules = {
   time_committed: {
     required: true,
     validator: (_, value) => {
-      const input = dayjs(`${formState.value.date_committed} ${value}`, 'MM-DD-YYYY HH:mm:ss')
+      const input = dayjs(`${formState.value.date_committed} ${value}`, 'YYYY-MM-DD HH:mm:ss')
       return !input.isAfter(dayjs()) || new Error('Time must be before current time')
     },
   },
@@ -236,9 +236,10 @@ const rules: FormRules = {
   time_reported: {
     required: true,
     validator: (_, value) => {
-      const form = formState.value
-      const committed = dayjs(`${form.date_committed} ${form.time_committed}`, 'MM-DD-YYYY HH:mm:ss')
-      const reported = dayjs(`${form.date_reported} ${value}`, 'MM-DD-YYYY HH:mm:ss')
+      const { date_committed, time_committed, date_reported } = formState.value
+      const committed = dayjs(`${date_committed} ${time_committed}`, 'YYYY-MM-DD HH:mm:ss')
+      const reported = dayjs(`${date_reported} ${value}`, 'YYYY-MM-DD HH:mm:ss')
+      const now = dayjs()
       if (reported.isBefore(committed))
         return new Error('Time reported must be after time committed')
       return !reported.isAfter(dayjs()) || new Error('Time must be before current time')

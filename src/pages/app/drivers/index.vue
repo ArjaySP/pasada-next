@@ -91,7 +91,7 @@ const rules: FormRules = {
   birthdate: {
     required: true,
     validator: (_, value) => {
-      return dayjs().diff(dayjs(value, 'MM-DD-YYYY'), 'year') >= 18 || new Error('Must be 18 years old or above')
+      return dayjs().diff(dayjs(value, 'YYYY-MM-DD'), 'year') >= 18 || new Error('Must be 18 years old or above')
     },
   },
   mobile_number: {

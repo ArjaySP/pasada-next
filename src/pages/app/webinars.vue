@@ -108,8 +108,8 @@ const rules: FormRules = {
   web_end_time: {
     required: true,
     validator: (_, value) => {
-      const start = dayjs(`${formState.value.web_start_date} ${formState.value.web_start_time}`, 'MM-DD-YYYY HH:mm:ss')
-      const end = dayjs(`${formState.value.web_end_date} ${value}`, 'MM-DD-YYYY HH:mm:ss')
+      const start = dayjs(`${formState.value.web_start_date} ${formState.value.web_start_time}`, 'YYYY-MM-DD HH:mm:ss')
+      const end = dayjs(`${formState.value.web_end_date} ${value}`, 'YYYY-MM-DD HH:mm:ss')
       return end.isAfter(start) || new Error('Webinar end must be after start.')
     },
   },

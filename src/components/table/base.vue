@@ -36,8 +36,7 @@ const filteredData = computed(() => {
 
 <template>
   <n-card title=" " segmented>
-
-    <template #header v-if="!modal">
+    <template #header>
       <n-h2 class="!mb-0">
         {{ $route.name }}
       </n-h2>

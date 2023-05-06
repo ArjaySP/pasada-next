@@ -80,7 +80,7 @@ const fields: FormFields = {
     type: 'date',
     label: 'Date published',
   },
-  book_image: {
+  image: {
     type: 'file',
     label: 'Cover',
     accept: '.jpg, .jpeg, .gif, .png',
