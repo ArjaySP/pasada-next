@@ -13,7 +13,7 @@ const columns: DataTableColumns = [
     title: 'Driver',
     key: 'name',
     render(row) {
-      return <TableFieldUser fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
+      return <TableFieldUser id={row.driver_id} fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
     },
     sorter(rowA, rowB) {
       return (`${rowA.fname} ${rowA.lname}`).localeCompare(`${rowB.fname} ${rowB.lname}`)
@@ -45,6 +45,9 @@ const columns: DataTableColumns = [
     title: 'Date happened',
     key: 'date_committed',
     sorter: 'default',
+    render(row) {
+      return dayjs(row.date_committed).format('MM/DD/YYYY')
+    },
   },
 ]
 
@@ -66,6 +69,7 @@ const fields: FormFields = {
     span: 12,
     queries: {
       all: 'vehicles',
+      organization: 'vehicleOrganization',
     },
     format: vehicle => `${vehicle.plate_number} (${vehicle.manufacturer} ${vehicle.model_name})`,
   },
@@ -191,11 +195,11 @@ const fields: FormFields = {
 
 const rules: FormRules = {
   driver_id: {
-    type: 'number',
+    type: 'any',
     required: true,
   },
   vehicle_id: {
-    type: 'number',
+    type: 'any',
     required: true,
   },
   accident_type: {

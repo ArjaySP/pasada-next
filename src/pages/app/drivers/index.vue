@@ -17,7 +17,7 @@ const columns: DataTableColumns = [
       return (`${rowA.fname} ${rowA.lname}`).localeCompare(`${rowB.fname} ${rowB.lname}`)
     },
     render(row) {
-      return <TableFieldUser fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
+      return <TableFieldUser id={row.id} fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
     },
   },
   {

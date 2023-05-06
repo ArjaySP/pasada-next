@@ -150,7 +150,7 @@ const fields: FormFields = {
 
 const rules: FormRules = {
   module_id: {
-    type: 'number',
+    type: 'any',
     required: true,
   },
   quiz_title: {

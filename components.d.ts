@@ -25,9 +25,12 @@ declare module '@vue/runtime-core' {
     FormFieldSelect: typeof import('./src/components/form/field-select.vue')['default']
     FormFieldSelectUser: typeof import('./src/components/form/field-select-user.vue')['default']
     FormMaster: typeof import('./src/components/form/master.vue')['default']
+    ICalendarOutline: typeof import('~icons/ion/calendar-outline')['default']
+    ICallOutline: typeof import('~icons/ion/call-outline')['default']
     ICarOutline: typeof import('~icons/ion/car-outline')['default']
     ICloseOutline: typeof import('~icons/ion/close-outline')['default']
     IDocumentTextOutline: typeof import('~icons/ion/document-text-outline')['default']
+    IMailOutline: typeof import('~icons/ion/mail-outline')['default']
     IncentivesRewards: typeof import('./src/modules/incentives/rewards.vue')['default']
     IncentivesSettings: typeof import('./src/modules/incentives/settings.vue')['default']
     IPeopleOutline: typeof import('~icons/ion/people-outline')['default']
@@ -45,6 +48,7 @@ declare module '@vue/runtime-core' {
     NButtonGroup: typeof import('naive-ui')['NButtonGroup']
     NCard: typeof import('naive-ui')['NCard']
     NCol: typeof import('naive-ui')['NCol']
+    NCollapseTransition: typeof import('naive-ui')['NCollapseTransition']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDataTable: typeof import('naive-ui')['NDataTable']
     NDivider: typeof import('naive-ui')['NDivider']
@@ -90,6 +94,7 @@ declare module '@vue/runtime-core' {
     TableFieldRole: typeof import('./src/components/table/field-role.vue')['default']
     TableFieldUser: typeof import('./src/components/table/field-user.vue')['default']
     TableFieldUserCollapsed: typeof import('./src/components/table/field-user-collapsed.vue')['default']
+    TableFieldUserSide: typeof import('./src/components/table/field-user-side.vue')['default']
     ViolationsAttachments: typeof import('./src/modules/violations/attachments.vue')['default']
   }
 }

@@ -20,6 +20,12 @@ function loadCredentials() {
 export const useAuth = defineStore('auth', () => {
   const credentials = ref<Credentials | null>(loadCredentials())
 
+  const isSuperadmin = computed(() => {
+    if (credentials.value)
+      return credentials.value.access_level <= 1
+    else return false
+  })
+
   const isAdmin = computed(() => {
     if (credentials.value)
       return credentials.value.access_level <= 2
@@ -48,5 +54,5 @@ export const useAuth = defineStore('auth', () => {
     localStorage.setItem('credentials', JSON.stringify(value))
   }, { deep: true, immediate: true })
 
-  return { credentials, isAdmin, user, getUser, logout }
+  return { credentials, isSuperadmin, isAdmin, user, getUser, logout }
 })

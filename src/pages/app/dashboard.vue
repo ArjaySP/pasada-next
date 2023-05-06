@@ -15,7 +15,7 @@ definePage({
 const graphData = ref()
 const { data, loading, error, run } = useRequest(async () => {
   let graphQuery
-  if (auth.isAdmin) {
+  if (auth.isSuperadmin) {
     graphQuery = [
       axios.get('/complaint'),
       axios.get('/accidents'),
@@ -32,8 +32,8 @@ const { data, loading, error, run } = useRequest(async () => {
   const dashboard = await Promise.all([
     axios.get('/getDashboardInfo'),
     axios.get('/getAllSetbacks'),
-    axios.get(auth.isAdmin ? '/getQuizPassFail' : '/getQuizPassFailOrganization'),
-    axios.get(auth.isAdmin ? '/quizScore' : '/quizScoreOrganization'),
+    axios.get(auth.isSuperadmin ? '/getQuizPassFail' : '/getQuizPassFailOrganization'),
+    axios.get(auth.isSuperadmin ? '/quizScore' : '/quizScoreOrganization'),
     ...graphQuery,
   ])
 
@@ -79,7 +79,7 @@ const setbacksColumns: DataTableColumns = [
     title: 'Driver',
     key: 'name',
     render(row) {
-      return <TableFieldUser fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
+      return <TableFieldUser id={row.id} fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
     },
     sorter(rowA, rowB) {
       return (`${rowA.fname} ${rowA.lname}`).localeCompare(`${rowB.fname} ${rowB.lname}`)

@@ -47,13 +47,12 @@ export default defineComponent({
             case 'radio':
               return <FieldRadio v-model:value={formState.value[key]} name={key} options={field.options}></FieldRadio>
             case 'select': {
-              const { queries } = field
-              const query = queries.organization ? (auth.isAdmin ? queries.all : queries.organization) : queries.all
-              return <FieldSelect v-model:value={formState.value[key]} placeholder={field.placeholder || ''} query={query} format={field.format}/>
+              const { format, placeholder, queries } = field
+              return <FieldSelect v-model:value={formState.value[key]} placeholder={placeholder || ''} queries={queries} format={format}/>
             }
             case 'select-user': {
               const { queries } = field
-              const query = queries.organization ? (auth.isAdmin ? queries.all : queries.organization) : queries.all
+              const query = queries.organization ? (auth.isSuperadmin ? queries.all : queries.organization) : queries.all
               return <FieldSelectUser v-model:value={formState.value[key]} placeholder={field.placeholder || ''} query={query}/>
             }
             case 'textarea':

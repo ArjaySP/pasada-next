@@ -297,7 +297,6 @@ const queries: Queries = {
 //
 // const iotRules: FormRules = {
 //   driver_id: {
-//     type: 'number',
 //     required: true,
 //   },
 // }

@@ -36,7 +36,7 @@ const { data, error, loading, run: refresh } = useRequest(
     const { queries } = props
     if (queries.get)
       query = queries.get
-    else if (!auth.isAdmin && queries.organization)
+    else if (!auth.isSuperadmin && queries.organization)
       query = queries.organization
     else query = queries.all
     if (props.foreignKey)
@@ -134,7 +134,7 @@ const columns: DataTableColumns = [
     },
   },
 ]
-if (auth.isAdmin && props.queries.organization && props.queries.hasOrganizationField !== false) {
+if (auth.isSuperadmin && props.queries.organization && props.queries.hasOrganizationField !== false) {
   columns.unshift(
     {
       title: 'Org.',
@@ -154,7 +154,7 @@ function handleNew() {
   modal.mode = 'Add'
   formState.value = {}
   modal.show = true
-  formState.value.organization_id = auth.isAdmin ? 1 : auth.user!.organization_id
+  formState.value.organization_id = auth.isSuperadmin ? 1 : auth.user!.organization_id
   if (props.foreignKey)
     formState.value[props.foreignKey] = props.foreignKeyValue
 }
@@ -183,7 +183,7 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
     >
       <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
         <form-master
-          v-if="auth.isAdmin && queries.hasOrganizationField" :fields="
+          v-if="auth.isSuperadmin && queries.hasOrganizationField" :fields="
             {
               organization_id: {
                 type: 'select',

@@ -109,8 +109,8 @@ const fields: FormFields = {
 
 const rules: FormRules = {
   module_id: {
+    type: 'any',
     required: true,
-    type: 'number',
   },
   title: {
     required: true,

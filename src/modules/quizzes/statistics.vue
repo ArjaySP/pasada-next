@@ -10,7 +10,7 @@ const props = defineProps<{
 const auth = useAuth()
 const { data, loading, error, refresh } = useRequest(async () => {
   let queries
-  if (auth.isAdmin) {
+  if (auth.isSuperadmin) {
     queries = [
       axios.get(`/getQuizRankingByQuizID/${props.foreignKeyValue}`),
       axios.get(`/getTopFailedQuestionsByQuizID/${props.foreignKeyValue}`),
@@ -52,7 +52,7 @@ const rankingColumns: DataTableColumns = [
     title: 'Driver',
     key: 'driver_name',
     render(row) {
-      return <TableFieldUser fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
+      return <TableFieldUser id={row.user_id} fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
     },
     sorter(rowA, rowB) {
       return (`${rowA.fname} ${rowA.lname}`).localeCompare(`${rowB.fname} ${rowB.lname}`)

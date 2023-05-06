@@ -24,7 +24,7 @@ const columns: DataTableColumns = [
       return (`${rowA.fname} ${rowA.lname}`).localeCompare(`${rowB.fname} ${rowB.lname}`)
     },
     render(row) {
-      return <TableFieldUser fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
+      return <TableFieldUser id={row.id} fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
     },
   },
   {
@@ -103,13 +103,13 @@ const rules = computed<FormRules>(() => {
   return ((mode.value === 'Add')
     ? {
         user_id: {
-          type: 'number',
+          type: 'any',
           required: true,
         },
       }
     : {
         role_id: {
-          type: 'number',
+          type: 'any',
           required: true,
         },
       }) as FormRules

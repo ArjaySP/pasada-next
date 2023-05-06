@@ -65,7 +65,7 @@ const fields: FormFields = {
 
 const rules: FormRules = {
   quiz_information_id: {
-    type: 'number',
+    type: 'any',
     required: true,
   },
   daily_description: {

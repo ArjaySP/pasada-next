@@ -61,7 +61,7 @@ const fields: FormFields = {
 
 const rules: FormRules = {
   is_id: {
-    type: 'number',
+    type: 'any',
     required: true,
   },
   ir_title: {

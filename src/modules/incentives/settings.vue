@@ -61,6 +61,9 @@ const rules: FormRules = {
   is_description: {
     required: true,
   },
+  is_status: {
+    required: true,
+  },
 }
 
 const queries: Queries = {

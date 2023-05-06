@@ -90,13 +90,13 @@ const menu: MenuOption[] = [
         label: renderLabel('Organizations', '/organizations'),
         key: 'organizations',
         icon: renderIcon(Organizations),
-        show: auth.isAdmin,
+        show: auth.isSuperadmin,
       },
       {
         label: renderLabel('Members', '/members'),
         key: 'members',
         icon: renderIcon(Organizations),
-        show: !auth.isAdmin,
+        show: !auth.isSuperadmin,
       },
       {
         label: renderLabel('Drivers', '/drivers'),
@@ -277,7 +277,7 @@ function handlePost() {
       <n-divider class="!my-0" />
       <n-thing class="p-4" @click="openModal()">
         <template #avatar>
-          <table-field-user :collapsed="!isCollapsed" v-bind="auth.user" />
+          <table-field-user-side :collapsed="!isCollapsed" v-bind="auth.user" />
         </template>
       </n-thing>
       <n-divider class="!my-0" />
@@ -307,11 +307,18 @@ function handlePost() {
     </n-card>
 
     <app-modal
-      v-model:show="modal" :title="auth.user?.fname || 'Edit user'"
+      v-model:show="modal" title="Account settings"
     >
-      <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
-        <form-master v-bind="{ fields }" />
-      </n-form>
+      <n-tabs type="line">
+        <n-tab-pane tab="Profile" name="profile">
+          <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
+            <form-master v-bind="{ fields }" />
+          </n-form>
+        </n-tab-pane>
+        <n-tab-pane tab="Password" name="password">
+          Change password
+        </n-tab-pane>
+      </n-tabs>
 
       <template #footer>
         <NSpace justify="end">
