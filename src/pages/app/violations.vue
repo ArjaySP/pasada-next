@@ -18,7 +18,7 @@ const columns: DataTableColumns = [
     title: 'Driver',
     key: 'name',
     render(row) {
-      return <TableFieldUser id={row.id} fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
+      return <TableFieldUser id={row.driver_id} fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
     },
     sorter(rowA, rowB) {
       return (`${rowA.fname} ${rowA.lname}`).localeCompare(`${rowB.fname} ${rowB.lname}`)
