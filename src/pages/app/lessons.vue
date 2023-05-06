@@ -123,7 +123,7 @@ const rules: FormRules = {
 const queries: Queries = {
   all: 'lessons',
   organization: 'lessonOrganization',
-  hasOrganizationField: false,
+  hasOrganizationField: true,
 }
 </script>
 
