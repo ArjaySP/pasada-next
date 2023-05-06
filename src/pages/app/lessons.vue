@@ -12,10 +12,12 @@ definePage({
 const translations = reactive({
   show: false,
   foreignKeyValue: 0,
+  title: '',
 })
 const videos = reactive({
   show: false,
   foreignKeyValue: 0,
+  title: '',
 })
 
 const columns: DataTableColumns = [
@@ -55,8 +57,9 @@ const columns: DataTableColumns = [
     key: 'translations',
     render(row) {
       return <NButton type="primary" onClick={() => {
-        translations.show = true
         translations.foreignKeyValue = row.id as number
+        translations.title = row.title as string
+        translations.show = true
       }}>Translations</NButton>
     },
   },
@@ -65,8 +68,9 @@ const columns: DataTableColumns = [
     key: 'videos',
     render(row) {
       return <NButton type="primary" onClick={() => {
-        videos.show = true
+        videos.title = row.title as string
         videos.foreignKeyValue = row.id as number
+        videos.show = true
       }}>Videos</NButton>
     },
   },
@@ -130,11 +134,11 @@ const queries: Queries = {
 <template>
   <table-crud v-bind="{ columns, fields, rules, queries }" name="lesson" />
 
-  <app-modal v-model:show="translations.show" title="Translations">
+  <app-modal v-model:show="translations.show" :title="`Translations: ${translations.title}`">
     <lessons-translations :foreign-key-value="translations.foreignKeyValue" />
   </app-modal>
 
-  <app-modal v-model:show="videos.show" title="Videos">
+  <app-modal v-model:show="videos.show" :title="`Videos: ${videos.title}`">
     <lessons-videos :foreign-key-value="videos.foreignKeyValue" />
   </app-modal>
 </template>

@@ -227,7 +227,7 @@ const rules: FormRules = {
     required: true,
     validator: (_, value) => {
       const input = dayjs(`${formState.value.date_committed} ${value}`, 'YYYY-MM-DD HH:mm:ss')
-      return !input.isAfter(dayjs()) || new Error('Time must be before current time')
+      return !input.isAfter(dayjs()) || new Error('Accident date and time must be before now')
     },
   },
   date_reported: {
@@ -241,8 +241,8 @@ const rules: FormRules = {
       const reported = dayjs(`${date_reported} ${value}`, 'YYYY-MM-DD HH:mm:ss')
       const now = dayjs()
       if (reported.isBefore(committed))
-        return new Error('Time reported must be after time committed')
-      return !reported.isAfter(dayjs()) || new Error('Time must be before current time')
+        return new Error('Report must be after accident date and time')
+      return !reported.isAfter(dayjs()) || new Error('Reported date and time must be before now')
     },
   },
   case_status: {

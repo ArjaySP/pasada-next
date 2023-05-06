@@ -12,7 +12,10 @@ const backendURL = import.meta.env.VITE_BACKEND_URL
 </script>
 
 <template>
-  <router-link :to="`/drivers/${id}`" class="flex items-center gap-3">
+  <router-link
+    :to="`/drivers/${id}`" class="flex items-center gap-3"
+    target="_blank"
+  >
     <NAvatar
       class="shrink-0" round
       :src="`${backendURL}/api/fileUserImage/${userImage}`"

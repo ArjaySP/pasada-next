@@ -10,6 +10,7 @@ definePage({
 const members = reactive({
   show: false,
   foreignKeyValue: 0,
+  title: '',
 })
 
 const columns: DataTableColumns = [
@@ -31,6 +32,7 @@ const columns: DataTableColumns = [
     render(row) {
       return <NButton type="primary" onClick={() => {
         members.foreignKeyValue = row.id as number
+        members.title = row.org_title as string
         members.show = true
       }}>Members</NButton>
     },
@@ -75,7 +77,7 @@ const queries: Queries = {
 <template>
   <table-crud v-bind="{ columns, fields, rules, queries }" name="organization" />
 
-  <app-modal v-model:show="members.show" title="Members">
+  <app-modal v-model:show="members.show" :title="`Members: ${members.title}`">
     <organizations-members :foreign-key-value="members.foreignKeyValue" />
   </app-modal>
 </template>

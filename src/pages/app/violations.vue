@@ -3,6 +3,7 @@ import type { DataTableColumns, FormRules } from 'naive-ui'
 import { NButton, NText } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 import TableFieldUser from '@/components/table/field-user.vue'
+import formState from '@/utils/formState'
 
 definePage({
   name: 'Violations',
@@ -11,6 +12,7 @@ definePage({
 const attachments = reactive({
   show: false,
   foreignKeyValue: 0,
+  title: '',
 })
 
 const columns: DataTableColumns = [
@@ -56,8 +58,10 @@ const columns: DataTableColumns = [
     key: 'attachments',
     render(row) {
       return <NButton type="primary" onClick={() => {
-        attachments.show = true
         attachments.foreignKeyValue = row.id as number
+        // Title: driver name, plate number, date
+        attachments.title = `${row.fname} ${row.lname} - ${row.plate_number} - ${dayjs(row.date_happened).format('MM/DD/YYYY')}`
+        attachments.show = true
       }}>Attachments</NButton>
     },
   },
@@ -162,11 +166,11 @@ const rules: FormRules = {
   },
   time_happened: {
     required: true,
-    // validator: (_, value) => {
-    //   const input = dayjs(`${formState.value.date_happened} ${value}`, 'YYYY-MM-DD HH:mm:ss')
-    //   const now = dayjs()
-    //   return !input.isAfter(now) || new Error('Time must be before current time')
-    // },
+    validator: (_, value) => {
+      const input = dayjs(`${formState.value.date_happened} ${value}`, 'YYYY-MM-DD HH:mm:ss')
+      const now = dayjs()
+      return !input.isAfter(now) || new Error('Date and time must be before now')
+    },
   },
   offense_level: {
     type: 'number',
@@ -186,7 +190,7 @@ const queries: Queries = {
 <template>
   <table-crud v-bind="{ columns, fields, rules, queries, ...$attrs }" name="violation" />
 
-  <app-modal v-model:show="attachments.show" title="Attachments">
+  <app-modal v-model:show="attachments.show" :title="`Attachments: ${attachments.title}`">
     <violations-attachments :foreign-key-value="attachments.foreignKeyValue" />
   </app-modal>
 </template>
