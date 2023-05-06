@@ -30,8 +30,8 @@ const columns: DataTableColumns = [
     key: 'members',
     render(row) {
       return <NButton type="primary" onClick={() => {
-        members.show = true
         members.foreignKeyValue = row.id as number
+        members.show = true
       }}>Members</NButton>
     },
   },

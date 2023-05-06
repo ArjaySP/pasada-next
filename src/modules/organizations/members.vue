@@ -236,7 +236,7 @@ const unverifiedColumns: DataTableColumns = [
     <n-tab-pane display-directive="show:lazy" name="verified" tab="Verified">
       <table-crud v-bind="{ columns, fields, rules, queries, foreignKeyValue }" name="member" foreign-key="org_id" @update:mode="(v) => mode = v" />
     </n-tab-pane>
-    <n-tab-pane display-directive="show:lazy" name="unverified">
+    <n-tab-pane display-directive="show:lazy" name="unverified" tab="Needs verification">
       <template #tab>
         <span>Needs verification</span>
         <n-badge v-if="data.length > 0" class="ml-2" :value="data.length" />

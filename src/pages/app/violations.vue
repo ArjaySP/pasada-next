@@ -3,7 +3,6 @@ import type { DataTableColumns, FormRules } from 'naive-ui'
 import { NButton, NText } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 import TableFieldUser from '@/components/table/field-user.vue'
-import formState from '@/utils/formState'
 
 definePage({
   name: 'Violations',
@@ -163,11 +162,11 @@ const rules: FormRules = {
   },
   time_happened: {
     required: true,
-    validator: (_, value) => {
-      const input = dayjs(`${formState.value.date_happened} ${value}`, 'YYYY-MM-DD HH:mm:ss')
-      const now = dayjs()
-      return !input.isAfter(now) || new Error('Time must be before current time')
-    },
+    // validator: (_, value) => {
+    //   const input = dayjs(`${formState.value.date_happened} ${value}`, 'YYYY-MM-DD HH:mm:ss')
+    //   const now = dayjs()
+    //   return !input.isAfter(now) || new Error('Time must be before current time')
+    // },
   },
   offense_level: {
     type: 'number',

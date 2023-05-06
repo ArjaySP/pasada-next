@@ -10,7 +10,7 @@ const isFullscreen = useLocalStorage('isFullscreen', false)
 </script>
 
 <template>
-  <n-modal v-model:show="model" display-directive="show" :class="isFullscreen ? 'max-w-screen-lg' : 'max-w-2xl'" preset="card" segmented bordered size="small" v-bind="{ title }" header-style="text-align: center;" :closable="false" transform-origin="center">
+  <n-modal v-model:show="model" :class="isFullscreen ? 'max-w-screen-lg' : 'max-w-2xl'" preset="card" segmented bordered size="small" v-bind="{ title }" header-style="text-align: center;" :closable="false" transform-origin="center">
     <template #header-extra>
       <div class="flex gap-2.5">
         <button>

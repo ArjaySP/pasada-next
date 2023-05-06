@@ -7,7 +7,7 @@ const props = defineProps<{
     all: string
     organization?: string
   }
-  value?: number
+  value?: number | null
   format: Function
 }>()
 const emit = defineEmits(['update:value'])
