@@ -42,6 +42,29 @@ const validate = () => {
     alertMessage.value = 'Incorrect email or password.'
   })
 }
+
+const partners = [
+  {
+    image: '/images/partners/TIP.png',
+    name: 'Technological Institute of the Philippines',
+    url: 'https://www.tip.edu.ph/',
+  },
+  {
+    image: '/images/partners/DOST.png',
+    name: 'Department of Science and Technology',
+    url: 'https://www.dost.gov.ph/',
+  },
+  // {
+  //   image: "/images/partners/DOTR.png",
+  //   name: "Department of Transport",
+  //   url: "https://www.dotr.gov.ph/",
+  // },
+  // {
+  //   image: "/images/partners/NPTC.png",
+  //   name: "National Public Transport Coalition",
+  //   url: "https://www.facebook.com/NPTCph/",
+  // },
+]
 </script>
 
 <template>
@@ -67,9 +90,28 @@ const validate = () => {
           Log in
         </n-button>
       </n-card>
-      <n-p class="text-center">
-        PASADA - The Next Generation of Public Transportation
-      </n-p>
+
+      <div class="mt-6 flex flex-col items-center text-center">
+        <n-p>In partnership with:</n-p>
+        <div class="flex items-center gap-4">
+          <n-tooltip
+            v-for="(partner, i) in partners" :key="partner.name"
+          >
+            <template #trigger>
+              <a :href="partner.url" class="flex h-24 items-center" target="_blank">
+                <img
+                  class="w-full max-w-[6rem]"
+                  :src="partners[i].image"
+                >
+              </a>
+            </template>
+            {{ partner.name }}
+          </n-tooltip>
+        </div>
+        <n-p class="!mt-6 text-center">
+          PASADA - The Next Generation of Public Transportation
+        </n-p>
+      </div>
     </div>
   </n-layout>
 </template>

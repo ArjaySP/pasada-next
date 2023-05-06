@@ -169,10 +169,9 @@ const quizScoreColumns: DataTableColumns = [
     Loading...
   </div>
   <div v-else-if="data">
-    <n-card :bordered="false"
-      content-style="background: linear-gradient(58deg, rgba(61,83,164,1) 22%, rgba(250,250,250,1) 60%);">
+    <n-card>
       <div class="flex justify-between">
-        <n-h2 class="!mb-0" style="color:white">
+        <n-h2 class="!mb-0">
           {{ data.greeting }}, {{ auth?.user?.fname || 'user' }}!
         </n-h2>
         <div class="flex items-center gap-3">
@@ -255,18 +254,18 @@ const quizScoreColumns: DataTableColumns = [
   </div>
 </template>
 
-<!--<style>-->
-<!--  .test:hover{-->
-<!--    background-color: #3D53A4;-->
-<!--    transition-duration: 0.4s;-->
-<!--    color:white;-->
-<!--  }-->
-<!--  .test:hover a{-->
-<!--    color:white;-->
-<!--    valueTextColor:white;-->
-<!--  }-->
+<!-- <style> -->
+<!--  .test:hover{ -->
+<!--    background-color: #3D53A4; -->
+<!--    transition-duration: 0.4s; -->
+<!--    color:white; -->
+<!--  } -->
+<!--  .test:hover a{ -->
+<!--    color:white; -->
+<!--    valueTextColor:white; -->
+<!--  } -->
 
-<!--  n-statistic:hover{-->
-<!--    valueTextColor:white;-->
-<!--  }-->
-<!--</style>-->
+<!--  n-statistic:hover{ -->
+<!--    valueTextColor:white; -->
+<!--  } -->
+<!-- </style> -->

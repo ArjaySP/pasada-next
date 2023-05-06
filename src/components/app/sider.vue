@@ -258,6 +258,8 @@ function handlePost() {
     postRun()
   })
 }
+
+const newPassword = ref('')
 </script>
 
 <template>
@@ -272,10 +274,7 @@ function handlePost() {
     @expand="isCollapsed = false"
   >
     <div>
-      <img src="/images/logo.png" class="w-40 p-4" alt="PASADA icon">
-
-      <n-divider class="!my-0" />
-      <n-thing class="p-4" @click="openModal()">
+      <n-thing class="px-4 py-[15px]" @click="openModal()">
         <template #avatar>
           <table-field-user-side :collapsed="!isCollapsed" v-bind="auth.user" />
         </template>
@@ -292,13 +291,10 @@ function handlePost() {
     </div>
     <n-card content-style="padding: 12px;">
       <div class="flex flex-col">
-        <n-button v-if="!isCollapsed" type="error" @click="handleLogout()">
-          Log out
-          <template #icon>
-            <i-power-outline />
+        <n-button secondary type="error" @click="handleLogout()">
+          <template v-if="!isCollapsed">
+            Log out
           </template>
-        </n-button>
-        <n-button v-if="isCollapsed" type="error" @click="handleLogout()">
           <template #icon>
             <i-power-outline />
           </template>
@@ -309,14 +305,16 @@ function handlePost() {
     <app-modal
       v-model:show="modal" title="Account settings"
     >
-      <n-tabs type="line">
+      <n-tabs size="large" type="line">
         <n-tab-pane tab="Profile" name="profile">
           <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
             <form-master v-bind="{ fields }" />
           </n-form>
         </n-tab-pane>
         <n-tab-pane tab="Password" name="password">
-          Change password
+          <n-form-item label="New password">
+            <n-input v-model:value="newPassword" show-password-on="click" type="password" placeholder="" />
+          </n-form-item>
         </n-tab-pane>
       </n-tabs>
 
