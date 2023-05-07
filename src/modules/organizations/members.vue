@@ -37,7 +37,7 @@ const columns: DataTableColumns = [
     key: 'role_id',
     sorter: 'default',
     render(row) {
-      return <TableFieldRole roleId={row.role_id} />
+      return <TableFieldRole role_id={row.role_id} />
     },
   },
   {

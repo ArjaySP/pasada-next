@@ -101,6 +101,7 @@ const rules: FormRules = {
   },
   email: {
     required: true,
+    type: 'email',
   },
 }
 

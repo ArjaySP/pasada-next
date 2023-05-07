@@ -1,7 +1,7 @@
 <script setup lang="ts">
-defineProps<{
-  id: number
-  userImage?: string
+const props = defineProps<{
+  id?: number
+  user_image?: string
   fname?: string
   lname?: string
   role_id?: number
@@ -12,17 +12,18 @@ const backendURL = import.meta.env.VITE_BACKEND_URL
 </script>
 
 <template>
-  <router-link
+  <component
+    :is="id ? 'RouterLink' : 'div'"
     :to="`/drivers/${id}`" class="flex items-center gap-3"
     target="_blank"
   >
     <NAvatar
       class="shrink-0" round
-      :src="`${backendURL}/api/fileUserImage/${userImage}`"
+      :src="`${backendURL}/api/fileUserImage/${user_image}`"
       :size="32" fallback-src="/images/default.svg"
     />
     <div>
       {{ fname }} {{ lname }}
     </div>
-  </router-link>
+  </component>
 </template>

@@ -14,16 +14,16 @@ definePage({
 
 const graphData = ref()
 const { data, loading, error, run } = useRequest(async () => {
-  let graphQuery
+  let graphQueries
   if (auth.isSuperadmin) {
-    graphQuery = [
+    graphQueries = [
       axios.get('/complaint'),
       axios.get('/accidents'),
       axios.get('/violation'),
     ]
   }
   else {
-    graphQuery = [
+    graphQueries = [
       axios.get('/complaintOrganization'),
       axios.get('/accidentsOrganization'),
       axios.get('/violationsOrganizations'),
@@ -34,7 +34,7 @@ const { data, loading, error, run } = useRequest(async () => {
     axios.get('/getAllSetbacks'),
     axios.get(auth.isSuperadmin ? '/getQuizPassFail' : '/getQuizPassFailOrganization'),
     axios.get(auth.isSuperadmin ? '/quizScore' : '/quizScoreOrganization'),
-    ...graphQuery,
+    ...graphQueries,
   ])
 
   const time = dayjs()

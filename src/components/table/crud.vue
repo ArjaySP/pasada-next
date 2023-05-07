@@ -138,8 +138,12 @@ if (auth.isSuperadmin && props.queries.organization && props.queries.hasOrganiza
   columns.unshift(
     {
       title: 'Org.',
-      key: 'organization',
-      sorter: 'default',
+      key: 'org',
+      sorter: (a: any, b: any) => {
+        return a?.org_title?.localeCompare(b?.org_title)
+            || a?.organization?.org_title?.localeCompare(b?.organization?.org_title)
+            || a?.organization_id - b?.organization_id || 0
+      },
       render(row: any) {
         return row?.org_title
             || row?.organization?.org_title

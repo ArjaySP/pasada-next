@@ -4,6 +4,7 @@ import { useAuth } from '@/utils/auth'
 const auth = useAuth()
 const message = useMessage()
 const router = useRouter()
+const route = useRoute()
 
 axios.interceptors.response.use(
   response => response,
@@ -18,9 +19,11 @@ axios.interceptors.response.use(
         break
       }
       case 401:
-        message.error('Unauthorized')
-        auth.logout()
-        router.push('/login')
+        if (auth.credentials) {
+          message.error('Unauthorized')
+          auth.logout()
+          router.push('/login')
+        }
         break
       case 413:
         message.error('File too large')

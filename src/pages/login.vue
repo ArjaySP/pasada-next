@@ -32,8 +32,11 @@ const { loading, run } = useRequest(() => axios.post('/login', formState.value),
       router.push('/dashboard')
     }
     else {
-      alertMessage.value = res.data.message === 'Login error!' ? 'Incorrect email or password.' : res.data.message
+      alertMessage.value = res.data.message
     }
+  },
+  onError: (err) => {
+    alertMessage.value = err.response.data.message
   },
 })
 

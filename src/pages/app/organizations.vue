@@ -17,14 +17,17 @@ const columns: DataTableColumns = [
   {
     title: 'Title',
     key: 'org_title',
+    sorter: 'default',
   },
   {
     title: 'Description',
     key: 'org_description',
+    sorter: 'default',
   },
   {
     title: 'Address',
     key: 'org_address',
+    sorter: 'default',
   },
   {
     title: 'Members',

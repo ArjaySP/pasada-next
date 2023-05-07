@@ -4,10 +4,13 @@ import { NButton } from 'naive-ui'
 import type { FormFields, Queries } from '@/types'
 import ViewImage from '@/components/button/view-image.vue'
 import ViewFile from '@/components/button/view-file.vue'
+import { useAuth } from '@/utils/auth'
 
 definePage({
   name: 'Lessons',
 })
+
+const auth = useAuth()
 
 const translations = reactive({
   show: false,
@@ -26,10 +29,13 @@ const columns: DataTableColumns = [
     key: 'module_name',
     sorter: 'default',
     render(row) {
-      return <div>
-        {row.module_name}
-        <div class="text-sm text-gray-500">Org: {row.organization.org_title}</div>
-      </div>
+      if (!auth.isSuperadmin) {
+        return <div>
+          {row.module_name}
+          <div class="text-sm text-gray-500">Org: {row.organization.org_title}</div>
+        </div>
+      }
+      else { return row.module_name }
     },
   },
   {

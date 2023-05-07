@@ -17,6 +17,10 @@ const attachments = reactive({
 
 const columns: DataTableColumns = [
   {
+    title: 'id',
+    key: 'id',
+  },
+  {
     title: 'Driver',
     key: 'name',
     render(row) {
@@ -33,8 +37,8 @@ const columns: DataTableColumns = [
   },
   {
     title: 'Violation',
-    key: 'violation',
-    sorter: 'default',
+    key: 'violation_list.violation_code',
+    sorter: (a: any, b: any) => a.violation_list.violation_code - b.violation_list.violation_code,
     render(row: Record<string, any>) {
       return <p>{row.violation_list.violation_code} - {row.violation_list.violation_description}<br/>
         <NText depth={3}>{{ 1: 'First', 2: 'Second', 3: 'Third' }[row.offense_level as number]} Offense - {row.violation_list[`${{ 1: 'first', 2: 'second', 3: 'third' }[row.offense_level as number]}_offense_charge`]} PhP</NText></p>

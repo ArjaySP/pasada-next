@@ -97,7 +97,7 @@ const queries: Queries = {
 <template>
   <table-crud v-bind="{ columns, fields, rules, queries }" name="incentive" />
 
-  <app-modal v-model:show="rewards.show" :title="`Translations: ${rewards.title}`">
+  <app-modal v-model:show="rewards.show" :title="`Rewards: ${rewards.title}`">
     <lessons-translations :foreign-key-value="rewards.foreignKeyValue" />
   </app-modal>
 </template>
