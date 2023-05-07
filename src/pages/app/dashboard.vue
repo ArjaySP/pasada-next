@@ -114,7 +114,7 @@ const quizScoreColumns: DataTableColumns = [
     key: 'name',
     sorter: 'default',
     render(row) {
-      return <TableFieldUser fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
+      return <TableFieldUser id={row.user_id} fname={row.fname} lname={row.lname} user_image={row.user_image}></TableFieldUser>
     },
   },
   {
@@ -179,7 +179,7 @@ const quizScoreColumns: DataTableColumns = [
           <n-button round type="primary" :loading="loading" @click="run()">
             Refresh
           </n-button>
-          <n-button round type="primary" ghost @click="isPending ? stop() : start()">
+          <n-button round @click="isPending ? stop() : start()">
             {{ isPending ? 'Pause' : 'Resume' }}
           </n-button>
         </div>

@@ -32,7 +32,7 @@ const columns: DataTableColumns = [
       return row.role_id === 4
         ? <RouterLink to={`/drivers/${row.id}`}
                                         target="_blank" as="template">
-          <NButton type="primary">Profile</NButton>
+          <NButton round type="primary">Profile</NButton>
         </RouterLink>
         : ''
     },

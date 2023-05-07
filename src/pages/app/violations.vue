@@ -61,7 +61,7 @@ const columns: DataTableColumns = [
     title: 'Attachments',
     key: 'attachments',
     render(row) {
-      return <NButton type="primary" onClick={() => {
+      return <NButton round type="primary" onClick={() => {
         attachments.foreignKeyValue = row.id as number
         // Title: driver name, plate number, date
         attachments.title = `${row.fname} ${row.lname} - ${row.plate_number} - ${dayjs(row.date_happened).format('MM/DD/YYYY')}`

@@ -2,6 +2,7 @@
 import type { FormInst, FormRules, MenuOption } from 'naive-ui'
 import type { Component } from 'vue'
 import { RouterLink } from 'vue-router'
+import { zxcvbn } from '@zxcvbn-ts/core'
 import Dashboard from '~icons/ion/SpeedometerOutline'
 import Analytics from '~icons/ion/AnalyticsOutline'
 import Learning from '~icons/ion/SchoolOutline'
@@ -18,7 +19,6 @@ import Reminders from '~icons/ion/NotificationsOutline'
 import Webinars from '~icons/ion/VideocamOutline'
 import Reports from '~icons/ion/FileTrayFullOutline'
 import Complaints from '~icons/ion/ReaderOutline'
-
 import Violations from '~icons/ion/WarningOutline'
 import Accidents from '~icons/ion/MedkitOutline'
 import { useAuth } from '@/utils/auth'
@@ -69,11 +69,6 @@ const menu: MenuOption[] = [
         key: 'quizzes',
         icon: renderIcon(Quizzes),
       },
-      // {
-      //   label: renderLabel('Daily Quiz', '/daily-quiz'),
-      //   key: 'daily-quiz',
-      //   icon: renderIcon(DailyQuiz),
-      // },
       {
         label: renderLabel('Books', '/books'),
         key: 'books',
@@ -130,11 +125,6 @@ const menu: MenuOption[] = [
     key: 'reports',
     icon: renderIcon(Reports),
     children: [
-      // {
-      //   label: renderLabel('Summary', '/summary'),
-      //   key: 'summary',
-      //   icon: renderIcon(Summary),
-      // },
       {
         label: renderLabel('Complaints', '/complaints'),
         key: 'complaints',
@@ -259,7 +249,19 @@ function handlePost() {
   })
 }
 
+const oldPassword = ref('')
 const newPassword = ref('')
+const currentTab = ref('profile')
+const passwordScore = ref(0)
+
+async function useZxcvbn() {
+  const { score } = await zxcvbn(newPassword.value)
+  passwordScore.value = score
+}
+
+watchDebounced(newPassword, () => {
+  useZxcvbn()
+}, { debounce: 300, maxWait: 2000 })
 </script>
 
 <template>
@@ -276,7 +278,7 @@ const newPassword = ref('')
     <div>
       <n-thing class="px-4 py-[15px]" @click="openModal()">
         <template #avatar>
-          <table-field-user-side :collapsed="!isCollapsed" v-bind="auth.user" />
+          <button-user-side :collapsed="!isCollapsed" v-bind="auth.user" />
         </template>
       </n-thing>
       <n-divider class="!my-0" />
@@ -291,7 +293,7 @@ const newPassword = ref('')
     </div>
     <n-card content-style="padding: 12px;">
       <div class="flex flex-col">
-        <n-button secondary type="error" @click="handleLogout()">
+        <n-button round secondary type="error" @click="handleLogout()">
           <template v-if="!isCollapsed">
             Log out
           </template>
@@ -305,25 +307,42 @@ const newPassword = ref('')
     <app-modal
       v-model:show="modal" title="Account settings"
     >
-      <n-tabs size="large" type="line">
+      <n-tabs v-model:value="currentTab" size="large" type="line">
         <n-tab-pane tab="Profile" name="profile">
           <n-form ref="formRef" :model="formState" v-bind="{ rules, validateMessages }" class="grid gap-x-3" style="grid-template-columns: repeat(24, minmax(0, 1fr))">
             <form-master v-bind="{ fields }" />
           </n-form>
         </n-tab-pane>
         <n-tab-pane tab="Password" name="password">
-          <n-form-item label="New password">
-            <n-input v-model:value="newPassword" show-password-on="click" type="password" placeholder="" />
-          </n-form-item>
+          <n-form :show-feedback="false">
+            <n-form-item label="Old password">
+              <n-input v-model:value="oldPassword" show-password-on="click" type="password" placeholder="" />
+            </n-form-item>
+            <n-form-item class="mt-4" label="New password">
+              <n-input v-model:value="newPassword" show-password-on="click" type="password" placeholder="" />
+            </n-form-item>
+            <n-p class="!mb-2">
+              Password strength
+            </n-p>
+            <div class="grid grid-cols-4 gap-2">
+              <n-progress type="line" :status="passwordScore <= 2 ? 'warning' : passwordScore === 3 ? 'success' : 'default'" :percentage="passwordScore > 0 ? 100 : 0" :show-indicator="false" />
+              <n-progress type="line" :status="passwordScore <= 2 ? 'warning' : passwordScore === 3 ? 'success' : 'default'" :percentage="passwordScore > 1 ? 100 : 0" :show-indicator="false" />
+              <n-progress type="line" :status="passwordScore <= 2 ? 'warning' : passwordScore === 3 ? 'success' : 'default'" :percentage="passwordScore > 2 ? 100 : 0" :show-indicator="false" />
+              <n-progress type="line" :status="passwordScore <= 2 ? 'warning' : passwordScore === 3 ? 'success' : 'default'" :percentage="passwordScore > 3 ? 100 : 0" :show-indicator="false" />
+            </div>
+            <n-p v-if="passwordScore < 3">
+              Please select a strong password.
+            </n-p>
+          </n-form>
         </n-tab-pane>
       </n-tabs>
 
       <template #footer>
         <NSpace justify="end">
-          <NButton @click="modal = false">
+          <NButton round @click="modal = false">
             Cancel
           </NButton>
-          <NButton type="primary" :loading="postLoading" @click="handlePost()">
+          <NButton round :disabled="passwordScore >= 3" type="primary" :loading="postLoading" @click="handlePost()">
             Save
           </NButton>
         </NSpace>

@@ -24,7 +24,7 @@ const columns: DataTableColumns = [
     title: 'Choices',
     key: 'choices',
     render(row) {
-      return <NButton type="primary" onClick={() => {
+      return <NButton round type="primary" onClick={() => {
         choices.show = true
         choices.foreignKeyValue = row.id as number
       }}>Choices</NButton>

@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import Providers from './Providers.vue'
 import router from '@/utils/router'
+import zxcvbn from '@/utils/zxcvbn'
 
 import './assets/main.css'
 
@@ -15,4 +16,5 @@ const pinia = createPinia()
 const app = createApp(Providers)
 app.use(pinia)
 app.use(router)
+app.use(zxcvbn)
 app.mount('#app')

@@ -72,7 +72,7 @@ const columns: DataTableColumns = [
     title: 'Questions',
     key: 'questions',
     render(row) {
-      return <NButton type="primary" onClick={() => {
+      return <NButton round type="primary" onClick={() => {
         questions.show = true
         questions.foreignKeyValue = row.id as number
         questions.title = row.quiz_title as string
@@ -83,7 +83,7 @@ const columns: DataTableColumns = [
     title: 'Statistics',
     key: 'statistics',
     render(row) {
-      return <NButton type="primary" onClick={() => {
+      return <NButton round type="primary" onClick={() => {
         statistics.show = true
         statistics.foreignKeyValue = row.id as number
         statistics.title = row.quiz_title as string

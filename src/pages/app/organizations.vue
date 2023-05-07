@@ -33,7 +33,7 @@ const columns: DataTableColumns = [
     title: 'Members',
     key: 'members',
     render(row) {
-      return <NButton type="primary" onClick={() => {
+      return <NButton round type="primary" onClick={() => {
         members.foreignKeyValue = row.id as number
         members.title = row.org_title as string
         members.show = true

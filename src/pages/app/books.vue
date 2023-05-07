@@ -43,7 +43,7 @@ const columns: DataTableColumns = [
     title: 'Pages',
     key: 'pages',
     render(row) {
-      return <NButton type="primary" onClick={() => {
+      return <NButton round type="primary" onClick={() => {
         pages.foreignKeyValue = row.id as number
         pages.title = row.book_title as string
         pages.show = true

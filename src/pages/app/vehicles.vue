@@ -57,7 +57,7 @@ const columns: DataTableColumns = [
   //   title: 'Driver',
   //   key: 'assign',
   //   render(row) {
-  //     return <NButton type="primary" onClick={() => {
+  //     return <NButton round type="primary" onClick={() => {
   //       iot_assign.show = true
   //       iot_assign.foreignKeyValue = row.id as number
   //       iot_assign.row = row
@@ -311,10 +311,10 @@ const queries: Queries = {
 <!--    </n-form> -->
 <!--    <template #footer> -->
 <!--      <NSpace justify="end"> -->
-<!--        <NButton @click="iot_assign.show = false"> -->
+<!--        <NButton round @click="iot_assign.show = false"> -->
 <!--          Cancel -->
 <!--        </NButton> -->
-<!--        <NButton type="primary" :loading="loading" @click="handlePost()"> -->
+<!--        <NButton round type="primary" :loading="loading" @click="handlePost()"> -->
 <!--          Save -->
 <!--        </NButton> -->
 <!--      </NSpace> -->

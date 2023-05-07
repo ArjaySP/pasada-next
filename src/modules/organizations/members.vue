@@ -47,7 +47,7 @@ const columns: DataTableColumns = [
       return row.role_id === 4
         ? <RouterLink to={`/drivers/${row.id}`}
                       target="_blank" as="template">
-          <NButton type="primary">Profile</NButton>
+          <NButton round type="primary">Profile</NButton>
         </RouterLink>
         : ''
     },
@@ -193,11 +193,11 @@ const unverifiedColumns: DataTableColumns = [
     render(row) {
       return <div class="flex gap-2">
         <NPopconfirm positiveButtonProps={{ type: 'primary' }} onPositiveClick={() => verifyRun(row.id as number)}>{{
-          trigger: () => <NButton type="primary">Verify</NButton>,
+          trigger: () => <NButton round type="primary">Verify</NButton>,
           default: () => `Are you sure to verify ${row.fname} ${row.lname}?`,
         }}</NPopconfirm>
         <NPopconfirm showIcon={false} positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id as number)}>{{
-          trigger: () => <NButton type="error">Reject</NButton>,
+          trigger: () => <NButton round type="error">Reject</NButton>,
           default: () =>
           <div>
             <n-form model={formState}>

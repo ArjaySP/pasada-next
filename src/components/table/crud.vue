@@ -204,10 +204,10 @@ const rules: FormRules = Object.entries(props.rules).reduce((acc, [key, value]) 
 
       <template #footer>
         <NSpace justify="end">
-          <NButton @click="modal.show = false">
+          <NButton round @click="modal.show = false">
             Cancel
           </NButton>
-          <NButton type="primary" :loading="postLoading" @click="handlePost()">
+          <NButton round type="primary" :loading="postLoading" @click="handlePost()">
             Save
           </NButton>
         </NSpace>
