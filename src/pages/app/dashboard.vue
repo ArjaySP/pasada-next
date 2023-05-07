@@ -31,6 +31,7 @@ const { data, loading, error, run } = useRequest(async () => {
   }
   const dashboard = await Promise.all([
     axios.get('/getDashboardInfo'),
+    // axios.get(auth.isSuperadmin ? '/getDashboardInfo' : '/getDashboardInfoByOrg/' + auth.user.organization_id)
     axios.get('/getAllSetbacks'),
     axios.get(auth.isSuperadmin ? '/getQuizPassFail' : '/getQuizPassFailOrganization'),
     axios.get(auth.isSuperadmin ? '/quizScore' : '/quizScoreOrganization'),
@@ -155,7 +156,6 @@ const quizScoreColumns: DataTableColumns = [
     title: 'Date',
     key: 'created_at',
     sorter: 'default',
-    defaultSortOrder: 'descend',
     render(row) {
       return (row.created_at as string).slice(0, 10)
     },
@@ -174,10 +174,13 @@ const quizScoreColumns: DataTableColumns = [
         <n-h2 class="!mb-0">
           {{ data.greeting }}, {{ auth?.user?.fname || 'user' }}!
         </n-h2>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
           <p>Last updated: {{ data.timeUpdated }}</p>
-          <n-button type="primary" :loading="loading" ghost @click="run()">
+          <n-button round type="primary" :loading="loading" @click="run()">
             Refresh
+          </n-button>
+          <n-button round type="primary" ghost @click="isPending ? stop() : start()">
+            {{ isPending ? 'Pause' : 'Resume' }}
           </n-button>
         </div>
       </div>

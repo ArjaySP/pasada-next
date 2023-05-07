@@ -10,7 +10,7 @@ const open = () => {
 </script>
 
 <template>
-  <n-button v-if="name" @click="open()">
+  <n-button v-if="name" round @click="open()">
     View
   </n-button>
 </template>

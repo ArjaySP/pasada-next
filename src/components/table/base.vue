@@ -35,7 +35,7 @@ const filteredData = computed(() => {
 </script>
 
 <template>
-  <n-card title=" " segmented>
+  <n-card title=" ">
     <template #header-extra>
       <n-space size="small" class="">
         <n-input-group>
@@ -50,7 +50,7 @@ const filteredData = computed(() => {
     </template>
 
     <n-scrollbar x-scrollable>
-      <n-data-table striped :data="filteredData" v-bind="{ columns, loading, pagination }" class="min-w-max pb-6" :row-key="(row) => row.id" />
+      <n-data-table :data="filteredData" v-bind="{ columns, loading, pagination }" class="min-w-max pb-6" :row-key="(row) => row.id" />
     </n-scrollbar>
   </n-card>
 </template>

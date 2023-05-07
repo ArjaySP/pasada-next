@@ -109,9 +109,9 @@ const columns: DataTableColumns = [
     render(row) {
       if (row.role_id as number <= auth.credentials!.access_level)
         return 'No permissions'
-      return <n-button-group size="medium" class="flex">
+      return <n-space size={6}>
         { props.queries?.edit !== false
-            && <n-button type="primary" onClick={() => {
+            && <n-button round onClick={() => {
               emit('update:mode', 'Edit')
               Object.entries(row).forEach(([key, value]) => {
                 if (value == null || props.fields[key]?.type === 'file')
@@ -126,11 +126,11 @@ const columns: DataTableColumns = [
         }
         { props.queries?.delete !== false
           && <NPopconfirm positiveButtonProps={{ type: 'warning' }} onPositiveClick={() => deleteRun(row.id)}>{{
-            trigger: () => <n-button type="error">{props.queries?.delete || 'Delete'}</n-button>,
+            trigger: () => <n-button round secondary type="error">{props.queries?.delete || 'Delete'}</n-button>,
             default: () => `Are you sure to delete this ${props.name}?`,
           }}</NPopconfirm>
         }
-      </n-button-group>
+      </n-space>
     },
   },
 ]

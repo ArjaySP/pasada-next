@@ -69,7 +69,7 @@ const avatarURL = `${import.meta.env.VITE_BACKEND_URL}/api/fileUserImage/`
         </n-h2>
         <div>
           {{ data.userManagement.organization.org_title }}
-          <TableFieldRole class="ml-1" :role-id="data.userManagement.role_id" />
+          <TableFieldRole class="ml-1" :role_id="data.userManagement.role_id" />
         </div>
         <n-divider />
         <div class="flex flex-col gap-2">

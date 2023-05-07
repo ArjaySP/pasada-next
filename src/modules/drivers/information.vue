@@ -193,7 +193,7 @@ function handlePost() {
           <form-master :fields="jobDescriptionFields" />
         </div>
       </n-card>
-      <n-button type="primary" class="!mt-4" :loading="loading" @click="handlePost()">
+      <n-button round type="primary" class="!mt-4" :loading="loading" @click="handlePost()">
         Save
       </n-button>
     </n-space>

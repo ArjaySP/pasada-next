@@ -197,7 +197,7 @@ const unverifiedColumns: DataTableColumns = [
           default: () => `Are you sure to verify ${row.fname} ${row.lname}?`,
         }}</NPopconfirm>
         <NPopconfirm showIcon={false} positiveButtonProps={{ type: 'error' }} onPositiveClick={() => deleteRun(row.id as number)}>{{
-          trigger: () => <NButton type="error">Delete</NButton>,
+          trigger: () => <NButton type="error">Reject</NButton>,
           default: () =>
           <div>
             <n-form model={formState}>

@@ -89,7 +89,7 @@ const partners = [
             <n-input v-model:value="formState.password" type="password" show-password-on="click" placeholder="" />
           </n-form-item>
         </n-form>
-        <n-button v-bind="{ loading }" attr-type="submit" class="!mt-6" block type="primary" @click="validate">
+        <n-button round v-bind="{ loading }" attr-type="submit" class="!mt-6" block type="primary" @click="validate">
           Log in
         </n-button>
       </n-card>
