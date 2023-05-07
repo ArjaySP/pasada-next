@@ -41,6 +41,10 @@ const { data, error, loading, run: refresh } = useRequest(
     else query = queries.all
     if (props.foreignKey)
       query += `/${props.foreignKeyValue}`
+
+    if (queries.all === 'userManagement' && queries.organization)
+      query = `getVerifiedMembersByOrg/${auth.user?.organization_id}`
+
     const res = await axios.get(`/${query}`)
     return res.data.results
   }, { initialData: [] },

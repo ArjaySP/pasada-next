@@ -43,7 +43,7 @@ const columns: DataTableColumns = [
         rewards.foreignKeyValue = row.id as number
         rewards.title = row.is_title as string
         rewards.show = true
-      }}>Translations</NButton>
+      }}>Rewards</NButton>
     },
   },
 ]

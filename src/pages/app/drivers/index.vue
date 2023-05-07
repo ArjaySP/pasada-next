@@ -108,7 +108,7 @@ const rules: FormRules = {
 const queries: Queries = {
   all: 'userManagement',
   get: 'getAllUsers',
-  organization: 'getAllUsersOrganization',
+  organization: 'getVerifiedMembersByOrg',
   hasOrganizationField: true,
   delete: false,
 }
