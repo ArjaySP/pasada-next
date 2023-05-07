@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  roleId: number
+  role_id?: number
 }>()
 
 const color = {
@@ -20,7 +20,7 @@ const color = {
     borderColor: '#87e8de',
   },
   4: undefined,
-}[props.roleId]
+}[props.role_id || 4]
 </script>
 
 <template>
@@ -31,7 +31,7 @@ const color = {
         2: 'Admin',
         3: 'Operator',
         4: 'Driver',
-      }[props.roleId]
+      }[props.role_id]
     }}
   </n-tag>
 </template>

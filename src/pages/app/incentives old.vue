@@ -8,7 +8,7 @@ definePage({
   <n-h2>
     Incentive settings
   </n-h2>
-  <incentives-settings />
+  <!--  <incentives-settings /> -->
   <n-h2>
     Incentive rewards
   </n-h2>
